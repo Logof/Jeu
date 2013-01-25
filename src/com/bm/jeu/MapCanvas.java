@@ -16,9 +16,10 @@ public class MapCanvas extends JPanel implements MouseListener {
 	
 	public MapCanvas()
 	{
+		setLayout(null);
 		Player pl = new Player();
 		this.addMouseListener(this);
-		pl.spawn(1, 1, 1, 1, this);
+		pl.spawn(32, 32, 1, 1, this);
 	}
 	
 	public void initCanvas(int x, int y, int width, int height, Color bgColour)

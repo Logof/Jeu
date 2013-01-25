@@ -93,15 +93,15 @@ public class Player {
 	public void spawn(int x, int y, int hp, int level, MapCanvas canvas)
 	{
 		// Draws the player at a certain position on the map, with 
-		try {
-			ImageIO.read(ClassLoader.getSystemResourceAsStream("/Jeu/res/sprite.png"));
-		} catch(Exception io)
-		{
-			io.printStackTrace();
-		}
-		
+		sprite = new JLabel();
+		_setSprite(new ImageIcon("res/sprite.png"));
+		sprite.setBounds(x, y, 32, 32);
 		sprite.setIcon(_getSprite());
-		sprite.setBounds(x,y,32,32);
+		sprite.setVisible(true);
 		canvas.add(sprite);
+		
+		// Set player's characteristics.
+		this.hp = hp;
+		this.level = level;
 	}
 }
