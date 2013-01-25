@@ -1,4 +1,4 @@
-package com.bm.game;
+package com.bm.jeu;
 
 import java.awt.Color;
 import java.awt.event.MouseEvent;

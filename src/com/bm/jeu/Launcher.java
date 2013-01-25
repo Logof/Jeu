@@ -1,10 +1,11 @@
-package com.bm.game;
+package com.bm.jeu;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JFrame;
-import com.bm.game.MapFrame;
+
+import com.bm.jeu.MapFrame;
 
 public class Launcher extends JFrame {
 	static Timer launcherDisplaySequence;

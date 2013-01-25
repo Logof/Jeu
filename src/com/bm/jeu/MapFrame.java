@@ -1,4 +1,4 @@
-package com.bm.game;
+package com.bm.jeu;
 
 import java.awt.Color;
 
@@ -7,7 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import com.bm.game.MapCanvas;
+
+import com.bm.jeu.MapCanvas;
 
 public class MapFrame extends JFrame {
 	static int displayXSize;

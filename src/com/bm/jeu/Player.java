@@ -1,4 +1,4 @@
-package com.bm.game;
+package com.bm.jeu;
 
 import javax.swing.ImageIcon;
 
