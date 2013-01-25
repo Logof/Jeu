@@ -1,11 +1,5 @@
 package com.bm.jeu;
 
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -14,7 +8,7 @@ import javax.swing.JLabel;
  * @author BMagee
  * 
  * This class is simply the struct for a player, it includes
- * the player's 'stats' or characteristics, and getter/setter methods for those
+ * the player's 'stats' or characteristics, the player's sprite, and getter/setter methods for those
  * stats.
  * 
  *  This class also contains methods directly related to the player itself. 
@@ -30,9 +24,10 @@ import javax.swing.JLabel;
 public class Player {
 	// Player characteristics / variables
 	private ImageIcon spriteSrc;
-	private JLabel sprite;
+	private Sprite sprite;
 	private int hp;
 	private int level;
+	private MapCanvas mapcanvas;
 	
 	// Getter/setter methods
 	// *********************
@@ -72,11 +67,29 @@ public class Player {
 		return this.level;
 	}
 	
-	public boolean _setSprite(ImageIcon sprite)
+	public boolean _setName(String name)
 	{
-		if(sprite != null)
+		if(name != null)
 		{
-			this.spriteSrc = sprite;
+			sprite._setSpriteLabel(name);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public String _getName()
+	{
+		return sprite._getSpriteLabel();
+	}
+	
+	public boolean _setSpriteImage(String pathToSpriteSourceImage)
+	{
+		if(pathToSpriteSourceImage != null)
+		{
+			sprite._setSpriteImage(pathToSpriteSourceImage);
 			return true;
 		} 
 		else 
@@ -85,20 +98,50 @@ public class Player {
 		}		
 	}
 	
-	public ImageIcon _getSprite()
+	public Sprite _getSprite()
 	{
-		return this.spriteSrc;
+		return sprite;
 	}
 	
-	public void spawn(int x, int y, int hp, int level, MapCanvas canvas)
+	public boolean _setSprite(Sprite sprite)
+	{
+		if(sprite != null)
+		{
+			this.sprite = sprite;
+			return true;
+		} 
+		else
+		{
+			return false;
+		}
+	}
+	
+	public boolean _setMapCanvas(MapCanvas mapcanvas)
+	{
+		if(mapcanvas != null)
+		{
+			this.mapcanvas = mapcanvas;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	
+	// Interaction methods
+	// *******************
+	public void teleport(int x, int y)
+	{
+		sprite.setLocation(x, y);
+	}
+	
+	public void spawn(int x, int y, int hp, int level, MapCanvas mapcanvas)
 	{
 		// Draws the player at a certain position on the map, with 
-		sprite = new JLabel();
-		_setSprite(new ImageIcon("res/sprite.png"));
-		sprite.setBounds(x, y, 32, 32);
-		sprite.setIcon(_getSprite());
-		sprite.setVisible(true);
-		canvas.add(sprite);
+		mapcanvas.add(_getSprite());
+		teleport(x,y);
 		
 		// Set player's characteristics.
 		this.hp = hp;

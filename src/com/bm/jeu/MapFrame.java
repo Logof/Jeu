@@ -26,6 +26,8 @@ public class MapFrame extends JFrame {
 		// MAP CANVAS
 		mcanvas = new MapCanvas(); // Initiate a new instance of a canvas.
 		mcanvas.initCanvas(0, 0, 900, 490, Color.RED); // Set the BG colour to red.
+		PlayerHandler ph = new PlayerHandler();
+		Player pl = ph.createPlayer(100, 1, "Ben", mcanvas);
 		
 		// Set the look & feel of the window to native.
 		try {
