@@ -1,5 +1,7 @@
 package com.bm.jeu;
 
+
+import java.net.MalformedURLException;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,7 +25,7 @@ public class Launcher extends JFrame {
 		setUndecorated(true);
 	}
 
-	public static void main(String args[])
+	public static void main(String args[]) throws MalformedURLException
 	{
 		// Uncomment this line to skip the 5 second splash screen.
 		SKIP_LAUNCHER_SPLASH = 1;

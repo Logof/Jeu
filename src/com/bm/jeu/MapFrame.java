@@ -1,6 +1,8 @@
 package com.bm.jeu;
 
+
 import java.awt.Color;
+import java.net.MalformedURLException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;

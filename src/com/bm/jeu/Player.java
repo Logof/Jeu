@@ -1,6 +1,13 @@
 package com.bm.jeu;
 
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /***
  * 
@@ -22,7 +29,8 @@ import javax.swing.ImageIcon;
 
 public class Player {
 	// Player characteristics / variables
-	private ImageIcon sprite;
+	private ImageIcon spriteSrc;
+	private JLabel sprite;
 	private int hp;
 	private int level;
 	
@@ -68,7 +76,7 @@ public class Player {
 	{
 		if(sprite != null)
 		{
-			this.sprite = sprite;
+			this.spriteSrc = sprite;
 			return true;
 		} 
 		else 
@@ -79,12 +87,21 @@ public class Player {
 	
 	public ImageIcon _getSprite()
 	{
-		return this.sprite;
+		return this.spriteSrc;
 	}
 	
 	public void spawn(int x, int y, int hp, int level, MapCanvas canvas)
 	{
 		// Draws the player at a certain position on the map, with 
+		try {
+			ImageIO.read(ClassLoader.getSystemResourceAsStream("/Jeu/res/sprite.png"));
+		} catch(Exception io)
+		{
+			io.printStackTrace();
+		}
 		
+		sprite.setIcon(_getSprite());
+		sprite.setBounds(x,y,32,32);
+		canvas.add(sprite);
 	}
 }
