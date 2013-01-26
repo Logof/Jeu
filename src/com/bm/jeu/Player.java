@@ -7,6 +7,8 @@ import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,14 +41,18 @@ public class Player implements KeyListener {
 	private int speedX;
 	private int speedY;
 	private MapCanvas mapcanvas;
-	
+
 	// The stage in the movement animation. 
 	// Controls changing between version one and two of a sprite.
 	private int animationStage;
 	private int animationInterval = 200;
 	private Timer animationTimer;
 
-	
+	// Key constants
+	// These are changed when the applicable 
+	private boolean keyDownCtrl = false;
+	private boolean keyDownLeft = false;
+
 	// Getter/setter methods
 	// *********************
 	public boolean _setHp(int hp)
@@ -61,12 +67,12 @@ public class Player implements KeyListener {
 			return false; // Couldn't update HP (probably invalid HP value).
 		}
 	}
-	
+
 	public int _getHp()
 	{
 		return hp; // Return the player's current HP to the calling method.
 	}
-	
+
 	public boolean _setLevel(int level)
 	{
 		if(level > 0)
@@ -79,12 +85,12 @@ public class Player implements KeyListener {
 			return false; // Invalid level given.
 		}
 	}
-	
+
 	public int _getLevel()
 	{
 		return this.level;
 	}
-	
+
 	public boolean _setName(String name)
 	{
 		if(name != null)
@@ -97,12 +103,12 @@ public class Player implements KeyListener {
 			return false;
 		}
 	}
-	
+
 	public String _getName()
 	{
 		return sprite._getSpriteLabel();
 	}
-	
+
 	public boolean _setSpriteImage(String pathToSpriteSourceImage)
 	{
 		if(pathToSpriteSourceImage != null)
@@ -115,12 +121,12 @@ public class Player implements KeyListener {
 			return false; // Couldn't update sprite. Probably invalid sprite given.
 		}		
 	}
-	
+
 	public Sprite _getSprite()
 	{
 		return sprite;
 	}
-	
+
 	public boolean _setSprite(Sprite sprite)
 	{
 		if(sprite != null)
@@ -133,7 +139,7 @@ public class Player implements KeyListener {
 			return false;
 		}
 	}
-	
+
 	public boolean _setSpeedY(int speedY)
 	{
 		if(speedY > -1)
@@ -146,12 +152,12 @@ public class Player implements KeyListener {
 			return false;
 		}
 	}
-	
+
 	public int _getSpeedY()
 	{
 		return this.speedY;
 	}
-	
+
 	public boolean _setSpeedX(int speedX)
 	{
 		if(speedX > -1)
@@ -164,7 +170,7 @@ public class Player implements KeyListener {
 			return false;
 		}
 	}
-	
+
 	public boolean _setMapCanvas(MapCanvas mapcanvas)
 	{
 		if(mapcanvas != null)
@@ -177,8 +183,8 @@ public class Player implements KeyListener {
 			return false;
 		}
 	}
-	
-	
+
+
 	// Interaction methods
 	// *******************
 	public void move(int x, int y, int oldX, int oldY)
@@ -200,21 +206,21 @@ public class Player implements KeyListener {
 					x = playerX;
 					sprite.setLocation(x,y);
 				}
-				
+
 				if( x <= 20)
 				{
 					playerX = playerX + speedX;
 					x = playerX;
 					sprite.setLocation(x,y);
 				}
-				
+
 				if(y >= 460)
 				{
 					playerY = playerY - speedY;
 					y = playerY;
 					sprite.setLocation(x,y);
 				}
-				
+
 				if(y <= 20)
 				{
 					playerY = playerY + speedY;
@@ -223,7 +229,7 @@ public class Player implements KeyListener {
 				}
 			}
 		}
-		
+
 		if(playerY != oldY)
 		{
 			if(y < 460 && y > 20 && x > 20 && x < 870)
@@ -239,21 +245,21 @@ public class Player implements KeyListener {
 					x = playerX;
 					sprite.setLocation(x,y);
 				}
-				
+
 				if( x <= 20)
 				{
 					playerX = playerX + speedX;
 					x = playerX;
 					sprite.setLocation(x,y);
 				}
-				
+
 				if(y >= 460)
 				{
 					playerY = playerY - speedY;
 					y = playerY;
 					sprite.setLocation(x,y);
 				}
-				
+
 				if(y <= 20)
 				{
 					playerY = playerY + speedY;
@@ -263,7 +269,7 @@ public class Player implements KeyListener {
 			}
 		}
 	}
-	
+
 	public void spawn(int x, int y, int hp, int level, MapCanvas mapcanvas, MapFrame mframe)
 	{
 		// Draws the player at a certain position on the map.
@@ -276,11 +282,11 @@ public class Player implements KeyListener {
 		move(x,y,50,50);
 		playerX = x;
 		playerY = y;
-		
+
 		animationTimer = new Timer();
 		AnimationTask animationTask = new AnimationTask();
 		animationTimer.scheduleAtFixedRate(animationTask, 0,animationInterval);
-		
+
 		// Set player's stats.
 		_setHp(hp);
 		_setLevel(level);
@@ -294,132 +300,178 @@ public class Player implements KeyListener {
 	 * When the player is added to the map via the MapFrame class, the a KeyListener
 	 * event is added to the MapFrame that points towards the player.
 	 */
-	
+
 	@Override
 	public void keyPressed(KeyEvent key) 
 	{
+		if(key.getKeyCode() == KeyEvent.VK_CONTROL)
+		{
+			keyDownCtrl = true;
+			System.out.println("CTRL Key Down!");
+		}
+		
+		if(key.getKeyCode() == KeyEvent.VK_LEFT)
+		{
+			keyDownLeft = true;
+			System.out.println("Left Arrow Key Down!");
+		}
+		
 		/// These variables are passed to the move() method, and allow for bounds
 		/// checking (ie: if the player is about to walk off of the map or not).
 		/// ********************************************************************
 		int currentX; // The X coordinate of the player's sprite BEFORE the move is executed.
 		int currentY; // The Y coordinate of the player's sprite BEFORE the move is executed.
 		
+		if(keyDownCtrl == true && keyDownLeft == true)
+		{
+			this._setSpeedX(5);
+			this._setSpeedY(5);
+			
+			if(animationStage == 1)
+			{
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
+			}
+
+			if(animationStage == 2)
+			{
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf1.png")));
+			}
+
+			currentX = playerX;
+			playerX = playerX - speedX;
+			move(playerX, playerY, currentX, playerY);
+		}
+
 		// Move left
 		if(key.getKeyCode() == KeyEvent.VK_LEFT || key.getKeyCode() == KeyEvent.VK_A)
 		{	
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage("res/sprite_lf2.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
 			}
-			
+
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage("res/sprite_lf1.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf1.png")));
 			}
-			
+
 			currentX = playerX;
 			playerX = playerX - speedX;
 			move(playerX, playerY, currentX, playerY);
 		}
-		
+
 		// Move right
 		if(key.getKeyCode() == KeyEvent.VK_RIGHT || key.getKeyCode() == KeyEvent.VK_D)
 		{
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage("res/sprite_rt2.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt2.png")));
 			}
-			
+
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage("res/sprite_rt1.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt1.png")));
 			}
-			
+
 			currentX = playerX;
 			playerX = playerX + speedX;
 			move(playerX,playerY,currentX,playerY);
 		}
-		
+
 		// Move up
 		if(key.getKeyCode() == KeyEvent.VK_UP || key.getKeyCode() == KeyEvent.VK_W)
 		{
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage("res/sprite_bk2.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_bk2.png")));
 			}
-			
+
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage("res/sprite_bk1.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_bk1.png")));
 			}
-			
+
 			currentY = playerY;
 			playerY = playerY - speedY;
 			move(playerX,playerY,playerX,currentY);
 		}
-		
+
 		// Move down
 		if(key.getKeyCode() == KeyEvent.VK_DOWN || key.getKeyCode() == KeyEvent.VK_S)
 		{
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage("res/sprite_fr2.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_fr2.png")));
 			}
-			
+
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage("res/sprite_fr1.png");
+				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_fr1.png")));
 			}
 			currentY = playerY;
 			playerY = playerY + speedY;
 			move(playerX,playerY,playerX,currentY);
 		}
 	}
-	
+
 	class AnimationTask extends TimerTask
 	{
 		@Override
 		public void run() {
 			if(animationStage == 1)
 			{
-				System.out.println("Animation stage updated to 2!");
+				//System.out.println("Animation stage updated to 2!");
 				animationStage = 2;
 			} else
 			{
-				System.out.println("Animation stage updated to 1!");
+				//System.out.println("Animation stage updated to 1!");
 				animationStage = 1;
 			}
 		}
-		
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent key) {
+		if(key.getKeyCode() == KeyEvent.VK_CONTROL)
+		{
+			System.out.println("Key CTRL Released!");
+			keyDownCtrl = false;
+			this._setSpeedX(3);
+			this._setSpeedY(3);
+		}
+		
+		if(key.getKeyCode() == KeyEvent.VK_LEFT)
+		{
+			System.out.println("Left Arrow Key Released!");
+			keyDownLeft = false;
+		}
+		
 		if(key.getKeyCode() == KeyEvent.VK_LEFT || key.getKeyCode() == KeyEvent.VK_A)
 		{
-			sprite._setSpriteImage("res/sprite_lf2.png");
+			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
 		}
-		
+
 		if(key.getKeyCode() == KeyEvent.VK_RIGHT || key.getKeyCode() == KeyEvent.VK_D)
 		{
-			sprite._setSpriteImage("res/sprite_rt2.png");
+			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt2.png")));
 		}
-		
+
 		if(key.getKeyCode() == KeyEvent.VK_UP || key.getKeyCode() == KeyEvent.VK_W)
 		{
-			sprite._setSpriteImage("res/sprite_bk2.png");
+			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_bk2.png")));
 		}
-		
+
 		if(key.getKeyCode() == KeyEvent.VK_DOWN || key.getKeyCode() == KeyEvent.VK_S)
 		{
-			sprite._setSpriteImage("res/sprite_fr2.png");
+			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_fr2.png")));
+
 		}
-		
 	}
 
 	@Override
 	public void keyTyped(KeyEvent key) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

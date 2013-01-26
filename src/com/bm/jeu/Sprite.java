@@ -1,5 +1,7 @@
 package com.bm.jeu;
 
+import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -52,5 +54,12 @@ public class Sprite extends JLabel {
 	public ImageIcon _getSpriteImage()
 	{
 		return (ImageIcon) this.getIcon();
+	}
+	
+	public String getSpritePathFromURL(URL url)
+	{
+		String path = url.toString();
+		path = path.replace("file:/", "");
+		return path;
 	}
 }

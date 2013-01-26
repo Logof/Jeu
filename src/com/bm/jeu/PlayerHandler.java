@@ -1,12 +1,16 @@
 package com.bm.jeu;
 
+import java.awt.Toolkit;
+import java.net.URL;
+
 public class PlayerHandler {
 	public Player createPlayer(int hp, int level, String name)
 	{
 		Player newPlayer = new Player();
 		Sprite newSprite = new Sprite();
 		
-		newSprite._setSpriteImage("res/sprite_fr1.png");
+		
+		newSprite._setSpriteImage(newSprite.getSpritePathFromURL(getClass().getResource("spriters/sprite_fr1.png")));
 		newPlayer._setSprite(newSprite);
 		
 		// Set different player stats
