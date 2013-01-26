@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 public class MapCanvas extends JPanel implements MouseListener {
 	private boolean DRAW_DEBUG_GRID = false;
+	private boolean DRAW_DEBUG_TEXT = false;
 	
 	private int canvasHeight;
 	private int canvasWidth;
@@ -55,11 +56,20 @@ public class MapCanvas extends JPanel implements MouseListener {
 				g2d.draw(xLine);
 				gridX = gridX + 32;
 			}
+			
+			int gridY = 0;
+			while(gridY < canvasWidth)
+			{
+				
+				Line2D xLine = new Line2D.Double(0, gridY, canvasWidth, gridY);
+				g2d.setColor(Color.RED);
+				g2d.setStroke(new BasicStroke(1));
+				g2d.draw(xLine);
+				gridY = gridY + 32;
+			}
 		}
 		
 		updateUI();
-		revalidate();
-		repaint();
 	}
 	
 	@Override
