@@ -9,6 +9,7 @@ public class Sprite extends JLabel {
 	
 	public Sprite()
 	{
+		image = new ImageIcon();
 		setSize(32,32);
 	}
 	
@@ -17,6 +18,7 @@ public class Sprite extends JLabel {
 		if(label != null)
 		{
 			this.label = label;
+			this.setText(label);
 			return true;
 		}
 		else
@@ -34,7 +36,7 @@ public class Sprite extends JLabel {
 	{
 		if(image != null)
 		{
-			this.image = new ImageIcon(pathToSpriteSourceImage);
+			this.setIcon(new ImageIcon(pathToSpriteSourceImage));
 			return true;
 		}
 		else
@@ -45,6 +47,6 @@ public class Sprite extends JLabel {
 	
 	public ImageIcon _getSpriteImage()
 	{
-		return image;
+		return (ImageIcon) this.getIcon();
 	}
 }

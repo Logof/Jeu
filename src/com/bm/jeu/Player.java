@@ -1,5 +1,8 @@
 package com.bm.jeu;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -21,12 +24,16 @@ import javax.swing.JLabel;
  *
  */
 
-public class Player {
+public class Player implements KeyListener {
 	// Player characteristics / variables
 	private ImageIcon spriteSrc;
 	private Sprite sprite;
 	private int hp;
 	private int level;
+	private int playerX;
+	private int playerY;
+	private int speedX;
+	private int speedY;
 	private MapCanvas mapcanvas;
 	
 	// Getter/setter methods
@@ -116,6 +123,37 @@ public class Player {
 		}
 	}
 	
+	public boolean _setSpeedY(int speedY)
+	{
+		if(speedY > -1)
+		{
+			this.speedY = speedY;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public int _getSpeedY()
+	{
+		return this.speedY;
+	}
+	
+	public boolean _setSpeedX(int speedX)
+	{
+		if(speedX > -1)
+		{
+			this.speedX = speedX;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
 	public boolean _setMapCanvas(MapCanvas mapcanvas)
 	{
 		if(mapcanvas != null)
@@ -132,19 +170,67 @@ public class Player {
 	
 	// Interaction methods
 	// *******************
-	public void teleport(int x, int y)
+	public void move(int x, int y)
 	{
+		if(x < 899 || y < 490)
 		sprite.setLocation(x, y);
 	}
 	
-	public void spawn(int x, int y, int hp, int level, MapCanvas mapcanvas)
+	public void spawn(int x, int y, int hp, int level, MapCanvas mapcanvas, MapFrame mframe)
 	{
-		// Draws the player at a certain position on the map, with 
+		// Draws the player at a certain position on the map.
+		// Since as far as the user is concerned, the player is 
+		// essentially just a sprite, most of this function just
+		// manipulates the sprite's position on the map canvas.
 		mapcanvas.add(_getSprite());
-		teleport(x,y);
+		mframe.addKeyListener(this);
+		_getSprite().setVisible(true);
+		move(x,y);
+		playerX = x;
+		playerY = y;
 		
-		// Set player's characteristics.
-		this.hp = hp;
-		this.level = level;
+		// Set player's stats.
+		_setHp(hp);
+		_setLevel(level);
+	}
+
+	@Override
+	public void keyPressed(KeyEvent key) {
+		if(key.getKeyCode() == KeyEvent.VK_LEFT || key.getKeyCode() == KeyEvent.VK_A)
+		{
+			playerX = playerX - speedX;
+			move(playerX, playerY);
+		}
+		
+		if(key.getKeyCode() == KeyEvent.VK_RIGHT || key.getKeyCode() == KeyEvent.VK_D)
+		{
+			playerX = playerX + speedX;
+			move(playerX,playerY);
+		}
+		
+		if(key.getKeyCode() == KeyEvent.VK_UP || key.getKeyCode() == KeyEvent.VK_W)
+		{
+			playerY = playerY - speedY;
+			move(playerX,playerY);
+		}
+		
+		if(key.getKeyCode() == KeyEvent.VK_DOWN || key.getKeyCode() == KeyEvent.VK_S)
+		{
+			playerY = playerY + speedY;
+			move(playerX,playerY);
+		}
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent key) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent key) {
+		// TODO Auto-generated method stub
+		
 	}
 }
