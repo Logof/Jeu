@@ -10,7 +10,11 @@ public class Sprite extends JLabel {
 	public Sprite()
 	{
 		image = new ImageIcon();
-		setSize(32,32);
+		setSize(64,64);
+		
+		// Align the player's name centred and below their sprite:
+		setHorizontalTextPosition(JLabel.CENTER);
+		setVerticalTextPosition(JLabel.BOTTOM);
 	}
 	
 	public boolean _setSpriteLabel(String label)

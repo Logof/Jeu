@@ -6,7 +6,7 @@ public class PlayerHandler {
 		Player newPlayer = new Player();
 		Sprite newSprite = new Sprite();
 		
-		newSprite._setSpriteImage("res/sprite.png");
+		newSprite._setSpriteImage("res/sprite_fr1.png");
 		newPlayer._setSprite(newSprite);
 		
 		// Set different player stats

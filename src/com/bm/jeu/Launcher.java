@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import com.bm.jeu.MapFrame;
 
@@ -21,8 +22,12 @@ public class Launcher extends JFrame {
 	Launcher()
 	{
 		setSize(500,300);
+		setLayout(null);
 		setLocationRelativeTo(null);
 		setUndecorated(true);
+		JLabel version = new JLabel("Version 0.1");
+		version.setBounds(230, 30, 30, 30);
+		add(version);
 	}
 
 	public static void main(String args[]) throws MalformedURLException

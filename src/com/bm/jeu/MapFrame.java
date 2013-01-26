@@ -16,7 +16,8 @@ import com.bm.jeu.MapCanvas;
 public class MapFrame extends JFrame {
 	static int displayXSize;
 	static int displayYSize;
-	MapCanvas mcanvas;
+	MapCanvas gridcanvas;
+	MapCanvas playercanvas;
 	PlayerHandler playerHandler;
 	Player player1;
 	
@@ -27,14 +28,18 @@ public class MapFrame extends JFrame {
 		displayYSize = 550;
 		
 		// MAP CANVAS
-		mcanvas = new MapCanvas(); // Initiate a new instance of a canvas.
-		mcanvas.initCanvas(0, 0, 900, 490, Color.ORANGE); // Set the BG colour to orange.
+		gridcanvas = new MapCanvas(); // Initiate a new instance of a canvas.
+		gridcanvas.initCanvas(0, 0, 900, 490,true, Color.GRAY); // Set the BG colour to orange.
+		
+		playercanvas = new MapCanvas(); // Initiate a new instance of a canvas.
+		playercanvas.initCanvas(0, 0, 900, 490,false, Color.GREEN); // Set the BG colour to orange.
+		playercanvas.setOpaque(true);
 		
 		// Create a new player on the map.
 		// Each player must 'belong' to a map (so that it's able to spawn).
 		playerHandler = new PlayerHandler();
-		player1 = playerHandler.createPlayer(100, 1, "Ben");
-		player1.spawn(50, 30, 100, 1, mcanvas,this);
+		player1 = playerHandler.createPlayer(100, 1, "PLAYER");
+		player1.spawn(50, 30, 100, 1, playercanvas,this);
 		
 		// Set the look & feel of the window to native.
 		try {
@@ -49,7 +54,8 @@ public class MapFrame extends JFrame {
 		this.setLayout(null);
 		setResizable(false);
 		setSize(displayXSize, displayYSize);
-		add(mcanvas); // Add the map canvas.
+		add(gridcanvas); // Add the map canvas.
+		add(playercanvas);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null); // Center on screen
 	}
