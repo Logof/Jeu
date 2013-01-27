@@ -11,13 +11,16 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import com.bm.jeu.MapCanvas;
+import com.bm.jeu.canvases.PlayerCanvas;
+import com.bm.jeu.canvases.BaseCanvas;
+import com.bm.jeu.canvases.TerrainCanvas;
 
 public class MapFrame extends JFrame {
 	static int displayXSize;
 	static int displayYSize;
-	MapCanvas basecanvas;
-	MapCanvas playercanvas;
+	BaseCanvas basecanvas;
+	PlayerCanvas playercanvas;
+	TerrainCanvas terraincanvas;
 	PlayerHandler playerHandler;
 	Player player1;
 	
@@ -28,13 +31,18 @@ public class MapFrame extends JFrame {
 		displayYSize = 550;
 		
 		// MAP CANVAS
-		basecanvas = new MapCanvas(); // Initiate a new instance of a canvas.
-		basecanvas.initCanvas(0, 0, 900, 490, this, Color.GREEN); // Set the BG colour to orange.
+		basecanvas = new BaseCanvas(); // Initiate a new instance of a canvas.
+		basecanvas.initCanvas(0, 0, 900, 550, this, Color.GREEN); // Set the BG colour to orange.
 		basecanvas.setOpaque(false);
-		playercanvas = new MapCanvas(); // Initiate a new instance of a canvas.
-		playercanvas.initCanvas(0, 0, 900, 490, this, Color.GREEN); // Set the BG colour to orange.
+		terraincanvas = new TerrainCanvas();
+		terraincanvas.initCanvas(0, 0, 900, 550, this);
+		terraincanvas.setTerrainResource(this.getClass().getClassLoader().getResource("terrain/grass.png"));
+		terraincanvas.setOpaque(false);
+		playercanvas = new PlayerCanvas(); // Initiate a new instance of a canvas.
+		playercanvas.initCanvas(0, 0, 900, 550, this, Color.GREEN); // Set the BG colour to orange.
 		playercanvas.setOpaque(false);
 		
+		terraincanvas.add(basecanvas);
 		basecanvas.add(playercanvas);
 		
 		// Create a new player on the map.
@@ -56,7 +64,7 @@ public class MapFrame extends JFrame {
 		this.setLayout(null);
 		setResizable(false);
 		setSize(displayXSize, displayYSize);
-		add(basecanvas); // Add the base canvas.
+		add(terraincanvas); // Add the base canvas.
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null); // Center on screen
 	}

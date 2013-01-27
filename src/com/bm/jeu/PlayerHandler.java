@@ -9,8 +9,19 @@ public class PlayerHandler {
 		Player newPlayer = new Player();
 		Sprite newSprite = new Sprite();
 		
+		URL spriteURL = null;
 		
-		newSprite._setSpriteImage(getClass().getClassLoader().getResource("sprite_fr1.png"));
+		
+		try 
+		{
+			spriteURL = this.getClass().getClassLoader().getResource("sprites/sprite_fr1.png");
+			newSprite._setSpriteImage(spriteURL);
+		}
+		catch(NullPointerException np)
+		{
+			np.printStackTrace();
+		}
+		
 		newPlayer._setSprite(newSprite);
 		
 		// Set different player stats

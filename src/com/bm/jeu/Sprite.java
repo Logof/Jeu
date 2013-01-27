@@ -1,5 +1,6 @@
 package com.bm.jeu;
 
+import java.awt.Image;
 import java.net.URL;
 
 import javax.swing.ImageIcon;

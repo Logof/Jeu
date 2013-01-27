@@ -1,8 +1,9 @@
-package com.bm.jeu;
+package com.bm.jeu.canvases;
 
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -15,7 +16,9 @@ import java.net.MalformedURLException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class MapCanvas extends JPanel implements MouseListener, KeyListener {
+import com.bm.jeu.MapFrame;
+
+public class BaseCanvas extends JPanel implements MouseListener, KeyListener {
 	private boolean DRAW_DEBUG_GRID = false;
 	private boolean DRAW_DEBUG_TEXT = false;
 	
@@ -34,10 +37,11 @@ public class MapCanvas extends JPanel implements MouseListener, KeyListener {
 		}
 	}
 	
-	public MapCanvas()
+	public BaseCanvas()
 	{
 		setLayout(null);
-		this.addMouseListener(this);
+		this.addMouseListener(this);		
+		System.out.println("Constructor called!");
 	}
 	
 	public void initCanvas(int x, int y, int width, int height, MapFrame mframe, Color bgColour)
