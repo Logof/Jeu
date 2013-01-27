@@ -10,15 +10,15 @@ public class PlayerHandler {
 		Sprite newSprite = new Sprite();
 		
 		
-		newSprite._setSpriteImage(newSprite.getSpritePathFromURL(getClass().getResource("spriters/sprite_fr1.png")));
+		newSprite._setSpriteImage(newSprite.getSpritePathFromURL(getClass().getClassLoader().getResource("sprite_fr1.png")));
 		newPlayer._setSprite(newSprite);
 		
 		// Set different player stats
 		newPlayer._setName(name);
 		newPlayer._setHp(hp);
 		newPlayer._setLevel(level);
-		newPlayer._setSpeedX(3);
-		newPlayer._setSpeedY(3);
+		newPlayer._setSpeedX(2);
+		newPlayer._setSpeedY(2);
 		
 		return newPlayer;
 	}
