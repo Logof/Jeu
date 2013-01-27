@@ -38,11 +38,11 @@ public class Sprite extends JLabel {
 		return label;
 	}
 	
-	public boolean _setSpriteImage(String pathToSpriteSourceImage)
+	public boolean _setSpriteImage(URL spriteURL)
 	{
 		if(image != null)
 		{
-			this.setIcon(new ImageIcon(pathToSpriteSourceImage));
+			this.setIcon(new ImageIcon(spriteURL));
 			return true;
 		}
 		else

@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
+
+import java.net.URL;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
@@ -116,11 +118,11 @@ public class Player implements KeyListener {
 		return sprite._getSpriteLabel();
 	}
 
-	public boolean _setSpriteImage(String pathToSpriteSourceImage)
+	public boolean _setSpriteImage(URL spriteSourceImageURL)
 	{
-		if(pathToSpriteSourceImage != null)
+		if(spriteSourceImageURL != null)
 		{
-			sprite._setSpriteImage(pathToSpriteSourceImage);
+			sprite._setSpriteImage(spriteSourceImageURL);
 			return true;
 		} 
 		else 
@@ -381,12 +383,12 @@ public class Player implements KeyListener {
 			
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf1.png"));
 			}
 
 			currentX = playerX;
@@ -399,12 +401,12 @@ public class Player implements KeyListener {
 		{	
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf1.png"));
 			}
 
 			currentX = playerX;
@@ -424,12 +426,12 @@ public class Player implements KeyListener {
 			
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_rt2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_rt1.png"));
 			}
 
 			currentX = playerX;
@@ -442,12 +444,12 @@ public class Player implements KeyListener {
 		{
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_rt2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_rt1.png"));
 			}
 
 			currentX = playerX;
@@ -467,12 +469,12 @@ public class Player implements KeyListener {
 			
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf1.png"));
 			}
 
 			currentY = playerY;
@@ -485,12 +487,12 @@ public class Player implements KeyListener {
 		{
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_bk2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_bk2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_bk1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_bk1.png"));
 			}
 
 			currentY = playerY;
@@ -510,12 +512,12 @@ public class Player implements KeyListener {
 			
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_lf1.png"));
 			}
 
 			currentY = playerY;
@@ -528,12 +530,12 @@ public class Player implements KeyListener {
 		{
 			if(animationStage == 1)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_fr2.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_fr2.png"));
 			}
 
 			if(animationStage == 2)
 			{
-				sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_fr1.png")));
+				sprite._setSpriteImage(getClass().getResource("/sprite_fr1.png"));
 			}
 			currentY = playerY;
 			playerY = playerY + speedY;
@@ -602,22 +604,22 @@ public class Player implements KeyListener {
 		
 		if(key.getKeyCode() == KeyEvent.VK_LEFT || key.getKeyCode() == KeyEvent.VK_A)
 		{
-			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_lf2.png")));
+			sprite._setSpriteImage(getClass().getResource("/sprite_lf2.png"));
 		}
 
 		if(key.getKeyCode() == KeyEvent.VK_RIGHT || key.getKeyCode() == KeyEvent.VK_D)
 		{
-			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_rt2.png")));
+			sprite._setSpriteImage(getClass().getResource("/sprite_rt2.png"));
 		}
 
 		if(key.getKeyCode() == KeyEvent.VK_UP || key.getKeyCode() == KeyEvent.VK_W)
 		{
-			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_bk2.png")));
+			sprite._setSpriteImage(getClass().getResource("/sprite_bk2.png"));
 		}
 
 		if(key.getKeyCode() == KeyEvent.VK_DOWN || key.getKeyCode() == KeyEvent.VK_S)
 		{
-			sprite._setSpriteImage(sprite.getSpritePathFromURL(getClass().getResource("/sprite_fr2.png")));
+			sprite._setSpriteImage(getClass().getResource("/sprite_fr2.png"));
 
 		}
 	}

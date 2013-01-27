@@ -10,7 +10,7 @@ public class PlayerHandler {
 		Sprite newSprite = new Sprite();
 		
 		
-		newSprite._setSpriteImage(newSprite.getSpritePathFromURL(getClass().getClassLoader().getResource("sprite_fr1.png")));
+		newSprite._setSpriteImage(getClass().getClassLoader().getResource("sprite_fr1.png"));
 		newPlayer._setSprite(newSprite);
 		
 		// Set different player stats
