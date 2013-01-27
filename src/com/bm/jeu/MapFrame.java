@@ -29,10 +29,10 @@ public class MapFrame extends JFrame {
 		
 		// MAP CANVAS
 		basecanvas = new MapCanvas(); // Initiate a new instance of a canvas.
-		basecanvas.initCanvas(0, 0, 900, 490,true, Color.GREEN); // Set the BG colour to orange.
+		basecanvas.initCanvas(0, 0, 900, 490, this, Color.GREEN); // Set the BG colour to orange.
 		basecanvas.setOpaque(false);
 		playercanvas = new MapCanvas(); // Initiate a new instance of a canvas.
-		playercanvas.initCanvas(0, 0, 900, 490,false, Color.GREEN); // Set the BG colour to orange.
+		playercanvas.initCanvas(0, 0, 900, 490, this, Color.GREEN); // Set the BG colour to orange.
 		playercanvas.setOpaque(false);
 		
 		basecanvas.add(playercanvas);
