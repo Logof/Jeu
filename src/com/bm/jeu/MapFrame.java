@@ -54,6 +54,7 @@ public class MapFrame extends JFrame {
 		terraincanvas.add(basecanvas);
 		basecanvas.add(playercanvas);
 		playercanvas.add(uicanvas);
+		// Comment
 		
 		// Create a new player on the map.
 		// Each player must 'belong' to a map (so that it's able to spawn).
