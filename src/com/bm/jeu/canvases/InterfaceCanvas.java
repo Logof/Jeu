@@ -44,8 +44,8 @@ public class InterfaceCanvas extends JPanel implements KeyListener {
 		messageInput.setVisible(false);
 		messageOutput = new JTextArea();
 		
-		MessageWorker mw = new MessageWorker();
-		mw.execute();
+		//MessageWorker mw = new MessageWorker();
+	//	mw.execute();
 		
 		mframe.addKeyListener(this);
 	}

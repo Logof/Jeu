@@ -50,7 +50,7 @@ public class MapFrame extends JFrame {
 		playercanvas.initCanvas(0, 0, 900, 550, this, Color.GREEN); // Set the BG colour to orange.
 		playercanvas.setOpaque(false);
 		uicanvas = new InterfaceCanvas(0, 0, 900, 550, this);
-		
+		uicanvas.setOpaque(false);
 		terraincanvas.add(basecanvas);
 		basecanvas.add(playercanvas);
 		playercanvas.add(uicanvas);
