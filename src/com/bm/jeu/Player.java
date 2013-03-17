@@ -14,6 +14,7 @@ import javax.swing.KeyStroke;
 
 import com.bm.jeu.canvases.GenericCanvas;
 import com.bm.jeu.canvases.PlayerCanvas;
+import com.bm.jeu.controls.Sprite;
 import com.bm.jeu.net.RemoteHandler;
 
 import java.net.URL;
@@ -92,12 +93,12 @@ public class Player {
 
 				if(animationStage == 1)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
 				}
 
 				if(animationStage == 2)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
 				}
 
 				currentX = playerX;
@@ -113,12 +114,12 @@ public class Player {
 				int currentX = 0;
 				if(animationStage == 1)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt2.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt2.png"));
 				}
 
 				if(animationStage == 2)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
 				}
 
 				currentX = playerX;
@@ -135,12 +136,12 @@ public class Player {
 
 				if(animationStage == 1)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk2.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk2.png"));
 				}
 
 				if(animationStage == 2)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk1.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk1.png"));
 				}
 
 				currentY = playerY;
@@ -156,12 +157,12 @@ public class Player {
 				int currentY = 0;
 				if(animationStage == 1)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr2.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr2.png"));
 				}
 
 				if(animationStage == 2)
 				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr1.png"));
+					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr1.png"));
 				}
 				currentY = playerY;
 				playerY = playerY + speedY;
@@ -173,8 +174,8 @@ public class Player {
 		playerActionMap.put("RUN", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_setSpeedX(4);
-				_setSpeedY(4);
+				setSpeedX(4);
+				setSpeedY(4);
 			}
 		});
 		
@@ -203,7 +204,7 @@ public class Player {
 
 	// Getter/setter methods
 	// *********************
-	public boolean _setHp(int hp)
+	public boolean setHp(int hp)
 	{
 		if(hp > -1) 
 		{
@@ -216,12 +217,12 @@ public class Player {
 		}
 	}
 
-	public int _getHp()
+	public int getHp()
 	{
 		return hp; // Return the player's current HP to the calling method.
 	}
 
-	public boolean _setLevel(int level)
+	public boolean setLevel(int level)
 	{
 		if(level > 0)
 		{
@@ -234,16 +235,16 @@ public class Player {
 		}
 	}
 
-	public int _getLevel()
+	public int getLevel()
 	{
 		return this.level;
 	}
 
-	public boolean _setName(String name)
+	public boolean setName(String name)
 	{
 		if(name != null)
 		{
-			sprite._setSpriteLabel(name);
+			sprite.setSpriteLabel(name);
 			return true;
 		}
 		else
@@ -252,16 +253,16 @@ public class Player {
 		}
 	}
 
-	public String _getName()
+	public String getName()
 	{
-		return sprite._getSpriteLabel();
+		return sprite.getSpriteLabel();
 	}
 
-	public boolean _setSpriteImage(URL spriteSourceImageURL)
+	public boolean setSpriteImage(URL spriteSourceImageURL)
 	{
 		if(spriteSourceImageURL != null)
 		{
-			sprite._setSpriteImage(spriteSourceImageURL);
+			sprite.setSpriteImage(spriteSourceImageURL);
 			return true;
 		} 
 		else 
@@ -270,12 +271,12 @@ public class Player {
 		}		
 	}
 
-	public Sprite _getSprite()
+	public Sprite getSprite()
 	{
 		return sprite;
 	}
 
-	public boolean _setSprite(Sprite sprite)
+	public boolean setSprite(Sprite sprite)
 	{
 		if(sprite != null)
 		{
@@ -288,7 +289,7 @@ public class Player {
 		}
 	}
 
-	public boolean _setSpeedY(int speedY)
+	public boolean setSpeedY(int speedY)
 	{
 		if(speedY > -1)
 		{
@@ -301,12 +302,12 @@ public class Player {
 		}
 	}
 
-	public int _getSpeedY()
+	public int getSpeedY()
 	{
 		return this.speedY;
 	}
 
-	public boolean _setSpeedX(int speedX)
+	public boolean setSpeedX(int speedX)
 	{
 		if(speedX > -1)
 		{
@@ -319,15 +320,15 @@ public class Player {
 		}
 	}
 	
-	public int _getX() {
+	public int getX() {
 		return playerX;
 	}
 	
-	public int _getY() {
+	public int getY() {
 		return playerY;
 	}
 
-	public boolean _setMapCanvas(GenericCanvas mapcanvas)
+	public boolean setMapCanvas(GenericCanvas mapcanvas)
 	{
 		if(mapcanvas != null)
 		{
@@ -462,8 +463,8 @@ public class Player {
 		// Since as far as the user is concerned, the player is 
 		// essentially just a sprite, most of this function just
 		// manipulates the sprite's position on the map canvas.
-		playercanvas.add(_getSprite());
-		_getSprite().setVisible(true);
+		playercanvas.add(getSprite());
+		getSprite().setVisible(true);
 		move(x,y,50,50);
 		playerX = x;
 		playerY = y;
@@ -476,8 +477,8 @@ public class Player {
 		animationTimer.scheduleAtFixedRate(animationTask, 0,animationInterval);
 
 		// Set player's stats.
-		_setHp(hp);
-		_setLevel(level);
+		setHp(hp);
+		setLevel(level);
 	}
 
 	class AnimationTask extends TimerTask

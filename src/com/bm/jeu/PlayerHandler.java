@@ -10,6 +10,7 @@ import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 import com.bm.jeu.canvases.PlayerCanvas;
+import com.bm.jeu.controls.Sprite;
 import com.bm.jeu.net.RemoteHandler;
 
 public class PlayerHandler {
@@ -62,21 +63,21 @@ public class PlayerHandler {
 		try 
 		{
 			spriteURL = this.getClass().getClassLoader().getResource("sprites/sprite_fr1.png");
-			newSprite._setSpriteImage(spriteURL);
+			newSprite.setSpriteImage(spriteURL);
 		}
 		catch(NullPointerException np)
 		{
 			np.printStackTrace();
 		}
 
-		newPlayer._setSprite(newSprite);
+		newPlayer.setSprite(newSprite);
 
 		// Set different player stats
-		newPlayer._setName(name);
-		newPlayer._setHp(hp);
-		newPlayer._setLevel(level);
-		newPlayer._setSpeedX(2);
-		newPlayer._setSpeedY(2);
+		newPlayer.setName(name);
+		newPlayer.setHp(hp);
+		newPlayer.setLevel(level);
+		newPlayer.setSpeedX(2);
+		newPlayer.setSpeedY(2);
 
 		return newPlayer;
 	}
@@ -90,21 +91,21 @@ public class PlayerHandler {
 		try 
 		{
 			spriteURL = this.getClass().getClassLoader().getResource("sprites/sprite_fr1.png");
-			newSprite._setSpriteImage(spriteURL);
+			newSprite.setSpriteImage(spriteURL);
 		}
 		catch(NullPointerException np)
 		{
 			np.printStackTrace();
 		}
 
-		newPlayer._setSprite(newSprite);
+		newPlayer.setSprite(newSprite);
 
 		// Set different player stats
-		newPlayer._setName(name);
-		newPlayer._setHp(hp);
-		newPlayer._setLevel(level);
-		newPlayer._setSpeedX(2);
-		newPlayer._setSpeedY(2);
+		newPlayer.setName(name);
+		newPlayer.setHp(hp);
+		newPlayer.setLevel(level);
+		newPlayer.setSpeedX(2);
+		newPlayer.setSpeedY(2);
 
 		return newPlayer;
 	}

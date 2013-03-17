@@ -57,7 +57,7 @@ public class RemoteHandler {
 
 	/***
 	 * Returns the port we're using to connect to a server as an integer.
-	 * @return
+	 * @return The port that the client uses to attempt to connect to a server.
 	 */
 
 	public int getRemotePort() {
@@ -67,7 +67,7 @@ public class RemoteHandler {
 	/***
 	 * Returns the maximum connections that the server has told us it can handle
 	 * as an integer.
-	 * @return
+	 * @return The maximum number of connections the server will hold.
 	 */
 
 	public int getMaximumConnections() {
@@ -76,7 +76,7 @@ public class RemoteHandler {
 
 	/***
 	 * Returns the remote host we're trying to connect to as a string.
-	 * @return
+	 * @return The remote host that the client is attempting to connect to.
 	 */
 
 	public String getRemoteHost() {
@@ -114,10 +114,10 @@ public class RemoteHandler {
 			case "/connect":
 				return connectToServer(4313,arguments[1]);
 			case "/name":
-				player._setName(arguments[1]);
+				player.setName(arguments[1]);
 				break;
 			case "/login":
-				return loginPlayerToServer(player._getName(),Integer.toString(player._getX()),Integer.toString(player._getY()));
+				return loginPlayerToServer(player.getName(),Integer.toString(player.getX()),Integer.toString(player.getY()));
 			case "/list":
 				return listPlayerNames();
 			}

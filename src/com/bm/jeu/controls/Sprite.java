@@ -1,4 +1,4 @@
-package com.bm.jeu;
+package com.bm.jeu.controls;
 
 import java.awt.Image;
 import java.net.URL;
@@ -20,7 +20,7 @@ public class Sprite extends JLabel {
 		setVerticalTextPosition(JLabel.BOTTOM);
 	}
 	
-	public boolean _setSpriteLabel(String label)
+	public boolean setSpriteLabel(String label)
 	{
 		if(label != null)
 		{
@@ -34,12 +34,12 @@ public class Sprite extends JLabel {
 		}
 	}
 	
-	public String _getSpriteLabel()
+	public String getSpriteLabel()
 	{
 		return label;
 	}
 	
-	public boolean _setSpriteImage(URL spriteURL)
+	public boolean setSpriteImage(URL spriteURL)
 	{
 		if(image != null)
 		{
@@ -52,7 +52,7 @@ public class Sprite extends JLabel {
 		}
 	}
 	
-	public ImageIcon _getSpriteImage()
+	public ImageIcon getSpriteImage()
 	{
 		return (ImageIcon) this.getIcon();
 	}
