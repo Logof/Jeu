@@ -14,6 +14,7 @@ import javax.swing.KeyStroke;
 
 import com.bm.jeu.canvases.GenericCanvas;
 import com.bm.jeu.canvases.PlayerCanvas;
+import com.bm.jeu.net.RemoteHandler;
 
 import java.net.URL;
 import java.util.Calendar;
@@ -50,6 +51,8 @@ public class Player {
 	private int speedX;
 	private int speedY;
 	private GenericCanvas mapcanvas;
+	
+	private RemoteHandler remote;
 
 	// The stage in the movement animation. 
 	// Controls changing between version one and two of a sprite.
@@ -66,7 +69,8 @@ public class Player {
 
 	// CONSTRUCTOR
 
-	public Player(PlayerCanvas parentCanvas) {
+	public Player(PlayerCanvas parentCanvas, RemoteHandler remote) {
+		this.remote = remote;
 		// Initialise keymap:
 		System.out.println("Begin initalising key bindings...");
 		playerKeyMap = new InputMap();
@@ -346,6 +350,9 @@ public class Player {
 			if(x < 870 && x > 20 && y < 460 && y > 20)
 			{
 				sprite.setLocation(x, y);
+				if(remote.isConnected() == true) {
+					remote.updatePlayerPosition(x, y);
+				}
 				sprite.revalidate();
 				sprite.repaint();
 			}
@@ -357,6 +364,9 @@ public class Player {
 					playerX = playerX - speedX;
 					x = playerX;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 
 				if( x <= 20)
@@ -364,6 +374,9 @@ public class Player {
 					playerX = playerX + speedX;
 					x = playerX;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 
 				if(y >= 460)
@@ -371,6 +384,9 @@ public class Player {
 					playerY = playerY - speedY;
 					y = playerY;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 
 				if(y <= 20)
@@ -378,6 +394,9 @@ public class Player {
 					playerY = playerY + speedY;
 					y = playerY;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 			}
 		}
@@ -387,6 +406,9 @@ public class Player {
 			if(y < 460 && y > 20 && x > 20 && x < 870)
 			{
 				sprite.setLocation(x,y);
+				if(remote.isConnected() == true) {
+					remote.updatePlayerPosition(x, y);
+				}
 			}
 			else
 			{
@@ -396,6 +418,9 @@ public class Player {
 					playerX = playerX - speedX;
 					x = playerX;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 
 				if( x <= 20)
@@ -403,6 +428,9 @@ public class Player {
 					playerX = playerX + speedX;
 					x = playerX;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 
 				if(y >= 460)
@@ -410,6 +438,9 @@ public class Player {
 					playerY = playerY - speedY;
 					y = playerY;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 
 				if(y <= 20)
@@ -417,6 +448,9 @@ public class Player {
 					playerY = playerY + speedY;
 					y = playerY;
 					sprite.setLocation(x,y);
+					if(remote.isConnected() == true) {
+						remote.updatePlayerPosition(x, y);
+					}
 				}
 			}
 		}

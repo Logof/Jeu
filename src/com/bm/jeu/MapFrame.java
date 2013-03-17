@@ -60,7 +60,7 @@ public class MapFrame extends JFrame {
 		System.out.println("Remote Handler initialized");
 		
 		playerHandler = new PlayerHandler(playercanvas,remote,this);
-		player1 = playerHandler.createPlayer(100, 1, "PLAYER");
+		player1 = playerHandler.createPlayer(100, 1, "PLAYER",remote);
 		player1.spawn(427, 200, 100, 1, playercanvas,this);
 		
 		remote.attachPlayer(player1);

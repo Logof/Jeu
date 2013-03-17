@@ -15,15 +15,47 @@ import com.bm.jeu.net.RemoteHandler;
 public class PlayerHandler {
 	private PlayerCanvas playerCanvas;
 
-	public PlayerHandler(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, MapFrame mframe) {
-		this.playerCanvas = parentCanvas;
-		RemotePlayersWorker rpw = new RemotePlayersWorker(parentCanvas, remoteHandle,mframe,this);
-		rpw.execute();
+	public class WorkerThread implements Runnable {
+		PlayerCanvas parentCanvas;
+		RemoteHandler remoteHandle;
+		MapFrame mapFrame;
+		PlayerHandler playerHandle;
+		Runnable run;
+
+		public WorkerThread(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, MapFrame mapFrame, PlayerHandler playerHandle) {
+			this.mapFrame = mapFrame;
+			this.remoteHandle = remoteHandle;
+			this.parentCanvas = parentCanvas;
+			this.playerHandle = playerHandle;
+		}
+
+		@Override
+		public void run() {
+			class Task implements ActionListener {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					RemotePlayersWorker rpw = new RemotePlayersWorker(parentCanvas, remoteHandle,mapFrame,playerHandle);
+					rpw.execute();
+				}
+			}
+			
+			Task task = new Task();
+			Timer updateTimer = new Timer(500, task);
+			updateTimer.start();
+		}
 	}
 
-	public Player createPlayer(int hp, int level, String name)
+	public PlayerHandler(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, MapFrame mframe) {
+		this.playerCanvas = parentCanvas;
+		WorkerThread wt = new WorkerThread(parentCanvas, remoteHandle, mframe, this);
+		Thread wtt = new Thread(wt);
+		wtt.start();
+	}
+
+
+	public Player createPlayer(int hp, int level, String name, RemoteHandler remote)
 	{
-		Player newPlayer = new Player(playerCanvas);
+		Player newPlayer = new Player(playerCanvas,remote);
 		Sprite newSprite = new Sprite();
 		URL spriteURL = null;
 
@@ -94,7 +126,6 @@ public class PlayerHandler {
 
 		@Override
 		protected String[][] doInBackground() throws Exception {
-			System.out.println("TEST 1");
 			while(true) {
 				System.out.println("Test");
 				players = remote.getConnectedPlayers();
@@ -105,17 +136,13 @@ public class PlayerHandler {
 
 		@Override
 		protected void process(List<String[][]> chunks) {
+			System.out.println("Process");
 			int processed = 0;
 			while(processed < players.length) {
 				RemotePlayer remotePlayer = playerHandler.createRemotePlayer(100, 0, players[processed][0]);
-				remotePlayer.spawn(0, 0, 100, 0, parent, mapFrame);
+				remotePlayer.spawn(Integer.parseInt(players[processed][1]), Integer.parseInt(players[processed][2]), 100, 0, parent, mapFrame);
 				processed++;
 			}
-		}
-
-		@Override 
-		protected void done() {
-
 		}
 	}
 }

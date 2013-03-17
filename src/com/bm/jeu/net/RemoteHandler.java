@@ -222,6 +222,8 @@ public class RemoteHandler {
 
 	public String[][] getConnectedPlayers() {
 		String playerNamesList = "";
+		String playerXCoords = "";
+		String playerYCoords = "";
 		int ACTIVE_CONNECTIONS = 0;
 		
 		ACTIVE_CONNECTIONS = getActiveConnections();
@@ -240,13 +242,41 @@ public class RemoteHandler {
 				totalPlayerArray[processed][0] = unprocessedPlayerNames[processed];
 				processed++;
 			}
-
+			
+			playerXCoords = inFromServer.readLine();
+			String[] unprocessedXCoords = playerXCoords.split(",");
+			System.out.println("Unprocessed Player X Coords Length: " + unprocessedXCoords.length);
 			processed = 0;
-			while(processed < totalPlayerArray.length) {
-				System.out.println(totalPlayerArray[processed][0]);
+			
+			char[] playerXCoordsCharArray = unprocessedXCoords[0].toCharArray();
+			if(playerXCoordsCharArray[0] == ',') {
+				playerXCoordsCharArray[0] = ' ';
+			}
+			
+			unprocessedXCoords[0] = String.valueOf(playerXCoordsCharArray);
+
+			while(processed < unprocessedXCoords.length) {
+				totalPlayerArray[processed][1] = unprocessedXCoords[processed];
 				processed++;
 			}
+			
+			playerYCoords = inFromServer.readLine();
+			String[] unprocessedYCoords = playerYCoords.split(",");
+			System.out.println("Unprocessed Player Y Coords Length: " + unprocessedYCoords.length);
+			processed = 0;
+			
+			char[] playerYCoordsCharArray = unprocessedYCoords[0].toCharArray();
+			if(playerYCoordsCharArray[0] == ',') {
+				playerYCoordsCharArray[0] = ' ';
+			}
+			
+			unprocessedYCoords[0] = String.valueOf(playerYCoordsCharArray);
 
+			while(processed < unprocessedYCoords.length) {
+				totalPlayerArray[processed][2] = unprocessedXCoords[processed];
+				processed++;
+			}
+			
 			return totalPlayerArray;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -267,7 +297,13 @@ public class RemoteHandler {
 
 		return "PLAYERS " + playerNames;
 	}
-
+	
+	public void updatePlayerPosition(int x, int y) {
+		String txtPosX = Integer.toString(x);
+		String txtPosY = Integer.toString(y);
+		outToServer.println("UPDATEPOSITION " + txtPosX + " " + txtPosY);
+	}
+	
 	public void postMessageToServer(String message)
 	{
 		// Attempt to write out to the server
