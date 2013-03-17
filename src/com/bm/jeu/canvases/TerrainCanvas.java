@@ -27,9 +27,14 @@ public class TerrainCanvas extends JPanel  {
 	private int canvasWidth;
 	private BufferedImage terrain;
 	
-	public TerrainCanvas()
+	public TerrainCanvas(int x, int y, int width, int height)
 	{
 		setLayout(null);
+		setOpaque(false);
+		
+		canvasWidth = width;
+		canvasHeight = height;
+		setBounds(x, y, width, height);
 	}
 	
 	public boolean setTerrainResource(URL terrainSourceURL)
@@ -37,24 +42,18 @@ public class TerrainCanvas extends JPanel  {
 		try
 		{
 			terrain = ImageIO.read(terrainSourceURL);
+			return true;
 		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();
+			return false;
 		}
-		return false;
-	}
-	
-	public void initCanvas(int x, int y, int width, int height, MapFrame mframe)
-	{
-		canvasWidth = width;
-		canvasHeight = height;
-		setBounds(x, y, width, height);
 	}
 	
 	public void paintComponent(Graphics g)
 	{
-		super.paintComponents(g);
+		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		
 		g2d.drawImage(terrain, 0, 0, null);

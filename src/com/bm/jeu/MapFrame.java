@@ -2,6 +2,8 @@ package com.bm.jeu;
 
 
 import java.awt.Color;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -21,19 +23,24 @@ import com.bm.jeu.canvases.PlayerCanvas;
 import com.bm.jeu.canvases.BaseCanvas;
 import com.bm.jeu.canvases.TerrainCanvas;
 import com.bm.jeu.canvases.InterfaceCanvas;
+import com.bm.jeu.net.RemoteHandler;
 
 public class MapFrame extends JFrame {
 	static int displayXSize;
 	static int displayYSize;
+	
 	BaseCanvas basecanvas;
 	PlayerCanvas playercanvas;
 	TerrainCanvas terraincanvas;
 	PlayerHandler playerHandler;
 	InterfaceCanvas uicanvas;
+	
+	RemoteHandler remote;
+	
 	Player player1;
 	
 	public MapFrame()
-	{	  
+	{	
 		// Set X and Y sizes
 		displayXSize = 900;
 		displayYSize = 550;
@@ -42,25 +49,32 @@ public class MapFrame extends JFrame {
 		basecanvas = new BaseCanvas(); // Initiate a new instance of a canvas.
 		basecanvas.initCanvas(0, 0, 900, 550, this, Color.GREEN); // Set the BG colour to orange.
 		basecanvas.setOpaque(false);
-		terraincanvas = new TerrainCanvas();
-		terraincanvas.initCanvas(0, 0, 900, 550, this);
+		terraincanvas = new TerrainCanvas(0,0,900,550);
 		terraincanvas.setTerrainResource(this.getClass().getClassLoader().getResource("terrain/grass.png"));
-		terraincanvas.setOpaque(false);
-		playercanvas = new PlayerCanvas(); // Initiate a new instance of a canvas.
-		playercanvas.initCanvas(0, 0, 900, 550, this, Color.GREEN); // Set the BG colour to orange.
-		playercanvas.setOpaque(false);
-		uicanvas = new InterfaceCanvas(0, 0, 900, 550, this);
-		uicanvas.setOpaque(false);
-		terraincanvas.add(basecanvas);
-		basecanvas.add(playercanvas);
-		playercanvas.add(uicanvas);
-		// Comment
+		playercanvas = new PlayerCanvas(0,0,900,550); // Initiate a new instance of a canvas.
 		
 		// Create a new player on the map.
 		// Each player must 'belong' to a map (so that it's able to spawn).
-		playerHandler = new PlayerHandler();
+		
+		remote = new RemoteHandler();
+		System.out.println("Remote Handler initialized");
+		
+		playerHandler = new PlayerHandler(playercanvas,remote,this);
 		player1 = playerHandler.createPlayer(100, 1, "PLAYER");
 		player1.spawn(427, 200, 100, 1, playercanvas,this);
+		
+		remote.attachPlayer(player1);
+		
+		uicanvas = new InterfaceCanvas(0, 0, 900, 550,this,player1,remote);
+		
+		terraincanvas.setOpaque(false);
+		basecanvas.setOpaque(false);
+		playercanvas.setOpaque(false);
+		uicanvas.setOpaque(false);
+		
+		terraincanvas.add(basecanvas);
+		basecanvas.add(playercanvas);
+		playercanvas.add(uicanvas);
 		
 		// Set the look & feel of the window to native.
 		try {

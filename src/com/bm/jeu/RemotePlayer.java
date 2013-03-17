@@ -40,7 +40,7 @@ import java.util.TimerTask;
  *
  */
 
-public class Player {
+public class RemotePlayer {
 	// Player characteristics / variables
 	private Sprite sprite;
 	private int hp;
@@ -57,144 +57,10 @@ public class Player {
 	private int animationInterval = 200;
 	private Timer animationTimer;
 
-	// Keymap
-	// Used to map key presses to specific actions
-	// eg: walking left/right, etc.
-
-	InputMap playerKeyMap;
-	ActionMap playerActionMap;
-
 	// CONSTRUCTOR
 
-	public Player(PlayerCanvas parentCanvas) {
-		// Initialise keymap:
-		System.out.println("Begin initalising key bindings...");
-		playerKeyMap = new InputMap();
-		playerKeyMap = parentCanvas.getInputMap(JComponent.WHEN_FOCUSED);
-		playerActionMap = new ActionMap();
-		playerActionMap = parentCanvas.getActionMap();
-
-		// Define Movement Actions:
-		// =======================
-		// =======================
-		
-		System.out.println("Defining actions to carry out...");
-		
-		// Move Left
-		playerActionMap.put("MOVELEFT", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int currentX = 0;
-
-				if(animationStage == 1)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
-				}
-
-				if(animationStage == 2)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
-				}
-
-				currentX = playerX;
-				playerX = playerX - speedX;
-				move(playerX, playerY, currentX, playerY);
-			}
-		});
-
-		// Move Right
-		playerActionMap.put("MOVERIGHT", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int currentX = 0;
-				if(animationStage == 1)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt2.png"));
-				}
-
-				if(animationStage == 2)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
-				}
-
-				currentX = playerX;
-				playerX = playerX + speedX;
-				move(playerX,playerY,currentX,playerY);
-			}
-		});
-
-		// Move Up
-		playerActionMap.put("MOVEUP", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int currentY = 0;
-
-				if(animationStage == 1)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk2.png"));
-				}
-
-				if(animationStage == 2)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk1.png"));
-				}
-
-				currentY = playerY;
-				playerY = playerY - speedY;
-				move(playerX,playerY,playerX,currentY);
-			} 
-		});
-		
-		// Move down
-		playerActionMap.put("MOVEDOWN", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int currentY = 0;
-				if(animationStage == 1)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr2.png"));
-				}
-
-				if(animationStage == 2)
-				{
-					sprite._setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr1.png"));
-				}
-				currentY = playerY;
-				playerY = playerY + speedY;
-				move(playerX,playerY,playerX,currentY);
-			}
-		});
-		
-		// Running
-		playerActionMap.put("RUN", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				_setSpeedX(4);
-				_setSpeedY(4);
-			}
-		});
-		
-		// Bind actions to keys
-		System.out.println("Attempting to bind keys to actions....");
-		
-		// Arrow Keys
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "MOVELEFT"); // Move left
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "MOVERIGHT"); // Move right
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "MOVEDOWN");
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "MOVEUP");
-		
-		// WASD
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "MOVEUP"); // Move up
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "MOVELEFT"); // Move left
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), "MOVEDOWN"); // Move right
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "MOVERIGHT"); // Move down
-
-		// Running
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, 0, false), "RUN"); // RUN!
-		
-		// Debug output
-		System.out.println("KEY BINDINGS INITIALISED SUCCESSFULLY.");
-
+	public RemotePlayer(PlayerCanvas parentCanvas) {
+		System.out.println("Begin initalising new remote player...");
 	}
 
 	// Getter/setter methods

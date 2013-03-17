@@ -56,7 +56,7 @@ public class BaseCanvas extends JPanel implements MouseListener, KeyListener {
 	
 	public void paintComponent(Graphics g)
 	{
-		super.paintComponents(g);
+		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		//System.out.println("Debug Grid Status: " + DRAW_DEBUG_GRID);
 		
