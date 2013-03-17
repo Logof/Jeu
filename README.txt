@@ -24,4 +24,3 @@ V1.1.1
  * Added 'readme' files to each directory, explaining what the files inside the directory do. 
  * Generated a basic (incomplete) JavaDoc, found under com/bm/jeu/doc.
  * Created an ant build file (using eclipse - not tested)
- * Exported a copy of the current jar into the bin/ folder.
