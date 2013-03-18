@@ -112,12 +112,10 @@ public class RemoteHandler {
 			// Cycle through commands we know about:
 			switch(arguments[0]) {
 			case "/connect":
-				return connectToServer(4313,arguments[1]);
+				return connectToServer(4313,arguments[1],player.getName(),Integer.toString(player.getX()),Integer.toString(player.getY()));
 			case "/name":
 				player.setName(arguments[1]);
 				break;
-			case "/login":
-				return loginPlayerToServer(player.getName(),Integer.toString(player.getX()),Integer.toString(player.getY()));
 			case "/list":
 				return listPlayerNames();
 			}
@@ -127,7 +125,7 @@ public class RemoteHandler {
 		return "NULL";
 	}
 
-	public String connectToServer(int port, String host)
+	public String connectToServer(int port, String host, String username, String x, String y)
 	{
 		PORT = port;
 		HOST = host;
@@ -156,6 +154,29 @@ public class RemoteHandler {
 			}
 			
 			CONNECTED = true;
+			
+			try 
+			{
+				outToServer.println("LOGIN " + username + " " + x + " " + y); // Write data out to server
+				String replyFromServer = inFromServer.readLine();
+				if(replyFromServer.equals("LOGINSUCCESS")) { // And receive the server's reply.)
+					System.out.println("Logged in successfully!");
+					return "CONNECTEDTO " + HOST;
+				} else {
+					System.out.println(replyFromServer);
+				}
+			}
+			/**
+			 * Thrown if we couldn't read out to the server, or in from it for some reason...
+			 */
+			catch (IOException dataStreamException) 
+			{
+				// TODO Auto-generated catch block
+				System.out.println("There was a problem exchanging data to/from the server!");
+				dataStreamException.printStackTrace();
+				return "ERROR";
+			}
+			
 			return "CONNECTEDTO " + HOST;
 		}
 		// This exception is thrown if we can't find the host to start with.
@@ -176,33 +197,6 @@ public class RemoteHandler {
 			ioException.printStackTrace();
 		}
 		return "NOCONNECTION";
-	}
-
-	public String loginPlayerToServer(String username, String x, String y) {
-		// Attempt to write out to the server
-		// And receive the server's response.
-		try 
-		{
-			outToServer.println("LOGIN " + username + " " + x + " " + y); // Write data out to server
-			String replyFromServer = inFromServer.readLine();
-			if(replyFromServer.equals("LOGINSUCCESS")) { // And receive the server's reply.)
-				System.out.println("Logged in successfully!");
-			} else {
-				System.out.println(replyFromServer);
-			}
-
-			return replyFromServer;
-		}
-		/**
-		 * Thrown if we couldn't read out to the server, or in from it for some reason...
-		 */
-		catch (IOException dataStreamException) 
-		{
-			// TODO Auto-generated catch block
-			System.out.println("There was a problem exchanging data to/from the server!");
-			dataStreamException.printStackTrace();
-			return "ERROR";
-		}
 	}
 
 	public int getActiveConnections() {

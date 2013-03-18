@@ -16,6 +16,13 @@ Immediate TODOs:
 
 Changelog:
 
+V1.1.2
+------
+
+ * Merged the /connect and /login commands client-side. The player
+   now carries out the function of both by simply typing /connect [HOST]
+   However - the two protocol messages are still separate server-side.
+
 V1.1.1
 ------
 
