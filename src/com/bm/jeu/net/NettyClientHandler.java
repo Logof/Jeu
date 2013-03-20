@@ -22,6 +22,7 @@ public class NettyClientHandler extends SimpleChannelHandler {
 		if (e instanceof ChannelStateEvent) {
 			logger.info(e.toString());
 		}
+		Networking.getinstance().
 		super.handleUpstream(ctx, e);
 	}
 

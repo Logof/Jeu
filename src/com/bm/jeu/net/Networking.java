@@ -1,8 +1,12 @@
 package com.bm.jeu.net;
 
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 //This is implemented as a threadsafe Singleton
 
 public class Networking {
+	
+	private ConcurrentLinkedQueue<String> incomingQueue;
 
 	/* Here is the instance of the Singleton */
 	private static Networking instance_;
@@ -14,6 +18,7 @@ public class Networking {
 	// Prevent direct access to the constructor
 	private Networking() {
 		super();
+		incomingQueue = new ConcurrentLinkedQueue<String>();
 	}
 	
 	DefaultNetworkingClientServices test;
@@ -46,6 +51,14 @@ public class Networking {
 	
 	public void relayCommand(String cmd){
 		test.write(cmd);
+	}
+	
+	public void addToQueue(String item){
+		incomingQueue.add(item);
+	}
+	
+	public String getFromQueue(){
+		return incomingQueue.poll();
 	}
 	
 }

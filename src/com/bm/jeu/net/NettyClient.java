@@ -15,7 +15,6 @@ public class NettyClient implements DefaultNetworkingClientServices {
 	private int PORT;
 	private boolean connectionStatus;
 
-	private ConcurrentLinkedQueue<String> incomingQueue;
 	private ConcurrentLinkedQueue<String> outgoingQueue;
 	private ClientBootstrap bootstrap;
 	private Channel connection;
@@ -23,7 +22,6 @@ public class NettyClient implements DefaultNetworkingClientServices {
 	public NettyClient(String host, int port) {
 		this.HOST = host;
 		this.PORT = port;
-		incomingQueue = new ConcurrentLinkedQueue<String>();
 		outgoingQueue = new ConcurrentLinkedQueue<String>();
 		connectionStatus = false;
 	}
