@@ -23,6 +23,13 @@ public class NetworkEnvelope {
 		this.payload = payload;
 	}
 	
+	public NetworkEnvelope(Version version, Type type, byte payload) {
+		this.version = version;
+		this.type = type;
+		this.payload = new byte[1];
+		this.payload[0] = payload;
+	}
+	
 	public Version getVersion() {
 		return version;
 	}
@@ -59,8 +66,13 @@ public class NetworkEnvelope {
 		this.payload = payload;
 	}
 	
+	public void setPayload(byte payload) {
+		this.payload = new byte[1];
+		this.payload[1] = payload;
+	}
+	
 	public int getSize(){
-		return 1 + 1 + this.payload.length;
+		return 1 + 1 + 4 + this.payload.length;
 	}
 
 	@Override

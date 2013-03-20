@@ -9,16 +9,18 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 public class XMLEncoder extends OneToOneEncoder {
 
-	public static String encodeMessage(Component message) throws IllegalArgumentException {
+	public static EncodedString encodeMessage(Component message) throws IllegalArgumentException {
 		XStream xstream = new XStream(new StaxDriver());
-		String xml = xstream.toXML(message);
-		return xml;
+		EncodedString output = new EncodedString(xstream.toXML(message));
+		return output;
 	}
 
 	@Override
 	protected Object encode(ChannelHandlerContext ctx, Channel channel, Object msg) throws Exception {
 		if (msg instanceof Component) {
-            return encodeMessage((Component) msg);
+			Component buff = (Component) msg;
+			EncodedString str = encodeMessage(buff);
+            return str;
         } else {
             return msg;
         }

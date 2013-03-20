@@ -10,15 +10,12 @@ public class JSONDecoder extends OneToOneDecoder {
 
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel, Object msg) throws Exception {
-		if (msg instanceof NetworkEnvelope) {
-			NetworkEnvelope envelope = (NetworkEnvelope) msg;
-			if (envelope.getType().getByteValue() == (byte) 1) {
-				Gson gson = new Gson();
-				Component message = (Component) gson.fromJson(envelope.getPayloadAsString(), Component.class);
-				return message;
-			}
+		if (msg instanceof EncodedString) {
+			EncodedString encodedObj = (EncodedString) msg;
+			Gson gson = new Gson();
+			Component message = (Component) gson.fromJson(encodedObj.getEncodedMessage(), Component.class);
+			return message;
 		}
-
 		return msg;
 	}
 

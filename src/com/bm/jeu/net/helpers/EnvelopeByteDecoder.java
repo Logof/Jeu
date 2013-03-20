@@ -5,7 +5,7 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.replay.ReplayingDecoder;
 
-public class EnvelopeDecoder extends ReplayingDecoder<EnvelopeDecoder.DecodingState> {
+public class EnvelopeByteDecoder extends ReplayingDecoder<EnvelopeByteDecoder.DecodingState> {
 
 	// internal vars
 
@@ -13,7 +13,7 @@ public class EnvelopeDecoder extends ReplayingDecoder<EnvelopeDecoder.DecodingSt
 
 	// constructors
 
-	public EnvelopeDecoder() {
+	public EnvelopeByteDecoder() {
 		this.reset();
 	}
 

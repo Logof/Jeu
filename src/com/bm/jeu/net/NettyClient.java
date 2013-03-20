@@ -1,7 +1,6 @@
 package com.bm.jeu.net;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
@@ -9,20 +8,19 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 
+import com.bm.jeu.net.helpers.Component;
+
 public class NettyClient implements DefaultNetworkingClientServices {
 
 	private String HOST;
 	private int PORT;
 	private boolean connectionStatus;
-
-	private ConcurrentLinkedQueue<String> outgoingQueue;
 	private ClientBootstrap bootstrap;
-	private Channel connection;
+	public Channel connection;
 
 	public NettyClient(String host, int port) {
 		this.HOST = host;
 		this.PORT = port;
-		outgoingQueue = new ConcurrentLinkedQueue<String>();
 		connectionStatus = false;
 	}
 
@@ -44,9 +42,9 @@ public class NettyClient implements DefaultNetworkingClientServices {
 	public boolean connect(String host, int port) {
 		// check if host and port are set
 		if (host != null && port > 0) {
-			//set up bootstrap
+			// set up bootstrap
 			setup();
-			
+
 			// Start the connection attempt.
 			ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port));
 
@@ -63,32 +61,29 @@ public class NettyClient implements DefaultNetworkingClientServices {
 
 	@Override
 	public boolean disconnect() {
-		// Close the connection.  Make sure the close operation ends because
-        // all I/O operations are asynchronous in Netty.
-        connection.close().awaitUninterruptibly();
-        connectionStatus=false;
-     // Shut down all thread pools to exit.
-        bootstrap.releaseExternalResources();
-        
+		// Close the connection. Make sure the close operation ends because
+		// all I/O operations are asynchronous in Netty.
+		connection.close().awaitUninterruptibly();
+		connectionStatus = false;
+		// Shut down all thread pools to exit.
+		bootstrap.releaseExternalResources();
+
 		return !connection.isOpen();
 	}
 
 	@Override
 	public boolean write(String message) {
-		
+
 		// Sends the received line to the server.
-        connection.write(message);
+		connection.write(message);
 		return true;
 	}
 
-	@Override
-	public int getIncomingQueueSize() {
-		return this.incomingQueue.size();
-	}
+	public boolean write(Component message) {
 
-	@Override
-	public int getOutgoingQueueSize() {
-		return this.outgoingQueue.size();
+		// Sends the received line to the server.
+		connection.write(message);
+		return true;
 	}
 
 	@Override
@@ -122,12 +117,26 @@ public class NettyClient implements DefaultNetworkingClientServices {
 
 	@Override
 	public String getNextIncomingItem() {
-		return this.incomingQueue.poll();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String getNextOutgoingItem() {
-		return this.outgoingQueue.poll();
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getIncomingQueueSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getOutgoingQueueSize() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
