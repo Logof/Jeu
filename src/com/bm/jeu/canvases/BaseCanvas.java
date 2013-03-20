@@ -16,8 +16,6 @@ import java.net.MalformedURLException;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import com.bm.jeu.MapFrame;
-
 public class BaseCanvas extends JPanel implements MouseListener, KeyListener {
 	private boolean DRAW_DEBUG_GRID = false;
 	private boolean DRAW_DEBUG_TEXT = false;
@@ -44,14 +42,12 @@ public class BaseCanvas extends JPanel implements MouseListener, KeyListener {
 		System.out.println("Constructor called!");
 	}
 	
-	public void initCanvas(int x, int y, int width, int height, MapFrame mframe, Color bgColour)
+	public void initCanvas(int x, int y, int width, int height, Color bgColour)
 	{
 		canvasWidth = width;
 		canvasHeight = height;
 		setBounds(x, y, width, height);
 		setBackground(bgColour);
-		
-		mframe.addKeyListener(this);
 	}
 	
 	public void paintComponent(Graphics g)

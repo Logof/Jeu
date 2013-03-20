@@ -11,7 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
-import com.bm.jeu.MapFrame;
 import com.bm.jeu.net.RemoteHandler;
 
 public class OutputBox extends JScrollPane implements MouseListener, MouseMotionListener {
@@ -28,9 +27,7 @@ public class OutputBox extends JScrollPane implements MouseListener, MouseMotion
 	
 	private JTextArea outputArea;
 	
-	public OutputBox(int x, int y, RemoteHandler messageHandler, MapFrame parentFrame) {
-		parentFrame.addMouseListener(this);
-		parentFrame.addMouseMotionListener(this);
+	public OutputBox(int x, int y, RemoteHandler messageHandler) {
 		
 		outputArea = new JTextArea();
 		this.setViewportView(outputArea);

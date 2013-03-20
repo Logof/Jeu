@@ -19,7 +19,6 @@ import javax.swing.border.Border;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.bm.jeu.MapFrame;
 import com.bm.jeu.canvases.InterfaceCanvas;
 import com.bm.jeu.net.RemoteHandler;
 

@@ -19,7 +19,6 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
-import com.bm.jeu.MapFrame;
 import com.bm.jeu.Player;
 import com.bm.jeu.net.RemoteHandler;
 import com.bm.jeu.controls.ChatBox;
@@ -39,14 +38,11 @@ public class InterfaceCanvas extends JPanel {
 	private ChatBox messageInput;
 	private OutputBox messageOutput;
 	
-	private static MapFrame mapFrame;
-	
 	private RemoteHandler remoteHandle;
 
-	public InterfaceCanvas(int x, int y, int width, int height, MapFrame mframe, Player player, RemoteHandler remote)
+	public InterfaceCanvas(int x, int y, int width, int height, Player player, RemoteHandler remote)
 	{	
 		// Set the map frame as a class-wide variable so that the thread can access it:
-		this.mapFrame = mframe;
 		
 		this.remoteHandle = remote;
 		
@@ -106,7 +102,7 @@ public class InterfaceCanvas extends JPanel {
 		
 		@Override
 		public void run() {
-			messageOutput = new OutputBox(0,310,messageHandler,mapFrame);
+			messageOutput = new OutputBox(0,310,messageHandler);
 			parent.add(messageOutput);
 			
 			Thread messageWorker = new Thread(new MessageWorker(parent)); // Create new thread
