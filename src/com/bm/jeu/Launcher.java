@@ -1,19 +1,21 @@
 package com.bm.jeu;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
-import com.bm.jeu.MapFrame;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 public class Launcher extends JFrame {
 	static Timer launcherDisplaySequence;
 	static Launcher launcher;
-	static MapFrame mapWindow;
+	static JeuClient displayF;
 	
 	// DEBUG VARIABLES
 	static int SKIP_LAUNCHER_SPLASH = 0;
@@ -29,36 +31,45 @@ public class Launcher extends JFrame {
 		version.setBounds(230, 30, 30, 30);
 		add(version);
 	}
+	
+	static class TimerTask implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+		}
+		
+	}
 
 	public static void main(String args[]) throws MalformedURLException
 	{
 		// Uncomment this line to skip the 5 second splash screen.
-		SKIP_LAUNCHER_SPLASH = 1;
-		
+		SKIP_LAUNCHER_SPLASH = 0;
 		launcher = new Launcher();
-		mapWindow = new MapFrame();
 		
 		if(SKIP_LAUNCHER_SPLASH == 0)
 		{
 			// Timer sequence
-			launcher.setVisible(true);
-			launcherDisplaySequence = new Timer();
-			ShowGame taskShowGame = new ShowGame();
-	
-			launcherDisplaySequence.schedule(taskShowGame, 5000);
+			//launcher.setVisible(true);
+			//TimerTask launchSequence = new TimerTask();
+			//launcherDisplaySequence = new Timer(3,launchSequence);
+			
+			LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+			cfg.title = "Jeu LibGDX Port";
+			cfg.useGL20 = true;
+			cfg.width = 900;
+			cfg.height = 500;
+			new LwjglApplication(new JeuClient(), cfg);
 		}
 		else
 		{
-			mapWindow.setVisible(true);
+			launcher = new Launcher();
+			
+			LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+			cfg.title = "Jeu LibGDX Port";
+			cfg.useGL20 = true;
+			cfg.width = 900;
+			cfg.height = 500;
+			new LwjglApplication(new JeuClient(), cfg);
 		}
-	}
-	
-	static class ShowGame extends TimerTask
-	{
-		@Override
-		public void run() {
-			launcher.setVisible(false);
-			mapWindow.setVisible(true);
-		}
-	}
+	} 
 }

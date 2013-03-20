@@ -25,9 +25,9 @@ public class PlayerHandler {
 	 * @param mframe An instance of the MapFrame class that is essentially the container for the game, and passed to the createPlayer() method.
 	 */
 	
-	public PlayerHandler(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, MapFrame mframe) {
+	public PlayerHandler(PlayerCanvas parentCanvas, RemoteHandler remoteHandle) {
 		this.playerCanvas = parentCanvas;
-		RemotePlayerWorkerThread wt = new RemotePlayerWorkerThread(parentCanvas, remoteHandle, mframe, this);
+		RemotePlayerWorkerThread wt = new RemotePlayerWorkerThread(parentCanvas, remoteHandle, this);
 		Thread wtt = new Thread(wt);
 		wtt.start();
 	}
@@ -43,15 +43,13 @@ public class PlayerHandler {
 	class RemotePlayersWorker extends SwingWorker<String[][], String[][]> {
 		PlayerCanvas parent;
 		RemoteHandler remote;
-		MapFrame mapFrame;
 		PlayerHandler playerHandler;
 		String[][] players;
 		int maximumConnections;
 
-		public RemotePlayersWorker(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, MapFrame mapFrame, PlayerHandler playerHandle) {
+		public RemotePlayersWorker(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, PlayerHandler playerHandle) {
 			this.parent = parentCanvas;
 			this.remote = remoteHandle;
-			this.mapFrame = mapFrame;
 			this.playerHandler = playerHandle;
 		}
 
@@ -71,7 +69,7 @@ public class PlayerHandler {
 			int processed = 0;
 			while(processed < players.length) {
 				RemotePlayer remotePlayer = playerHandler.createRemotePlayer(100, 0, players[processed][0]);
-				remotePlayer.spawn(Integer.parseInt(players[processed][1]), Integer.parseInt(players[processed][2]), 100, 0, parent, mapFrame);
+				remotePlayer.spawn(Integer.parseInt(players[processed][1]), Integer.parseInt(players[processed][2]), 100, 0, parent);
 				processed++;
 			}
 		}
@@ -89,12 +87,10 @@ public class PlayerHandler {
 	public class RemotePlayerWorkerThread implements Runnable {
 		PlayerCanvas parentCanvas;
 		RemoteHandler remoteHandle;
-		MapFrame mapFrame;
 		PlayerHandler playerHandle;
 		Runnable run;
 
-		public RemotePlayerWorkerThread(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, MapFrame mapFrame, PlayerHandler playerHandle) {
-			this.mapFrame = mapFrame;
+		public RemotePlayerWorkerThread(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, PlayerHandler playerHandle) {
 			this.remoteHandle = remoteHandle;
 			this.parentCanvas = parentCanvas;
 			this.playerHandle = playerHandle;
@@ -105,7 +101,7 @@ public class PlayerHandler {
 			class Task implements ActionListener {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					RemotePlayersWorker rpw = new RemotePlayersWorker(parentCanvas, remoteHandle,mapFrame,playerHandle);
+					RemotePlayersWorker rpw = new RemotePlayersWorker(parentCanvas, remoteHandle,playerHandle);
 					rpw.execute();
 				}
 			}

@@ -12,7 +12,6 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
-import com.bm.jeu.canvases.GenericCanvas;
 import com.bm.jeu.canvases.PlayerCanvas;
 import com.bm.jeu.controls.Sprite;
 
@@ -50,7 +49,6 @@ public class RemotePlayer {
 	private int playerY;
 	private int speedX;
 	private int speedY;
-	private GenericCanvas mapcanvas;
 
 	// The stage in the movement animation. 
 	// Controls changing between version one and two of a sprite.
@@ -190,19 +188,6 @@ public class RemotePlayer {
 		return playerY;
 	}
 
-	public boolean setMapCanvas(GenericCanvas mapcanvas)
-	{
-		if(mapcanvas != null)
-		{
-			this.mapcanvas = mapcanvas;
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
 
 	// Interaction methods
 	// *******************
@@ -289,7 +274,7 @@ public class RemotePlayer {
 		}
 	}
 
-	public void spawn(int x, int y, int hp, int level, PlayerCanvas playercanvas, MapFrame mframe)
+	public void spawn(int x, int y, int hp, int level, PlayerCanvas playercanvas)
 	{
 		// Draws the player at a certain position on the map.
 		// Since as far as the user is concerned, the player is 
