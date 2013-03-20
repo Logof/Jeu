@@ -18,7 +18,7 @@ public class EnvelopeEncoder extends OneToOneEncoder {
         //write version
         buffer.writeByte(message.getVersion().getByteValue());
         //write type
-        buffer.writeBytes(message.getType().getByteValue());
+        buffer.writeByte(message.getType().getByteValue());
         //write payload size, remark the writeINT part which will write bytes automagically
         buffer.writeInt(message.getPayload().length);
         //write payload

@@ -1,16 +1,16 @@
 package com.bm.jeu.net.helpers;
 
 public class Type {
+	
+	//TODO: Define some packet types
 
-	private byte[] TYPE = { 0, 0 };
+	private byte TYPE = -1;
 
-	public Type(byte[] type) {
-		if (type.length == 2) {
-			TYPE = type;
-		}
+	public Type(byte type) {
+		TYPE=type;
 	}
 	
-	public byte[] getByteValue(){
+	public byte getByteValue(){
 		return TYPE;
 	}
 

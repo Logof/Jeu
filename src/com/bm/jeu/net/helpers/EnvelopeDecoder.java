@@ -8,19 +8,16 @@ import org.jboss.netty.handler.codec.replay.ReplayingDecoder;
 public class EnvelopeDecoder extends ReplayingDecoder<EnvelopeDecoder.DecodingState> {
 
 	// internal vars
-	// --------------------------------------------------------------------------------------------------
 
 	private NetworkEnvelope message;
 
 	// constructors
-	// ---------------------------------------------------------------------------------------------------
 
 	public EnvelopeDecoder() {
 		this.reset();
 	}
 
 	// ReplayingDecoder
-	// -----------------------------------------------------------------------------------------------
 
 	@Override
 	protected Object decode(ChannelHandlerContext ctx, Channel channel, ChannelBuffer buffer, DecodingState state) throws Exception {
@@ -30,10 +27,8 @@ public class EnvelopeDecoder extends ReplayingDecoder<EnvelopeDecoder.DecodingSt
 		case VERSION: // check version byte
 			this.message.setVersion(buffer.readByte());
 			checkpoint(DecodingState.TYPE);
-		case TYPE: // check type bytes
-			byte[] type = new byte[2];
-			buffer.readBytes(type, 0, type.length);
-			this.message.setType(type);
+		case TYPE: // check type byte
+			this.message.setType(buffer.readByte());
 			checkpoint(DecodingState.PAYLOAD_LENGTH);
 		case PAYLOAD_LENGTH: // check length of payload
 			int size = buffer.readInt();

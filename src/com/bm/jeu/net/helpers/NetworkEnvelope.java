@@ -43,7 +43,7 @@ public class NetworkEnvelope {
 		this.type = type;
 	}
 	
-	public void setType(byte[] type) {
+	public void setType(byte type) {
 		this.type = new Type(type);
 	}
 
@@ -60,7 +60,7 @@ public class NetworkEnvelope {
 	}
 	
 	public int getSize(){
-		return 1 + this.type.getByteValue().length + this.payload.length;
+		return 1 + 1 + this.payload.length;
 	}
 
 	@Override
