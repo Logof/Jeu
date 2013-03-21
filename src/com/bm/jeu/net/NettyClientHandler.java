@@ -21,35 +21,32 @@ public class NettyClientHandler extends SimpleChannelHandler {
 	@Override
 	public void handleUpstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
 		if (e instanceof ChannelStateEvent) {
-//			logger.info(e.toString());
+			// logger.info(e.toString());
 		}
 		super.handleUpstream(ctx, e);
 	}
 
-
 	@Override
-    public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
+	public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
 
-        // Log all channel state changes.
-        if (e instanceof MessageEvent) {
-//            logger.info("Writing:: " + e);
-        }
-
-        super.handleDownstream(ctx, e);
-    }
-	
-	//Acts when a message was received
-		@Override
-		public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-			// Log all channel state changes.
-	        if (e instanceof MessageEvent) {
-//	            logger.info("Recieved:: " + e);
-	        }
-	        else if (e instanceof Component) {
-//	            logger.info("Recieved:: " + (Component) e);
-	        }
-			super.messageReceived(ctx, e);
+		// Log all channel state changes.
+		if (e instanceof MessageEvent) {
+			// logger.info("Writing:: " + e);
 		}
+
+		super.handleDownstream(ctx, e);
+	}
+
+	// Acts when a message was received
+	@Override
+	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+//		System.out.println(e.getMessage());
+		if (e.getMessage() instanceof Component) {
+//			logger.info("Recieved:: " + (Component) e);
+			ComponentRecievedHandler.fireDataChange((Component) e.getMessage());
+		}
+		super.messageReceived(ctx, e);
+	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
