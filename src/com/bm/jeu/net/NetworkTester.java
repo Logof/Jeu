@@ -1,9 +1,10 @@
-package com.bm.jeu.net.helpers;
+package com.bm.jeu.net;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.bm.jeu.net.ComponentRecievedHandler;
-import com.bm.jeu.net.NettyClient;
+import com.bm.jeu.net.helpers.Component;
+import com.bm.jeu.net.helpers.ComponentRecievedListener;
+import com.bm.jeu.net.helpers.TestComponent;
 
 public class NetworkTester implements ComponentRecievedListener, Runnable {
 
@@ -20,8 +21,7 @@ public class NetworkTester implements ComponentRecievedListener, Runnable {
 		this.msgnr = messages;
 
 		//this component will, when encoded, use 256 byte on the stream. a good value to calculate traffic
-		setComponent(new Component(4455,
-				"Test Message and some more text,and some more text,and some more text,and some more text,and some more text,and some more tex"));
+		setComponent(new TestComponent("Level1", (float)1.2, (float)2.3));
 
 		this.clients = new NettyClient[clientsnr];
 		for (int i = 0; i < clnr; i++) {
@@ -105,7 +105,7 @@ public class NetworkTester implements ComponentRecievedListener, Runnable {
 	}
 
 	public static void main(String args[]) {
-		NetworkTester buff = new NetworkTester(1, 1000, "localhost", 8080);
+		NetworkTester buff = new NetworkTester(1, 10, "localhost", 8080);
 
 		buff.run();
 
