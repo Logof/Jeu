@@ -2,6 +2,10 @@ package com.bm.jeu.net.helpers;
 
 public class Version {
 	
+	//TODO: creating Version identifiers/bytes
+	
+	public static final byte TESTING = 1;
+	
 	private byte VERSION = -1;
 	
 	public Version(byte version){

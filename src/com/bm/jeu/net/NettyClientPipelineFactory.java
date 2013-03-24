@@ -1,27 +1,40 @@
 package com.bm.jeu.net;
 
 import org.jboss.netty.channel.ChannelPipeline;
+import static org.jboss.netty.channel.Channels.pipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
-import org.jboss.netty.handler.codec.frame.DelimiterBasedFrameDecoder;
-import org.jboss.netty.handler.codec.frame.Delimiters;
-import org.jboss.netty.handler.codec.string.StringDecoder;
-import org.jboss.netty.handler.codec.string.StringEncoder;
+import com.bm.jeu.net.helpers.EnvelopeByteDecoder;
+import com.bm.jeu.net.helpers.EnvelopeByteEncoder;
+import com.bm.jeu.net.helpers.EnvelopePackageDecoder;
+import com.bm.jeu.net.helpers.EnvelopePackageEncoder;
+import com.bm.jeu.net.helpers.XMLDecoder;
+import com.bm.jeu.net.helpers.XMLEncoder;
 
 public class NettyClientPipelineFactory implements ChannelPipelineFactory {
 
 	public ChannelPipeline getPipeline() throws Exception {
-        ChannelPipeline pipeline = getPipeline();
+		ChannelPipeline pipeline = pipeline();
 
-        //add the text line codec.
-        pipeline.addLast("framer", new DelimiterBasedFrameDecoder(
-                8192, Delimiters.lineDelimiter()));
-        pipeline.addLast("decoder", new StringDecoder());
-        pipeline.addLast("encoder", new StringEncoder());
+		// TODO: watch the directions of upstream and downstream handlers
+		// upstrea from top down / downstream from last to the top
+		// add one of the serialization codecs,
+		// envelopes with Components in them (specified in Type)
 
-        // and then business logic.
-        pipeline.addLast("handler", new NettyClientHandler());
+		// add the Network protocol codecs
+		pipeline.addLast("decoder1", new EnvelopeByteDecoder());
+		pipeline.addLast("encoder1", new EnvelopeByteEncoder());
 
-        return pipeline;
-    }
+		// add the Package interpreters
+		pipeline.addLast("decoder2", new EnvelopePackageDecoder());
+		pipeline.addLast("encoder2", new EnvelopePackageEncoder());
+
+		pipeline.addLast("decoder3", new XMLDecoder());
+		pipeline.addLast("encoder3", new XMLEncoder());
+
+		// and then business logic.
+		pipeline.addLast("handler", new NettyClientHandler());
+
+		return pipeline;
+	}
 
 }

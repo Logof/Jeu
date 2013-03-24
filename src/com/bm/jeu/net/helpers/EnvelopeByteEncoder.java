@@ -6,12 +6,11 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.handler.codec.oneone.OneToOneEncoder;
 
-public class EnvelopeEncoder extends OneToOneEncoder {
+public class EnvelopeByteEncoder extends OneToOneEncoder {
 	
 	public static ChannelBuffer encodeMessage(NetworkEnvelope message)
             throws IllegalArgumentException {
-		
-        // version(1b) + type(2b) + payload length(4b) + payload(nb)
+        // version(1b) + type(1b) + payload length(4b) + payload(nb)
  
 		//reserving bytes
         ChannelBuffer buffer = ChannelBuffers.buffer(message.getSize());
