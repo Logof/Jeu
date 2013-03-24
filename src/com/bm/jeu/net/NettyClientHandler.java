@@ -6,11 +6,10 @@ import java.util.logging.Logger;
 import org.jboss.netty.channel.ChannelEvent;
 import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelStateEvent;
+import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
-
-import com.bm.jeu.net.helpers.Component;
 
 public class NettyClientHandler extends SimpleChannelHandler {
 
@@ -21,35 +20,33 @@ public class NettyClientHandler extends SimpleChannelHandler {
 	@Override
 	public void handleUpstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
 		if (e instanceof ChannelStateEvent) {
-			// logger.info(e.toString());
+			logger.info(e.toString());
 		}
-<<<<<<< HEAD
 		Networking.getinstance();
-=======
->>>>>>> 5a535f776d5cc95a314ae7e33725306609851a1e
 		super.handleUpstream(ctx, e);
 	}
 
+	//this acts as soon as something wants to write inte the channel (from everywhere)
 	@Override
-	public void handleDownstream(ChannelHandlerContext ctx, ChannelEvent e) throws Exception {
+	public void writeRequested(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+		String message = (String) e.getMessage();
+		StringBuilder output = new StringBuilder();
+		//here will the commands be parsed or processed (except the dis/-connect one)
+		//put it together into the output one, so the server can understand it
 
-		// Log all channel state changes.
-		if (e instanceof MessageEvent) {
-			// logger.info("Writing:: " + e);
-		}
+		//TODO: parse commands
 
-		super.handleDownstream(ctx, e);
+		Channels.write(ctx.getChannel(), output.toString());
 	}
 
-	// Acts when a message was received
 	@Override
-	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-//		System.out.println(e.getMessage());
-		if (e.getMessage() instanceof Component) {
-//			logger.info("Recieved:: " + (Component) e);
-			ComponentRecievedHandler.fireDataChange((Component) e.getMessage());
-		}
-		super.messageReceived(ctx, e);
+	public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+
+	}
+
+	@Override
+	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
+		System.err.println(e.getMessage());
 	}
 
 	@Override

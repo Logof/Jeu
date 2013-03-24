@@ -1,6 +1,7 @@
 package com.bm.jeu.net;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executors;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
@@ -12,51 +13,58 @@ public class NettyClient implements DefaultNetworkingClientServices {
 
 	private String HOST;
 	private int PORT;
-<<<<<<< HEAD
 	private boolean connectionStatus;
 
 	private ConcurrentLinkedQueue<String> outgoingQueue;
 	private ConcurrentLinkedQueue<String> incomingQueue;
 
-=======
->>>>>>> 5a535f776d5cc95a314ae7e33725306609851a1e
 	private ClientBootstrap bootstrap;
-	private Channel clientConnection;
-	private ChannelFuture lastWriteFuture = null;
+	private Channel connection;
 
 	public NettyClient(String host, int port) {
 		this.HOST = host;
 		this.PORT = port;
-<<<<<<< HEAD
 		outgoingQueue = new ConcurrentLinkedQueue<String>();
 		incomingQueue = new ConcurrentLinkedQueue<String>();
 		connectionStatus = false;
-=======
-		setup();
->>>>>>> 5a535f776d5cc95a314ae7e33725306609851a1e
 	}
 
 	private void setup() {
+		// Configure the client.
 		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
 
 		// Configure the pipeline factory.
 		bootstrap.setPipelineFactory(new NettyClientPipelineFactory());
-
 	}
 
 	@Override
-	public void connect() {
-		// Start the connection attempt.
-		ChannelFuture future = bootstrap.connect(new InetSocketAddress(HOST, PORT));
-		clientConnection = future.awaitUninterruptibly().getChannel();
-		if (!future.isSuccess()) {
-			future.getCause().printStackTrace();
-			bootstrap.releaseExternalResources();
+	public boolean connect() {
+		// uses the other connect statement to reduce work
+		return connect(HOST, PORT);
+	}
+
+	@Override
+	public boolean connect(String host, int port) {
+		// check if host and port are set
+		if (host != null && port > 0) {
+			//set up bootstrap
+			setup();
+
+			// Start the connection attempt.
+			ChannelFuture future = bootstrap.connect(new InetSocketAddress(host, port));
+
+			connection = future.awaitUninterruptibly().getChannel();
+			if (!future.isSuccess()) {
+				future.getCause().printStackTrace();
+				bootstrap.releaseExternalResources();
+			} else {
+				return true;
+			}
 		}
+		return false;
 	}
 
 	@Override
-<<<<<<< HEAD
 	public boolean disconnect() {
 		// Close the connection.  Make sure the close operation ends because
         // all I/O operations are asynchronous in Netty.
@@ -70,7 +78,7 @@ public class NettyClient implements DefaultNetworkingClientServices {
 
 	@Override
 	public boolean write(String message) {
-		
+
 		// Sends the received line to the server.
         connection.write(message);
 		return true;
@@ -85,38 +93,50 @@ public class NettyClient implements DefaultNetworkingClientServices {
 	public int getOutgoingQueueSize() {
 		return this.outgoingQueue.size();
 	}
-=======
-	public void connect(String host, int port) {
-		// TODO Auto-generated method stub
->>>>>>> 5a535f776d5cc95a314ae7e33725306609851a1e
 
+	@Override
+	public int getPort() {
+		return this.PORT;
+	}
+
+	// sets the new Port. you still need to reconnect to change the server on
+	// the connection
+	@Override
+	public void setPort(int port) {
+		this.PORT = port;
+
+	}
+
+	@Override
+	public String getHost() {
+		return this.HOST;
+	}
+
+	@Override
+	public void setHost(String host) {
+		this.HOST = host;
+
+	}
+
+	@Override
+	public boolean getConnectionStatus() {
+		return connectionStatus;
+	}
+
+	@Override
+	public String getNextIncomingItem() {
+		return this.incomingQueue.poll();
+	}
+
+	@Override
+	public String getNextOutgoingItem() {
+		return this.outgoingQueue.poll();
 	}
 
 	@Override
 	public void send(Object message) {
-		lastWriteFuture = clientConnection.write(message);
-
-	}
-
-	@Override
-	public void disconnect() {
 		// TODO Auto-generated method stub
-		// Wait until all messages are flushed before closing the channel.
-		if (lastWriteFuture != null) {
-			lastWriteFuture.awaitUninterruptibly();
-		}
-
-		// Close the connection. Make sure the close operation ends because
-		// all I/O operations are asynchronous in Netty.
-		clientConnection.close().awaitUninterruptibly();
-
-		// Shut down all thread pools to exit.
-		bootstrap.releaseExternalResources();
-
-	}
-	
-	public boolean isConnected(){
-		return clientConnection.isConnected();
+		
 	}
 
 }
