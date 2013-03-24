@@ -121,8 +121,14 @@ public class JeuClient implements ApplicationListener {
 		textureHandler = new TextureHandler();
 		spriteBatch = textureHandler.getSpriteBatch();
 		
+		playerHandler = new PlayerHandler(playercanvas, remote, textureHandler);
+		player1 = playerHandler.createPlayer(100, 1, "BOB", remote);
+		
 		ta = new TerrainActor(clientInstance);
 		stage.addActor(ta);
+		stage.addActor(player1);
+		stage.setKeyboardFocus(player1);
+		System.out.println(stage.getActors());
 	}
 
 	@Override

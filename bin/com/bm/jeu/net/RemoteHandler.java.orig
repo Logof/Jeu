@@ -112,7 +112,7 @@ public class RemoteHandler {
 			// Cycle through commands we know about:
 			switch(arguments[0]) {
 			case "/connect":
-				return connectToServer(4313,arguments[1],player.getName(),player.getX(),player.getY());
+				return connectToServer(4313,arguments[1],player.getName(),Integer.toString(player.getX()),Integer.toString(player.getY()));
 			case "/name":
 				player.setName(arguments[1]);
 				break;
@@ -125,7 +125,7 @@ public class RemoteHandler {
 		return "NULL";
 	}
 
-	public String connectToServer(int port, String host, String username, float f, float g)
+	public String connectToServer(int port, String host, String username, String x, String y)
 	{
 		PORT = port;
 		HOST = host;
@@ -157,7 +157,7 @@ public class RemoteHandler {
 			
 			try 
 			{
-				outToServer.println("LOGIN " + username + " " + f + " " + g); // Write data out to server
+				outToServer.println("LOGIN " + username + " " + x + " " + y); // Write data out to server
 				String replyFromServer = inFromServer.readLine();
 				if(replyFromServer.equals("LOGINSUCCESS")) { // And receive the server's reply.)
 					System.out.println("Logged in successfully!");

@@ -16,6 +16,8 @@ public class NettyClient implements DefaultNetworkingClientServices {
 	private boolean connectionStatus;
 
 	private ConcurrentLinkedQueue<String> outgoingQueue;
+	private ConcurrentLinkedQueue<String> incomingQueue;
+
 	private ClientBootstrap bootstrap;
 	private Channel connection;
 
@@ -23,6 +25,7 @@ public class NettyClient implements DefaultNetworkingClientServices {
 		this.HOST = host;
 		this.PORT = port;
 		outgoingQueue = new ConcurrentLinkedQueue<String>();
+		incomingQueue = new ConcurrentLinkedQueue<String>();
 		connectionStatus = false;
 	}
 
@@ -83,7 +86,7 @@ public class NettyClient implements DefaultNetworkingClientServices {
 
 	@Override
 	public int getIncomingQueueSize() {
-		return this.incomingQueue.size();
+		return this.getIncomingQueueSize();
 	}
 
 	@Override

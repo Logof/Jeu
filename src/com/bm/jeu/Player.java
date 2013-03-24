@@ -12,8 +12,14 @@ import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.bm.jeu.canvases.PlayerCanvas;
-import com.bm.jeu.controls.Sprite;
 import com.bm.jeu.net.RemoteHandler;
 
 import java.net.URL;
@@ -41,9 +47,23 @@ import java.util.TimerTask;
  *
  */
 
-public class Player {
+class PlayerSprite extends Sprite {
+	public PlayerSprite(Texture spriteTexture) {
+		
+	}
+	
+	public void setSprite(URL url) {
+		
+	}
+	
+	public void setName(String name) {
+		
+	}
+}
+
+public class Player extends Actor {
 	// Player characteristics / variables
-	private Sprite sprite;
+	private PlayerSprite sprite;
 	private int hp;
 	private int level;
 	private int playerX;
@@ -59,145 +79,116 @@ public class Player {
 	private int animationInterval = 200;
 	private Timer animationTimer;
 
-	// Keymap
-	// Used to map key presses to specific actions
-	// eg: walking left/right, etc.
-
-	InputMap playerKeyMap;
-	ActionMap playerActionMap;
 
 	// CONSTRUCTOR
 
-	public Player(PlayerCanvas parentCanvas, RemoteHandler remote) {
+	public Player(RemoteHandler remote, TextureHandler textures) {
 		this.remote = remote;
-		// Initialise keymap:
-		System.out.println("Begin initalising key bindings...");
-		playerKeyMap = new InputMap();
-		playerKeyMap = parentCanvas.getInputMap(JComponent.WHEN_FOCUSED);
-		playerActionMap = new ActionMap();
-		playerActionMap = parentCanvas.getActionMap();
+		
+		// Setup player's sprite:
+		sprite = new PlayerSprite(null);
 
 		// Define Movement Actions:
 		// =======================
 		// =======================
-		
-		System.out.println("Defining actions to carry out...");
-		
-		// Move Left
-		playerActionMap.put("MOVELEFT", new AbstractAction() {
+
+		this.addListener(new InputListener() {
+			int currentX = 0;
+			int currentY = 0;
+
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				int currentX = 0;
+			public boolean keyDown(InputEvent event, int keycode) {
+				switch(keycode) {
+				case Keys.W:
+					System.out.println("Key 'w' (MOVE_UP) pressed!");
+					currentY = 0;
 
-				if(animationStage == 1)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
+					if(animationStage == 1)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_bk2.png"));
+					}
+
+					if(animationStage == 2)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_bk1.png"));
+					}
+
+					currentY = playerY;
+					playerY = playerY - speedY;
+					move(playerX,playerY,playerX,currentY);
+					break;
+				case Keys.A:
+					System.out.println("Key 'a' (MOVE_LEFT) pressed!");
+					currentX = 0;
+
+					if(animationStage == 1)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
+					}
+
+					if(animationStage == 2)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
+					}
+
+					currentX = playerX;
+					playerX = playerX - speedX;
+					move(playerX, playerY, currentX, playerY);
+
+					break;
+				case Keys.S:
+					System.out.println("Key 's' (MOVE_DOWN) pressed!");
+					currentY = 0;
+					if(animationStage == 1)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_fr2.png"));
+					}
+
+					if(animationStage == 2)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_fr1.png"));
+					}
+					currentY = playerY;
+					playerY = playerY + speedY;
+					move(playerX,playerY,playerX,currentY);
+					break;
+				case Keys.D:
+					System.out.println("Key 'd' (MOVE_RIGHT) pressed!");
+					currentX = 0;
+					if(animationStage == 1)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt2.png"));
+					}
+
+					if(animationStage == 2)
+					{
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
+						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
+					}
+
+					currentX = playerX;
+					playerX = playerX + speedX;
+					move(playerX,playerY,currentX,playerY);
+					break;
+				default:
+					System.out.println("Unassigned key with keycode " + Integer.toString(keycode) + " pressed!");
+					break;
 				}
 
-				if(animationStage == 2)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
-				}
-
-				currentX = playerX;
-				playerX = playerX - speedX;
-				move(playerX, playerY, currentX, playerY);
+				return true;
 			}
 		});
-
-		// Move Right
-		playerActionMap.put("MOVERIGHT", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				int currentX = 0;
-				if(animationStage == 1)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt2.png"));
-				}
-
-				if(animationStage == 2)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
-				}
-
-				currentX = playerX;
-				playerX = playerX + speedX;
-				move(playerX,playerY,currentX,playerY);
-			}
-		});
-
-		// Move Up
-		playerActionMap.put("MOVEUP", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int currentY = 0;
-
-				if(animationStage == 1)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk2.png"));
-				}
-
-				if(animationStage == 2)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_bk1.png"));
-				}
-
-				currentY = playerY;
-				playerY = playerY - speedY;
-				move(playerX,playerY,playerX,currentY);
-			} 
-		});
+	}
+	
+	public void setLocation(int oldX, int oldY) {
 		
-		// Move down
-		playerActionMap.put("MOVEDOWN", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int currentY = 0;
-				if(animationStage == 1)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr2.png"));
-				}
-
-				if(animationStage == 2)
-				{
-					sprite.setSpriteImage(getClass().getClassLoader().getResource("sprites/sprite_fr1.png"));
-				}
-				currentY = playerY;
-				playerY = playerY + speedY;
-				move(playerX,playerY,playerX,currentY);
-			}
-		});
+	}
+	
+	public void setSprite() {
 		
-		// Running
-		playerActionMap.put("RUN", new AbstractAction() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setSpeedX(4);
-				setSpeedY(4);
-			}
-		});
-		
-		// Bind actions to keys
-		System.out.println("Attempting to bind keys to actions....");
-		
-		// Arrow Keys
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "MOVELEFT"); // Move left
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "MOVERIGHT"); // Move right
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "MOVEDOWN");
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "MOVEUP");
-		
-		// WASD
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "MOVEUP"); // Move up
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "MOVELEFT"); // Move left
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), "MOVEDOWN"); // Move right
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "MOVERIGHT"); // Move down
-
-		// Running
-		playerKeyMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SHIFT, 0, false), "RUN"); // RUN!
-		
-		// Debug output
-		System.out.println("KEY BINDINGS INITIALISED SUCCESSFULLY.");
-
 	}
 
 	// Getter/setter methods
@@ -238,11 +229,11 @@ public class Player {
 		return this.level;
 	}
 
-	public boolean setName(String name)
+	public boolean setPlayerName(String name)
 	{
 		if(name != null)
 		{
-			sprite.setSpriteLabel(name);
+			sprite.setName(name);
 			return true;
 		}
 		else
@@ -251,40 +242,17 @@ public class Player {
 		}
 	}
 
-	public String getName()
-	{
-		return sprite.getSpriteLabel();
-	}
-
-	public boolean setSpriteImage(URL spriteSourceImageURL)
+	public boolean setspriteImage(URL spriteSourceImageURL)
 	{
 		if(spriteSourceImageURL != null)
 		{
-			sprite.setSpriteImage(spriteSourceImageURL);
+			sprite.setSprite(spriteSourceImageURL);
 			return true;
 		} 
 		else 
 		{
 			return false; // Couldn't update sprite. Probably invalid sprite given.
 		}		
-	}
-
-	public Sprite getSprite()
-	{
-		return sprite;
-	}
-
-	public boolean setSprite(Sprite sprite)
-	{
-		if(sprite != null)
-		{
-			this.sprite = sprite;
-			return true;
-		} 
-		else
-		{
-			return false;
-		}
 	}
 
 	public boolean setSpeedY(int speedY)
@@ -317,12 +285,12 @@ public class Player {
 			return false;
 		}
 	}
-	
-	public int getX() {
+
+	public int getPlayerX() {
 		return playerX;
 	}
-	
-	public int getY() {
+
+	public int getPlayerY() {
 		return playerY;
 	}
 
@@ -334,12 +302,7 @@ public class Player {
 		{
 			if(x < 870 && x > 20 && y < 460 && y > 20)
 			{
-				sprite.setLocation(x, y);
-				if(remote.isConnected() == true) {
-					remote.updatePlayerPosition(x, y);
-				}
-				sprite.revalidate();
-				sprite.repaint();
+				this.setLocation(x, y);
 			}
 			else
 			{
@@ -348,40 +311,28 @@ public class Player {
 				{
 					playerX = playerX - speedX;
 					x = playerX;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 
 				if( x <= 20)
 				{
 					playerX = playerX + speedX;
 					x = playerX;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 
 				if(y >= 460)
 				{
 					playerY = playerY - speedY;
 					y = playerY;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 
 				if(y <= 20)
 				{
 					playerY = playerY + speedY;
 					y = playerY;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 			}
 		}
@@ -390,10 +341,7 @@ public class Player {
 		{
 			if(y < 460 && y > 20 && x > 20 && x < 870)
 			{
-				sprite.setLocation(x,y);
-				if(remote.isConnected() == true) {
-					remote.updatePlayerPosition(x, y);
-				}
+				this.setLocation(x,y);
 			}
 			else
 			{
@@ -402,40 +350,28 @@ public class Player {
 				{
 					playerX = playerX - speedX;
 					x = playerX;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 
 				if( x <= 20)
 				{
 					playerX = playerX + speedX;
 					x = playerX;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 
 				if(y >= 460)
 				{
 					playerY = playerY - speedY;
 					y = playerY;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 
 				if(y <= 20)
 				{
 					playerY = playerY + speedY;
 					y = playerY;
-					sprite.setLocation(x,y);
-					if(remote.isConnected() == true) {
-						remote.updatePlayerPosition(x, y);
-					}
+					this.setLocation(x,y);
 				}
 			}
 		}
@@ -447,15 +383,13 @@ public class Player {
 		// Since as far as the user is concerned, the player is 
 		// essentially just a sprite, most of this function just
 		// manipulates the sprite's position on the map canvas.
-		playercanvas.add(getSprite());
-		getSprite().setVisible(true);
 		move(x,y,50,50);
 		playerX = x;
 		playerY = y;
-		
+
 		// Animation timer controls when the player's legs should move.
 		// Every *animationInterval*, it switches the current image.
-		
+
 		animationTimer = new Timer();
 		AnimationTask animationTask = new AnimationTask();
 		animationTimer.scheduleAtFixedRate(animationTask, 0,animationInterval);
