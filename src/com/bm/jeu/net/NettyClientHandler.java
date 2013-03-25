@@ -10,6 +10,11 @@ import org.jboss.netty.channel.Channels;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+<<<<<<< HEAD
+=======
+
+import com.bm.jeu.common.ef.Component;
+>>>>>>> branch 'testing' of https://github.com/BnMcG/Jeu.git
 
 public class NettyClientHandler extends SimpleChannelHandler {
 
