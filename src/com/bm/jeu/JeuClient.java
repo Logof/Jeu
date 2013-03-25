@@ -60,64 +60,28 @@ public class JeuClient implements ApplicationListener {
 		displayXSize = 900;
 		displayYSize = 550;
 		
-		/* MAP CANVAS
-		basecanvas = new BaseCanvas(); // Initiate a new instance of a canvas.
-		basecanvas.initCanvas(0, 0, 900, 550, this, Color.GREEN); // Set the BG colour to orange.
-		basecanvas.setOpaque(false);
-		terraincanvas = new TerrainCanvas(0,0,900,550);
-		terraincanvas.setTerrainResource(this.getClass().getClassLoader().getResource("terrain/grass.png"));
-		playercanvas = new PlayerCanvas(0,0,900,550); // Initiate a new instance of a canvas.
-		
-		// Create a new player on the map.
-		// Each player must 'belong' to a map (so that it's able to spawn).
-		
-		remote = new RemoteHandler();
-		System.out.println("Remote Handler initialized");
-		
-		playerHandler = new PlayerHandler(playercanvas,remote,this);
-		player1 = playerHandler.createPlayer(100, 1, "PLAYER",remote);
-		player1.spawn(427, 200, 100, 1, playercanvas,this);
-		
-		remote.attachPlayer(player1);
-		
-		uicanvas = new InterfaceCanvas(0, 0, 900, 550,this,player1,remote);
-		
-		terraincanvas.setOpaque(false);
-		basecanvas.setOpaque(false);
-		playercanvas.setOpaque(false);
-		uicanvas.setOpaque(false);
-		
-		terraincanvas.add(basecanvas);
-		basecanvas.add(playercanvas);
-		playercanvas.add(uicanvas);
-		
-		// Set the look & feel of the window to native.
-		try {
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException | UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		setTitle("Jeu");
-		this.setLayout(null);
-		setResizable(false);
-		setSize(displayXSize, displayYSize);
-		add(terraincanvas); // Add the base canvas.
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocationRelativeTo(null); // Center on screen */
-		
 		clientInstance = this;
 	}
 
 	@Override
 	public void create() {
+		
+		/*
+		 * Print a message in the console containing some information regarding the system that the Jeu client is running on.
+		 * This could be useful for debug and analytical purposes in the future.
+		 */
+		
+		System.out.println("Welcome to the Jeu RPG Engine Client!");
+		System.out.println("-------------------------------------");
+		System.out.println(" ");
+		System.out.println("Starting up on " + System.getProperty("os.name").toString() + " " +  System.getProperty("os.version").toString() +" (" + System.getProperty("os.arch") + ") with...");
+		System.out.println("Jeu RPG Engine v1.0 [UNSTABLE]");
+		System.out.println("Java (" + System.getProperty("java.vendor").toString() + ", " + System.getProperty("java.vendor.url").toString() + ") Version: " + System.getProperty("java.version").toString());
+		System.out.println("LWJGL / LibGDX " + Sys.getVersion());
+		System.out.println(" ");
+		
 		stage = new Stage(displayXSize,displayYSize,true);
 		Gdx.input.setInputProcessor(stage);
-		
-		System.out.println("Starting up with...");
-		System.out.println("LWJGL / LibGDX " + Sys.getVersion());
 		
 		textureHandler = new TextureHandler();
 		spriteBatch = textureHandler.getSpriteBatch();
@@ -129,7 +93,6 @@ public class JeuClient implements ApplicationListener {
 		stage.addActor(ta);
 		stage.addActor(player1);
 		stage.setKeyboardFocus(player1);
-		System.out.println(stage.getActors());
 	}
 
 	@Override

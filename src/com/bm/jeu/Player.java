@@ -1,38 +1,20 @@
 package com.bm.jeu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.AbstractAction;
-import javax.swing.ActionMap;
-import javax.swing.ImageIcon;
-import javax.swing.InputMap;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.bm.jeu.canvases.PlayerCanvas;
 import com.bm.jeu.net.RemoteHandler;
 
 import java.net.URL;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /***
  * 
- * @author BMagee
+ * @author BnMcG
  * 
  * This class is simply the struct for a player, it includes
  * the player's 'stats' or characteristics, the player's sprite, and getter/setter methods for those
@@ -54,10 +36,9 @@ class PlayerSprite extends Sprite {
 		this.texture = textureHandle.getTexturePlayer();
 		this.setSize(32, 32);
 		this.setPosition(30, 30);
-		textureHandle.drawSprite(this);
 	}
 
-	public void setSprite(URL url) {
+	public void setTexture(Texture texture) {
 
 	}
 
@@ -89,7 +70,6 @@ public class Player extends Actor {
 	private boolean MOVING_UP;
 	private boolean MOVING_DOWN;
 
-	private RemoteHandler remote;
 	private TextureHandler textures;
 	private JeuSpriteBatch spriteBatch;
 
@@ -102,19 +82,13 @@ public class Player extends Actor {
 
 	// CONSTRUCTOR
 
-	public Player(RemoteHandler remote, TextureHandler textures) {
-		this.remote = remote;
+	public Player(TextureHandler textures) {
 		this.textures = textures;
 
 		spriteBatch = textures.getSpriteBatch();
 
 		// Setup player's sprite:
 		sprite = new PlayerSprite(textures.getTexturePlayer(),textures);
-
-		// Add the player to the render queue for players. The player should now be rendered
-		// each frame.
-
-		spriteBatch.addToPlayerRenderQueue(this);
 
 		// Define Movement Actions:
 		// =======================
@@ -456,6 +430,11 @@ public class Player extends Actor {
 		move(x,y,0,0);
 		playerX = x;
 		playerY = y;
+
+		// Add the player to the render queue for players. The player should now be rendered
+		// each frame.
+
+		spriteBatch.addToPlayerRenderQueue(this);
 
 		/*
 		 * The animation timer runs every *animationInterval* milliseconds, and switches

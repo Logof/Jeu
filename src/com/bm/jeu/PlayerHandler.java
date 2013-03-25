@@ -23,7 +23,7 @@ public class PlayerHandler {
 	
 	public Player createPlayer(int hp, int level, String name, RemoteHandler remote)
 	{
-		Player newPlayer = new Player(remote,textures);
+		Player newPlayer = new Player(textures);
 
 		// Set different player stats
 		newPlayer.setName(name);
@@ -31,6 +31,8 @@ public class PlayerHandler {
 		newPlayer.setLevel(level);
 		newPlayer.setSpeedX(2);
 		newPlayer.setSpeedY(2);
+		
+		newPlayer.spawn(450, 275, newPlayer.getHp(), newPlayer.getLevel()); // Spawn the player in the centre of the map.
 
 		return newPlayer;
 	}

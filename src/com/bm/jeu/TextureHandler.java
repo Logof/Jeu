@@ -94,7 +94,7 @@ public class TextureHandler {
 	 * Player Texture(s)
 	 */
 	
-	public Texture getTexturePlayer() {
+	public Texture getTexturePlayer(int animationStage,String direction) {
 		if(texturePlayer == null) {
 			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_fr1.png"));
 			return texturePlayer;
