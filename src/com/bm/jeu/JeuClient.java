@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
 
@@ -41,7 +42,7 @@ public class JeuClient implements ApplicationListener {
 	InterfaceCanvas uicanvas;
 	
 	TextureHandler textureHandler;
-	SpriteBatch spriteBatch;
+	JeuSpriteBatch spriteBatch;
 	
 	RemoteHandler remote;
 	
@@ -141,8 +142,12 @@ public class JeuClient implements ApplicationListener {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT); // Apparently this clears the screen!
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
+		
+		spriteBatch.begin();
+		spriteBatch.drawQueues();
+		spriteBatch.end();
 
-		Display.setTitle("Jeu LibGDX Port - FPS: " + 	Gdx.graphics.getFramesPerSecond());
+		Display.setTitle("Jeu LibGDX Port - FPS: " + 	Gdx.graphics.getFramesPerSecond() + " [UNSTABLE]");
 	}
 
 	@Override

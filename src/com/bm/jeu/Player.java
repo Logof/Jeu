@@ -16,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -48,16 +49,24 @@ import java.util.TimerTask;
  */
 
 class PlayerSprite extends Sprite {
-	public PlayerSprite(Texture spriteTexture) {
-		
+	private Texture texture;
+	public PlayerSprite(Texture spriteTexture, TextureHandler textureHandle) {
+		this.texture = textureHandle.getTexturePlayer();
+		this.setSize(32, 32);
+		this.setPosition(30, 30);
+		textureHandle.drawSprite(this);
 	}
-	
+
 	public void setSprite(URL url) {
-		
+
 	}
-	
+
+	public Texture getTexture() {
+		return texture;
+	}
+
 	public void setName(String name) {
-		
+
 	}
 }
 
@@ -71,7 +80,18 @@ public class Player extends Actor {
 	private int speedX;
 	private int speedY;
 
+	/* Movement flags - in capitals as they are flags
+	 When a flag is true and the appropriate method is called (eg: moveLeft()) - the player will continue
+	 to move left until the flag is set to false again. */
+
+	private boolean MOVING_LEFT;
+	private boolean MOVING_RIGHT;
+	private boolean MOVING_UP;
+	private boolean MOVING_DOWN;
+
 	private RemoteHandler remote;
+	private TextureHandler textures;
+	private JeuSpriteBatch spriteBatch;
 
 	// The stage in the movement animation. 
 	// Controls changing between version one and two of a sprite.
@@ -84,9 +104,17 @@ public class Player extends Actor {
 
 	public Player(RemoteHandler remote, TextureHandler textures) {
 		this.remote = remote;
-		
+		this.textures = textures;
+
+		spriteBatch = textures.getSpriteBatch();
+
 		// Setup player's sprite:
-		sprite = new PlayerSprite(null);
+		sprite = new PlayerSprite(textures.getTexturePlayer(),textures);
+
+		// Add the player to the render queue for players. The player should now be rendered
+		// each frame.
+
+		spriteBatch.addToPlayerRenderQueue(this);
 
 		// Define Movement Actions:
 		// =======================
@@ -119,21 +147,8 @@ public class Player extends Actor {
 					break;
 				case Keys.A:
 					System.out.println("Key 'a' (MOVE_LEFT) pressed!");
-					currentX = 0;
-
-					if(animationStage == 1)
-					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
-					}
-
-					if(animationStage == 2)
-					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
-					}
-
-					currentX = playerX;
-					playerX = playerX - speedX;
-					move(playerX, playerY, currentX, playerY);
+					MOVING_LEFT = true;
+					moveLeft();
 
 					break;
 				case Keys.S:
@@ -180,15 +195,27 @@ public class Player extends Actor {
 
 				return true;
 			}
+
+			// Key up
+			@Override
+			public boolean keyUp(InputEvent event, int keycode) {
+				MOVING_LEFT = false;
+				System.out.println("Not moving!");
+				return true;
+			}
 		});
 	}
-	
+
 	public void setLocation(int oldX, int oldY) {
-		
+
 	}
-	
+
 	public void setSprite() {
-		
+
+	}
+
+	public Sprite getSprite() {
+		return sprite;
 	}
 
 	// Getter/setter methods
@@ -296,6 +323,21 @@ public class Player extends Actor {
 
 	// Interaction methods
 	// *******************
+
+	/***
+	 * move(...) is a relatively low-level method in the Player class. It handles bounds checking
+	 * and the actual movement of the player. 
+	 * 
+	 * The best way to move a player is by using one of other move() methods - 
+	 * eg: moveLeft(), moveRight(), which call the move(...) method themselves, and handle all the arguments necessary rather 
+	 * than trying to interact with this method directly.
+	 *  
+	 * @param x - The X coordinate the player should move to
+	 * @param y - The Y coordinate the player should move to
+	 * @param oldX - The player's current X coordinate
+	 * @param oldY - The player's current Y coordinate.
+	 */
+
 	public void move(int x, int y, int oldX, int oldY)
 	{
 		if(playerX != oldX)
@@ -377,18 +419,48 @@ public class Player extends Actor {
 		}
 	}
 
-	public void spawn(int x, int y, int hp, int level, PlayerCanvas playercanvas)
+	public void moveLeft() {
+		int currentX = 0;
+
+		if(animationStage == 1)
+		{
+			sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
+		}
+
+		if(animationStage == 2)
+		{
+			sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
+		}
+
+		currentX = playerX;
+		playerX = playerX - speedX;
+		move(playerX, playerY, currentX, playerY);
+		System.out.println("Moved left!");
+	}
+
+	/***
+	 * Spawns this player - placing them on the map and giving them HP and a level.
+	 * 
+	 * @param x - X coordinate to spawn the player at.
+	 * @param y - Y coordinate to spawn the player at.
+	 * @param hp - HP to give the player at spawn.
+	 * @param level - Level to give the player at spawn
+	 */
+
+	public void spawn(int x, int y, int hp, int level)
 	{
 		// Draws the player at a certain position on the map.
 		// Since as far as the user is concerned, the player is 
 		// essentially just a sprite, most of this function just
 		// manipulates the sprite's position on the map canvas.
-		move(x,y,50,50);
+		move(x,y,0,0);
 		playerX = x;
 		playerY = y;
 
-		// Animation timer controls when the player's legs should move.
-		// Every *animationInterval*, it switches the current image.
+		/*
+		 * The animation timer runs every *animationInterval* milliseconds, and switches
+		 * the player's sprite image between two states, simulating a walking effect.
+		 */
 
 		animationTimer = new Timer();
 		AnimationTask animationTask = new AnimationTask();
@@ -398,6 +470,16 @@ public class Player extends Actor {
 		setHp(hp);
 		setLevel(level);
 	}
+
+	/***
+	 * 
+	 * This class is used by the timer to handle the player's walking animation.
+	 * The method changes the animation stage between 1 and 2 - each stage has
+	 * its own image, and this creates a 'walking' effect. 
+	 * 
+	 * @author bmagee
+	 *
+	 */
 
 	class AnimationTask extends TimerTask
 	{

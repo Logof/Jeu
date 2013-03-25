@@ -2,6 +2,7 @@ package com.bm.jeu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /***
@@ -16,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class TextureHandler {
 	private Texture textureGrass;
 	private Texture texturePlayer;
-	private SpriteBatch textureHandlerSpriteBatch;
+	private JeuSpriteBatch textureHandlerSpriteBatch;
 	
 	public TextureHandler() {
 		// Constructor, we may need to use this later in development for something!
@@ -34,13 +35,19 @@ public class TextureHandler {
 	 * @return SpriteBatch - textureHandlerSpriteBatch.
 	 */
 	
-	public SpriteBatch getSpriteBatch() {
+	public JeuSpriteBatch getSpriteBatch() {
 		if(textureHandlerSpriteBatch != null) {
 			return textureHandlerSpriteBatch;
 		} else {
-			textureHandlerSpriteBatch = new SpriteBatch();
+			textureHandlerSpriteBatch = new JeuSpriteBatch();
 			return textureHandlerSpriteBatch;
 		}
+	}
+	
+	public void drawSprite(Sprite sprite) {
+		textureHandlerSpriteBatch.begin();
+		textureHandlerSpriteBatch.draw(sprite.getTexture(), 30, 30, 32, 32);
+		textureHandlerSpriteBatch.end();
 	}
 	
 	/*
