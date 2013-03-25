@@ -1,8 +1,10 @@
 package com.bm.jeu.common.ef;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
-public class MachineManager implements ManagerInterface<Machine> {
+public class MachineManager implements ComponentListener, ManagerInterface<Machine> {
 	
 	/* Here is the instance of the Singleton */
 	private static MachineManager instance_;
@@ -10,6 +12,8 @@ public class MachineManager implements ManagerInterface<Machine> {
 	/* Need the following object to synchronize */
 	/* a block */
 	private static Object syncObject_;
+	
+	private static List<Machine> machines_;
 
 	
 	//here should be some sort of Threadpool that runs the Machines
@@ -17,6 +21,7 @@ public class MachineManager implements ManagerInterface<Machine> {
 	// Prevent direct access to the constructor
 	private MachineManager() {
 		super();
+		machines_ = new LinkedList<Machine>();
 	}
 
 	public static MachineManager getinstance() {
@@ -83,6 +88,18 @@ public class MachineManager implements ManagerInterface<Machine> {
 
 	@Override
 	public void shutdown() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentAddedEvent(Component component) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentRemovedEvent(Component component) {
 		// TODO Auto-generated method stub
 		
 	}
