@@ -30,13 +30,15 @@ public class Entity {
 		// type allowed (per entity) this is a designchoice and doesn't limit us
 		// that much but results in much cleaner design
 		this.components_.put(Component.class.getName(), component);
+		ComponentEventHandler.fireComponentAdded(component);
 	}
 	
 	public void removeComponent(Component component){
-		this.components_.remove(component.getClass().getName());
+		removeComponent(component.getClass().getName());
 	}
 	
 	public void removeComponent(String type){
+		ComponentEventHandler.fireComponentRemoved(this.components_.get(type));
 		this.components_.remove(type);
 	}
 	
@@ -44,7 +46,7 @@ public class Entity {
 	public void removeComponent(UUID id){
 		for(Entry<String, Component> entry : this.components_.entrySet()){
 			if(entry.getValue().getId().compareTo(id)==0){
-				this.components_.remove(entry.getKey());
+				removeComponent(entry.getKey());
 			}
 		}
 	}
