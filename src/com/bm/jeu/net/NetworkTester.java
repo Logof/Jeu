@@ -2,9 +2,9 @@ package com.bm.jeu.net;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.bm.jeu.net.helpers.Component;
-import com.bm.jeu.net.helpers.ComponentRecievedListener;
-import com.bm.jeu.net.helpers.TestComponent;
+import com.bm.jeu.common.ef.Component;
+import com.bm.jeu.common.ef.TestComponent;
+import com.bm.jeu.common.net.ComponentRecievedListener;
 
 public class NetworkTester implements ComponentRecievedListener, Runnable {
 

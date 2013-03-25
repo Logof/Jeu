@@ -10,7 +10,7 @@ import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
-import com.bm.jeu.net.helpers.Component;
+import com.bm.jeu.common.ef.Component;
 
 public class NettyClientHandler extends SimpleChannelHandler {
 

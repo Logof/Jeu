@@ -3,12 +3,13 @@ package com.bm.jeu.net;
 import org.jboss.netty.channel.ChannelPipeline;
 import static org.jboss.netty.channel.Channels.pipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
-import com.bm.jeu.net.helpers.EnvelopeByteDecoder;
-import com.bm.jeu.net.helpers.EnvelopeByteEncoder;
-import com.bm.jeu.net.helpers.EnvelopePackageDecoder;
-import com.bm.jeu.net.helpers.EnvelopePackageEncoder;
-import com.bm.jeu.net.helpers.XMLDecoder;
-import com.bm.jeu.net.helpers.XMLEncoder;
+
+import com.bm.jeu.common.net.EnvelopeByteDecoder;
+import com.bm.jeu.common.net.EnvelopeByteEncoder;
+import com.bm.jeu.common.net.EnvelopePackageDecoder;
+import com.bm.jeu.common.net.EnvelopePackageEncoder;
+import com.bm.jeu.common.net.XMLDecoder;
+import com.bm.jeu.common.net.XMLEncoder;
 
 public class NettyClientPipelineFactory implements ChannelPipelineFactory {
 

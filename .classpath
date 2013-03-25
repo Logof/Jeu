@@ -3,9 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="C:/libs/java/netty-3.6.2.Final/jar/netty-3.6.2.Final.jar" sourcepath="C:/libs/java/netty-3.6.2.Final/jar/netty-3.6.2.Final-sources.jar">
+	<classpathentry kind="lib" path="C:/libs/java/netty-3.6.3.Final/jar/netty-3.6.3.Final.jar" sourcepath="C:/libs/java/netty-3.6.3.Final/jar/netty-3.6.3.Final-sources.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/libs/java/netty-3.6.2.Final/doc/"/>
+			<attribute name="javadoc_location" value="file:/C:/libs/java/netty-3.6.3.Final/doc/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/libs/java/libgdx-0.9.8/gdx-backend-lwjgl.jar" sourcepath="C:/libs/java/libgdx-0.9.8/sources/gdx-backend-lwjgl-sources.jar"/>

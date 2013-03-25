@@ -3,8 +3,8 @@ package com.bm.jeu.net;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bm.jeu.net.helpers.Component;
-import com.bm.jeu.net.helpers.ComponentRecievedListener;
+import com.bm.jeu.common.ef.Component;
+import com.bm.jeu.common.net.ComponentRecievedListener;
 
 public class ComponentRecievedHandler {
 
