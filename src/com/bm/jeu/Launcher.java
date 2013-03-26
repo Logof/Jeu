@@ -34,7 +34,7 @@ public class Launcher extends JFrame {
 		validate();
 		setUndecorated(true);
 		setLayout(null);
-		JLabel version = new JLabel("Version 0.1");
+		JLabel version = new JLabel("Version 0.1 [ALPHA]");
 		version.setBounds(230, 100, 100, 100);
 		add(version);
 
@@ -48,6 +48,7 @@ public class Launcher extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			launcher.dispose();
+			launcherDisplaySequence.stop();
 			LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 			cfg.title = "Jeu LibGDX Port";
 			cfg.useGL20 = true;

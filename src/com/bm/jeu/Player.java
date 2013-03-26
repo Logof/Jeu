@@ -107,65 +107,23 @@ public class Player extends Actor {
 				switch(keycode) {
 				case Keys.W:
 					System.out.println("Key 'w' (MOVE_UP) pressed!");
-					currentY = 0;
-					if(animationStage == 1)
-					{
-						System.out.println("Animation Stage 1!");
-						sprite.setTexture(textures.getTexturePlayer(2, "down"));
-					}
-
-					if(animationStage == 2)
-					{
-						System.out.println("Animation Stage 2!");
-						sprite.setTexture(textures.getTexturePlayer(1, "down"));
-					}
-					currentY = playerY;
-					playerY = playerY + speedY;
-					move(playerX,playerY,playerX,currentY);
+					MOVING_UP = true;
+					moveUp();
 					break;
 				case Keys.A:
 					System.out.println("Key 'a' (MOVE_LEFT) pressed!");
 					MOVING_LEFT = true;
 					moveLeft();
-
 					break;
 				case Keys.S:
 					System.out.println("Key 's' (MOVE_DOWN) pressed!");
-					currentY = 0;
-
-					if(animationStage == 1)
-					{
-						sprite.setTexture(textures.getTexturePlayer(2, "up"));
-					}
-
-					if(animationStage == 2)
-					{
-						sprite.setTexture(textures.getTexturePlayer(1,"up"));
-					}
-
-					currentY = playerY;
-					playerY = playerY - speedY;
-					move(playerX,playerY,playerX,currentY);
+					MOVING_DOWN = true;
+					moveDown();
 					break;
 				case Keys.D:
 					System.out.println("Key 'd' (MOVE_RIGHT) pressed!");
-					currentX = 0;
-					if(animationStage == 1)
-					{
-						sprite.setTexture(textures.getTexturePlayer(2, "right"));
-					}
-
-					if(animationStage == 2)
-					{
-						sprite.setTexture(textures.getTexturePlayer(1, "right"));
-					}
-
-					currentX = playerX;
-					playerX = playerX + speedX;
-					move(playerX,playerY,currentX,playerY);
-					break;
-				default:
-					System.out.println("Unassigned key with keycode " + Integer.toString(keycode) + " pressed!");
+					MOVING_RIGHT = true;
+					moveRight();					
 					break;
 				}
 
@@ -400,6 +358,61 @@ public class Player extends Actor {
 		move(playerX, playerY, currentX, playerY);
 		System.out.println("Moved left!");
 	}
+	
+	public void moveRight() {
+		int currentX = 0;
+		
+		if(animationStage == 1)
+		{
+			sprite.setTexture(textures.getTexturePlayer(2, "right"));
+		}
+
+		if(animationStage == 2)
+		{
+			sprite.setTexture(textures.getTexturePlayer(1, "right"));
+		}
+
+		currentX = playerX;
+		playerX = playerX + speedX;
+		move(playerX,playerY,currentX,playerY);
+	}
+	
+	public void moveUp() {
+		int currentY = 0;
+		
+		if(animationStage == 1)
+		{
+			System.out.println("Animation Stage 1!");
+			sprite.setTexture(textures.getTexturePlayer(2, "up"));
+		}
+
+		if(animationStage == 2)
+		{
+			System.out.println("Animation Stage 2!");
+			sprite.setTexture(textures.getTexturePlayer(1, "up"));
+		}
+		currentY = playerY;
+		playerY = playerY + speedY;
+		move(playerX,playerY,playerX,currentY);
+	}
+	
+	public void moveDown() {
+		int currentY = 0;
+
+		if(animationStage == 1)
+		{
+			sprite.setTexture(textures.getTexturePlayer(2, "down"));
+		}
+
+		if(animationStage == 2)
+		{
+			sprite.setTexture(textures.getTexturePlayer(1,"down"));
+		}
+
+		currentY = playerY;
+		playerY = playerY - speedY;
+		move(playerX,playerY,playerX,currentY);
+	}
 
 	/***
 	 * Spawns this player - placing them on the map and giving them HP and a level.
@@ -420,8 +433,9 @@ public class Player extends Actor {
 		playerX = x;
 		playerY = y;
 
-		// Add the player to the render queue for players. The player should now be rendered
-		// each frame.
+		/* Add the player to the render queue for players. The player should now be rendered
+		 * each frame. We don't need to call this again each time we update the texture when animating, because
+		 * we pass an instance of the player to the render queue, and not the individual texture itself! */
 
 		spriteBatch.addToPlayerRenderQueue(this);
 
