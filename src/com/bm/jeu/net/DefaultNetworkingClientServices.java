@@ -8,4 +8,5 @@ public interface DefaultNetworkingClientServices {
 	public void connect(String host, int port);
 	public void send(Object message);
 	public void disconnect();
+	public boolean isConnected();
 }

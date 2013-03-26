@@ -2,6 +2,7 @@ package com.bm.jeu.common.ef;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,6 +16,14 @@ public class Entity {
 	public Entity() {
 		//does this need to be concurrent? it's not the fastest kind of map but at least it's sure to be threadsafe.
 		components_ = new ConcurrentHashMap<String, Component>();
+		setId(UUID.randomUUID());
+		EntityManager.getinstance().add(this);
+	}
+	
+	public Entity(UUID id){
+		setId(id);
+		components_ = new ConcurrentHashMap<String, Component>();
+		EntityManager.getinstance().add(this);
 	}
 
 	public UUID getId() {
@@ -29,8 +38,21 @@ public class Entity {
 		// this means there is only 1 of the same component type at the same
 		// type allowed (per entity) this is a designchoice and doesn't limit us
 		// that much but results in much cleaner design
-		this.components_.put(Component.class.getName(), component);
+		component.setENTITYID(id);
+		this.components_.put(component.getClass().getName(), component);
 		ComponentEventHandler.fireComponentAdded(component);
+	}
+	
+	public Component getComponent(String type){
+		return components_.get(type);
+	}
+	
+	public Component getComponent(Class<? extends Component> type){
+		return getComponent(type.getName());
+	}
+	
+	public Component getComponent(Component component){
+		return getComponent(component.getClass());
 	}
 	
 	public void removeComponent(Component component){
@@ -49,6 +71,15 @@ public class Entity {
 				removeComponent(entry.getKey());
 			}
 		}
+	}
+	
+	public Set<String> getComponentTypes(){
+		return components_.keySet();
+	}
+
+	@Override
+	public String toString() {
+		return "Entity [id=" + id + ", components_=" + components_ + "]";
 	}
 
 }

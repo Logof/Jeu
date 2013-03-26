@@ -11,7 +11,7 @@ public class EntityManager implements ManagerInterface<Entity> {
 
 	/* Need the following object to synchronize */
 	/* a block */
-	private static Object syncObject_;
+	private static Object syncObject_ = new Object();
 
 	private static Map<UUID, Entity> entities_;
 
@@ -46,24 +46,19 @@ public class EntityManager implements ManagerInterface<Entity> {
 	@Override
 	public void add(Entity element) {
 		entities_.put(element.getId(), element);
+		EntityEventHandler.fireEntityAdded(element);
 
-	}
-
-	public void addComponent(Component component) {
-		Entity buffer = get(component.getENTITYID());
-		if (buffer != null) {
-			buffer.addComponent(component);
-		}
 	}
 
 	@Override
 	public void remove(UUID id) {
+		EntityEventHandler.fireEntityRemoved(entities_.get(id));
 		entities_.remove(id);
 	}
 
 	@Override
 	public void remove(Entity element) {
-		entities_.remove(element.getId());
+		remove(element.getId());
 
 	}
 

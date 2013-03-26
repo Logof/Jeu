@@ -1,27 +1,37 @@
 package com.bm.jeu.common.ef;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class MachineManager implements ComponentListener, ManagerInterface<Machine> {
-	
+public class MachineManager implements ComponentListener, EntityListener, ManagerInterface<Machine> {
+
 	/* Here is the instance of the Singleton */
 	private static MachineManager instance_;
 
+	private static EntityManager em_;
+
 	/* Need the following object to synchronize */
 	/* a block */
-	private static Object syncObject_;
-	
-	private static List<Machine> machines_;
+	private static Object syncObject_ = new Object();
 
-	
-	//here should be some sort of Threadpool that runs the Machines
+	private static Map<UUID, Machine> machines_;
+
+	// here should be some sort of Threadpool that runs the Machines
+
+	private static ExecutorService pool_;
 
 	// Prevent direct access to the constructor
 	private MachineManager() {
 		super();
-		machines_ = new LinkedList<Machine>();
+		em_ = EntityManager.getinstance();
+		pool_ = Executors.newFixedThreadPool(1);
+		machines_ = new ConcurrentHashMap<UUID, Machine>();
+		ComponentEventHandler.registerDataChangeListener(this);
+		EntityEventHandler.registerDataChangeListener(this);
 	}
 
 	public static MachineManager getinstance() {
@@ -43,65 +53,87 @@ public class MachineManager implements ComponentListener, ManagerInterface<Machi
 		}
 		return instance_;
 	}
+	
+	//TODO: getting components that are already present when machine is added!!
 
 	@Override
 	public void add(Machine element) {
-		// TODO Auto-generated method stub
-		
+		machines_.put(element.getId(), element);
+
 	}
 
 	@Override
 	public void remove(Machine element) {
-		// TODO Auto-generated method stub
-		
+		remove(element.getId());
+
 	}
 
 	@Override
 	public void remove(UUID id) {
-		// TODO Auto-generated method stub
-		
+		machines_.remove(id);
 	}
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return machines_.size();
 	}
 
 	@Override
 	public Machine get(Machine element) {
-		// TODO Auto-generated method stub
-		return null;
+		return get(element.getId());
 	}
 
 	@Override
 	public Machine get(UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+		return machines_.get(id);
 	}
 
 	@Override
 	public void update(int delta) {
-		// TODO Auto-generated method stub
-		
+		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
+			pool_.execute(entry.getValue());
+		}
 	}
 
 	@Override
 	public void shutdown() {
-		// TODO Auto-generated method stub
-		
+		pool_.shutdown();
+		while (!pool_.isTerminated()) {
+		}
+
 	}
 
 	@Override
 	public void componentAddedEvent(Component component) {
-		// TODO Auto-generated method stub
-		
+		Entity buffer = em_.get(component.getENTITYID());
+		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
+			entry.getValue().addEntity(buffer);
+		}
 	}
 
 	@Override
 	public void componentRemovedEvent(Component component) {
-		// TODO Auto-generated method stub
-		
+		Entity buffer = em_.get(component.getENTITYID());
+		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
+			entry.getValue().removeIfObsolete(buffer);
+		}
+
+	}
+
+	@Override
+	public void EntityAddedEvent(Entity entity) {
+		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
+			entry.getValue().addEntity(entity);
+		}
+
+	}
+
+	@Override
+	public void EntityRemovedEvent(Entity entity) {
+		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
+			entry.getValue().removeEntity(entity);
+		}
+
 	}
 
 }

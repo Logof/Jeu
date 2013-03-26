@@ -21,6 +21,10 @@ public class NettyClient implements DefaultNetworkingClientServices {
 		this.PORT = port;
 		setup();
 	}
+	
+	public NettyClient(){
+		setup();
+	}
 
 	private void setup() {
 		bootstrap = new ClientBootstrap(new NioClientSocketChannelFactory(Executors.newCachedThreadPool(), Executors.newCachedThreadPool()));
@@ -28,6 +32,22 @@ public class NettyClient implements DefaultNetworkingClientServices {
 		// Configure the pipeline factory.
 		bootstrap.setPipelineFactory(new NettyClientPipelineFactory());
 
+	}
+
+	public String getHOST() {
+		return HOST;
+	}
+
+	public void setHOST(String host) {
+		HOST = host;
+	}
+
+	public int getPORT() {
+		return PORT;
+	}
+
+	public void setPORT(int port) {
+		PORT = port;
 	}
 
 	@Override
@@ -43,8 +63,9 @@ public class NettyClient implements DefaultNetworkingClientServices {
 
 	@Override
 	public void connect(String host, int port) {
-		// TODO Auto-generated method stub
-
+		setHOST(host);
+		setPORT(port);
+		connect();
 	}
 
 	@Override
@@ -70,6 +91,7 @@ public class NettyClient implements DefaultNetworkingClientServices {
 
 	}
 
+	@Override
 	public boolean isConnected(){
 		return clientConnection.isConnected();
 	}
