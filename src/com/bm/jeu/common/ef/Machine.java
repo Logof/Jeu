@@ -116,7 +116,10 @@ public abstract class Machine implements Runnable {
 	@Override
 	public final void run() {
 		for (Entry<UUID, Entity> entry : entities_.entrySet()) {
-			processEntities(entry.getValue());
+			Entity buffer = entry.getValue();
+			if (buffer != null) {
+				processEntities(buffer);
+			}
 		}
 	}
 }

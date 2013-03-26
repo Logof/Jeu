@@ -2,7 +2,6 @@ package com.bm.jeu.common.ef;
 
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Component {
 	private UUID id;
@@ -42,12 +41,12 @@ public class Component {
 	//the following part is Concurrency related
 	
 	public void lock(){
-		System.out.println("LOCK");
+//		System.out.println("LOCK");
 		this.lock.lock();
 	}
 	
 	public void unlock(){
-		System.out.println("UNLOCK");
+//		System.out.println("UNLOCK");
 		this.lock.unlock();
 	}
 }
