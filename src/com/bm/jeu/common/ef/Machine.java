@@ -107,6 +107,20 @@ public abstract class Machine implements Runnable {
 		entities_.remove(id);
 	}
 
+	public final void lockInterests(Entity entity) {
+		for (String interest : getInterests()) {
+			Component buff = entity.getComponent(interest);
+			buff.lock();
+		}
+	}
+
+	public final void unlockInterests(Entity entity) {
+		for (String interest : getInterests()) {
+			Component buff = entity.getComponent(interest);
+			buff.unlock();
+		}
+	}
+
 	// This method will be used to change components according to the machines
 	// purpose. I.e. changing X or Y position components etc.
 	public abstract void processEntities(Entity entity);
@@ -117,9 +131,18 @@ public abstract class Machine implements Runnable {
 	public final void run() {
 		for (Entry<UUID, Entity> entry : entities_.entrySet()) {
 			Entity buffer = entry.getValue();
-			if (buffer != null) {
-				processEntities(buffer);
+			if (buffer != null && checkInterests(buffer)) {
+				lockInterests(buffer);
+				try {
+					processEntities(buffer);
+				} finally {
+					unlockInterests(buffer);
+				}
+				// System.out.println(buffer);
+
 			}
+
 		}
+
 	}
 }

@@ -2,6 +2,9 @@ package com.bm.jeu.common.ef;
 
 public class MovementMachine extends Machine {
 	
+	long threadid;
+	boolean holdslock;
+	
 	public MovementMachine(){
 		addInterest(MovementComponent.class);
 		addInterest(PositionComponent.class);
@@ -13,9 +16,6 @@ public class MovementMachine extends Machine {
 		MovementComponent mc = (MovementComponent) entity.getComponent(MovementComponent.class);
 
 		PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class);
-		mc.lock();
-		
-		pc.lock();
 //		System.out.println(mc + " - " + Thread.currentThread().getId());
 		
 		switch(mc.getDirection()){
@@ -27,8 +27,6 @@ public class MovementMachine extends Machine {
 			break;
 		}
 //		System.out.println(pc + ";" + mc);
-		mc.unlock();
-		pc.unlock();
 		
 	}
 

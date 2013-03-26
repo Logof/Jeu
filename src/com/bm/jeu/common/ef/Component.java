@@ -42,11 +42,20 @@ public class Component {
 	
 	public void lock(){
 //		System.out.println("LOCK");
-		this.lock.lock();
+		if(!this.lock.hasQueuedThread(Thread.currentThread())){
+			this.lock.lock();
+		}
 	}
 	
 	public void unlock(){
 //		System.out.println("UNLOCK");
-		this.lock.unlock();
+		if(this.lock.isHeldByCurrentThread()){
+			this.lock.unlock();
+		}
+		
+	}
+	
+	public boolean checkLock(){
+		return this.lock.isLocked();
 	}
 }

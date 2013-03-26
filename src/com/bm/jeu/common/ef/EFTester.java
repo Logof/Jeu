@@ -16,21 +16,22 @@ public class EFTester {
 		long start = System.currentTimeMillis();
 		for (int y = -1; y < 2; ++y) {
 			test.addComponent(new MovementComponent(y));
-			for (int i = 0; i < 1000000; i++) {
+			for (int i = 0; i < 100000; i++) {
 //				System.out.println(test);
 				MachineManager.getinstance().update(1);
 			}
 			
 			//TODO: solve concurrency problem!!
 			
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			
 		}
 		long end = System.currentTimeMillis();
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		MachineManager.getinstance().shutdown();
 		System.out.println(end-start);

@@ -84,6 +84,7 @@ public class JeuClient implements ApplicationListener {
 		System.out.println(" ");
 		
 		stage = new Stage(displayXSize,displayYSize,true);
+		
 		Gdx.input.setInputProcessor(stage);
 		
 		textureHandler = new TextureHandler();
