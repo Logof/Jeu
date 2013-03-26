@@ -29,8 +29,8 @@ public class PlayerHandler {
 		newPlayer.setName(name);
 		newPlayer.setHp(hp);
 		newPlayer.setLevel(level);
-		newPlayer.setSpeedX(2);
-		newPlayer.setSpeedY(2);
+		newPlayer.setSpeedX(100);
+		newPlayer.setSpeedY(100);
 		
 		newPlayer.spawn(450, 275, newPlayer.getHp(), newPlayer.getLevel()); // Spawn the player in the centre of the map.
 

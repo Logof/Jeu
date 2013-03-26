@@ -47,15 +47,17 @@ public class Launcher extends JFrame {
 	static class TimerTask implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			launcher.dispose();
-			launcherDisplaySequence.stop();
+			launcher.dispose(); // Get rid of the launcher window.
+			launcherDisplaySequence.stop(); // Stop the timer, stops an OpenAL exception which occurred when the client opened, because the timer tried to open the client window twice!
 			LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 			cfg.title = "Jeu LibGDX Port";
 			cfg.useGL20 = true;
 			cfg.width = 900;
 			cfg.height = 500;
+			// These two flags stop framerate capping on newer systems.
 			cfg.useCPUSynch = false;
 			cfg.vSyncEnabled = false;
+			// Stops the user resizing the window, since the graphics won't scale.
 			cfg.resizable = false;
 			new LwjglApplication(new JeuClient(), cfg);
 		}

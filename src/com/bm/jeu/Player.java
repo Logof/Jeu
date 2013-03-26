@@ -1,14 +1,13 @@
 package com.bm.jeu;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.bm.jeu.net.RemoteHandler;
 
-import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -56,8 +55,8 @@ public class Player extends Actor {
 	private PlayerSprite sprite;
 	private int hp;
 	private int level;
-	private int playerX;
-	private int playerY;
+	private float playerX;
+	private float playerY;
 	private int speedX;
 	private int speedY;
 
@@ -133,14 +132,26 @@ public class Player extends Actor {
 			// Key up
 			@Override
 			public boolean keyUp(InputEvent event, int keycode) {
-				MOVING_LEFT = false;
-				System.out.println("Not moving!");
+				switch(keycode) {
+				case Keys.W:
+					MOVING_UP = true;
+					break;
+				case Keys.A:
+					MOVING_LEFT = true;
+					break;
+				case Keys.S:
+					MOVING_DOWN = true;
+					break;
+				case Keys.D:
+					MOVING_RIGHT = true;
+					break;
+				}
 				return true;
 			}
 		});
 	}
 
-	public void setLocation(int oldX, int oldY) {
+	public void setLocation(float x, float y) {
 
 	}
 
@@ -234,11 +245,11 @@ public class Player extends Actor {
 		}
 	}
 
-	public int getPlayerX() {
+	public float getPlayerX() {
 		return playerX;
 	}
 
-	public int getPlayerY() {
+	public float getPlayerY() {
 		return playerY;
 	}
 
@@ -259,7 +270,7 @@ public class Player extends Actor {
 	 * @param oldY - The player's current Y coordinate.
 	 */
 
-	public void move(int x, int y, int oldX, int oldY)
+	public void move(float x, float y, float oldX, float oldY)
 	{
 		if(playerX != oldX)
 		{
@@ -341,7 +352,7 @@ public class Player extends Actor {
 	}
 
 	public void moveLeft() {
-		int currentX = 0;
+		float currentX = 0;
 
 		if(animationStage == 1)
 		{
@@ -354,13 +365,14 @@ public class Player extends Actor {
 		}
 
 		currentX = playerX;
-		playerX = playerX - speedX;
+		System.out.println(Gdx.graphics.getDeltaTime());
+		playerX = playerX - (speedX * Gdx.graphics.getDeltaTime());
 		move(playerX, playerY, currentX, playerY);
 		System.out.println("Moved left!");
 	}
 	
 	public void moveRight() {
-		int currentX = 0;
+		float currentX = 0;
 		
 		if(animationStage == 1)
 		{
@@ -373,12 +385,12 @@ public class Player extends Actor {
 		}
 
 		currentX = playerX;
-		playerX = playerX + speedX;
+		playerX = playerX + (speedX * Gdx.graphics.getDeltaTime());
 		move(playerX,playerY,currentX,playerY);
 	}
 	
 	public void moveUp() {
-		int currentY = 0;
+		float currentY = 0;
 		
 		if(animationStage == 1)
 		{
@@ -392,26 +404,28 @@ public class Player extends Actor {
 			sprite.setTexture(textures.getTexturePlayer(1, "up"));
 		}
 		currentY = playerY;
-		playerY = playerY + speedY;
+		playerY = playerY + (speedY * Gdx.graphics.getDeltaTime());
 		move(playerX,playerY,playerX,currentY);
 	}
 	
 	public void moveDown() {
-		int currentY = 0;
+		float currentY = 0;
 
-		if(animationStage == 1)
-		{
-			sprite.setTexture(textures.getTexturePlayer(2, "down"));
+		while(MOVING_DOWN == true) {
+			if(animationStage == 1)
+			{
+				sprite.setTexture(textures.getTexturePlayer(2, "down"));
+			}
+
+			if(animationStage == 2)
+			{
+				sprite.setTexture(textures.getTexturePlayer(1,"down"));
+			}
+
+			currentY = playerY;
+			playerY = playerY - (speedY * Gdx.graphics.getDeltaTime());
+			move(playerX,playerY,playerX,currentY);	
 		}
-
-		if(animationStage == 2)
-		{
-			sprite.setTexture(textures.getTexturePlayer(1,"down"));
-		}
-
-		currentY = playerY;
-		playerY = playerY - speedY;
-		move(playerX,playerY,playerX,currentY);
 	}
 
 	/***
@@ -459,7 +473,7 @@ public class Player extends Actor {
 	 * The method changes the animation stage between 1 and 2 - each stage has
 	 * its own image, and this creates a 'walking' effect. 
 	 * 
-	 * @author bmagee
+	 * @author BnMcG
 	 *
 	 */
 
@@ -478,5 +492,13 @@ public class Player extends Actor {
 			}
 		}
 
+	}
+	
+	class MovementTask extends TimerTask
+	{
+		@Override
+		public void run() {
+			
+		}
 	}
 }
