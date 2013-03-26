@@ -8,11 +8,11 @@ public class Component {
 	private UUID id;
 	private UUID ENTITYID;	//this will be the id of the parent entity. this is needed to set it after sending it over the net
 	private boolean networkFlag = false;
-	private final ReentrantReadWriteLock lock;
+	private ReentrantLock lock;
 	
 	public Component(){
 		this.id = UUID.randomUUID();
-		this.lock = new ReentrantReadWriteLock(true);
+		this.lock = new ReentrantLock(true);
 	}
 	
 	public UUID getId() {
@@ -41,19 +41,11 @@ public class Component {
 	
 	//the following part is Concurrency related
 	
-	public void readLock(){
-		this.lock.readLock().lock();
+	public void lock(){
+		this.lock.lock();
 	}
 	
-	public void readUnlock(){
-		this.lock.readLock().unlock();
-	}
-	
-	public void writeLock(){
-		this.lock.writeLock().lock();
-	}
-	
-	public void writeUnlock(){
-		this.lock.writeLock().unlock();
+	public void unlock(){
+		this.lock.unlock();
 	}
 }

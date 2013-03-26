@@ -11,6 +11,7 @@ public class ComponentEventHandler {
     }
 
     public static void fireComponentAdded(Component component) {
+    	System.out.println("HANDLER: " + component);
         for(ComponentListener listener : listeners) {
             listener.componentAddedEvent(component);
         }
