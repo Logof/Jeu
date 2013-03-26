@@ -73,6 +73,7 @@ public class JeuSpriteBatch extends SpriteBatch {
 	 */
 	public void addToPlayerRenderQueue(Player player) {
 		playerQueue.add(player);
+		System.out.println("Jeu Sprite Batch: Added player to render queue.");
 	}
 	
 	/***
@@ -84,5 +85,6 @@ public class JeuSpriteBatch extends SpriteBatch {
 	
 	public void removeFromPlayerRenderQueue(Player player) {
 		playerQueue.remove(player);
+		System.out.println("Jeu Sprite Batch: Removed player from render queue.");
 	}
 }

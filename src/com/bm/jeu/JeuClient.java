@@ -25,11 +25,14 @@ import com.bm.jeu.net.RemoteHandler;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class JeuClient implements ApplicationListener {
@@ -93,6 +96,23 @@ public class JeuClient implements ApplicationListener {
 		player1 = playerHandler.createPlayer(100, 1, "BOB");
 		
 		ta = new TerrainActor(clientInstance);
+		
+		stage.addListener(new InputListener() {
+			@Override
+			public boolean keyDown(InputEvent event, int keycode) {
+				if(keycode == Keys.F1) {
+					System.out.println("F1 key pressed!");
+				}
+				return false;
+			}
+			
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				System.out.println("Mouse press on stage at: " + x + " and " + y + "!");
+				return false;
+			}
+		});
+		
 		stage.addActor(ta);
 		stage.addActor(player1);
 		stage.setKeyboardFocus(player1);

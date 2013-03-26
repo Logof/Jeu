@@ -18,15 +18,15 @@ public class TextureHandler {
 	private Texture textureGrass;
 	private Texture texturePlayer;
 	private JeuSpriteBatch textureHandlerSpriteBatch;
-	
+
 	public TextureHandler() {
 		// Constructor, we may need to use this later in development for something!
 	}
-	
+
 	/*
 	 * Sprite Batch
 	 */
-	
+
 	/***
 	 * Returns the textureHandlerSpriteBatch object. The theory is this sprite batch should be used as the default
 	 * sprite batch, and all drawing should go through it. (Is this efficient?) Presumably it saves memory. 
@@ -34,7 +34,7 @@ public class TextureHandler {
 	 * 
 	 * @return SpriteBatch - textureHandlerSpriteBatch.
 	 */
-	
+
 	public JeuSpriteBatch getSpriteBatch() {
 		if(textureHandlerSpriteBatch != null) {
 			return textureHandlerSpriteBatch;
@@ -43,17 +43,17 @@ public class TextureHandler {
 			return textureHandlerSpriteBatch;
 		}
 	}
-	
+
 	public void drawSprite(Sprite sprite) {
 		textureHandlerSpriteBatch.begin();
 		textureHandlerSpriteBatch.draw(sprite.getTexture(), 30, 30, 32, 32);
 		textureHandlerSpriteBatch.end();
 	}
-	
+
 	/*
 	 * Background textures / tiles
 	 */
-	
+
 	/***
 	 * Returns the texture for grass, as set in the image file. 
 	 * If the texture hasn't already been loaded/initialised then it will initialise that texture automatically,
@@ -61,7 +61,7 @@ public class TextureHandler {
 	 * 
 	 * @return Texture object - texture for grass.
 	 */
-	
+
 	public Texture getTextureGrass() {
 		if(textureGrass == null) { // If the texture hasn't already been loaded once, then load now:
 			try {
@@ -73,15 +73,15 @@ public class TextureHandler {
 				System.out.println("Couldn't load texture: GRASS ! The following error occured: " + exception.getMessage());
 			}
 		}
-		
+
 		return textureGrass; // The problem is, if we can't load the file, this will still return a NullPointerException, even if we've caught it above. Could implement a try/catch around every TextureHandler.getTexture---(), but it's not a great solution!
 	}
-	
+
 	/***
 	 * Checks whether the grass texture is already loaded. Note tat the getTexture...() method already implements this check.
 	 * @return True if texture has been loaded, returns false if the texture hasn't been loaded. 
 	 */
-	
+
 	public Boolean isTextureLoadedGrass() {
 		if(textureGrass == null) {
 			return false;
@@ -89,17 +89,46 @@ public class TextureHandler {
 			return true;
 		}
 	}
-	
+
 	/*
 	 * Player Texture(s)
 	 */
-	
+
 	public Texture getTexturePlayer(int animationStage,String direction) {
-		if(texturePlayer == null) {
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_fr1.png"));
-			return texturePlayer;
-		} else {
-			return texturePlayer;
+		if(animationStage == 1 && direction == "up") {
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_bk1.png"));
 		}
+
+		if(animationStage == 2 && direction == "up") {
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_bk2.png"));
+		}
+
+		if(animationStage == 1 && direction == "down") {
+			System.out.println("Conditions met for animation stage 1, direction down!");
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_fr1.png"));
+		}
+
+		if(animationStage == 2 && direction == "down") {
+			System.out.println("Conditions met for animation stage 2, direction down!");
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_fr2.png"));
+		}
+
+		if(animationStage == 1 && direction.equals("left")) {
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_lf1.png"));
+		}
+
+		if(animationStage == 2 && direction.equals("left")) {
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_lf2.png"));
+		}
+
+		if(animationStage == 1 && direction.equals("right")) {
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_rt1.png"));
+		}
+
+		if(animationStage == 2 && direction.equals("right")) {
+			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_rt2.png"));
+		}
+
+		return texturePlayer;
 	}
 }

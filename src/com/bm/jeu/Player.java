@@ -39,7 +39,7 @@ class PlayerSprite extends Sprite {
 	}
 
 	public void setTexture(Texture texture) {
-
+		this.texture = texture;
 	}
 
 	public Texture getTexture() {
@@ -78,6 +78,8 @@ public class Player extends Actor {
 	private int animationStage;
 	private int animationInterval = 200;
 	private Timer animationTimer;
+	
+	private Player self;
 
 
 	// CONSTRUCTOR
@@ -89,6 +91,8 @@ public class Player extends Actor {
 
 		// Setup player's sprite:
 		sprite = new PlayerSprite(textures.getTexturePlayer(1,"down"),textures);
+		
+		self = this;
 
 		// Define Movement Actions:
 		// =======================
@@ -106,11 +110,13 @@ public class Player extends Actor {
 					currentY = 0;
 					if(animationStage == 1)
 					{
+						System.out.println("Animation Stage 1!");
 						sprite.setTexture(textures.getTexturePlayer(2, "down"));
 					}
 
 					if(animationStage == 2)
 					{
+						System.out.println("Animation Stage 2!");
 						sprite.setTexture(textures.getTexturePlayer(1, "down"));
 					}
 					currentY = playerY;

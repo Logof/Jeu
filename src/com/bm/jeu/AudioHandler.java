@@ -8,6 +8,7 @@ public class AudioHandler {
 	
 	public AudioHandler() {
 		music = Gdx.audio.newMusic(Gdx.files.internal("res/sound/pirate.mp3"));
+		music.setLooping(true);
 	}
 	
 	public void playBGMusic() {
