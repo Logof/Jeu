@@ -16,12 +16,12 @@ public class PlayerHandler {
 	private PlayerCanvas playerCanvas;
 	private TextureHandler textures;
 
-	public PlayerHandler(PlayerCanvas parentCanvas, RemoteHandler remoteHandle, TextureHandler textures) {
+	public PlayerHandler(PlayerCanvas parentCanvas, TextureHandler textures) {
 		this.playerCanvas = parentCanvas;
 		this.textures = textures;
 	}
 	
-	public Player createPlayer(int hp, int level, String name, RemoteHandler remote)
+	public Player createPlayer(int hp, int level, String name)
 	{
 		Player newPlayer = new Player(textures);
 

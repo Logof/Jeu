@@ -44,7 +44,7 @@ public class JeuClient implements ApplicationListener {
 	TextureHandler textureHandler;
 	JeuSpriteBatch spriteBatch;
 	
-	RemoteHandler remote;
+	AudioHandler audio;
 	
 	Player player1;
 		
@@ -86,8 +86,11 @@ public class JeuClient implements ApplicationListener {
 		textureHandler = new TextureHandler();
 		spriteBatch = textureHandler.getSpriteBatch();
 		
-		playerHandler = new PlayerHandler(playercanvas, remote, textureHandler);
-		player1 = playerHandler.createPlayer(100, 1, "BOB", remote);
+		audio = new AudioHandler();
+		audio.playBGMusic();
+		
+		playerHandler = new PlayerHandler(playercanvas, textureHandler);
+		player1 = playerHandler.createPlayer(100, 1, "BOB");
 		
 		ta = new TerrainActor(clientInstance);
 		stage.addActor(ta);

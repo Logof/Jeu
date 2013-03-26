@@ -33,7 +33,7 @@ import java.util.TimerTask;
 class PlayerSprite extends Sprite {
 	private Texture texture;
 	public PlayerSprite(Texture spriteTexture, TextureHandler textureHandle) {
-		this.texture = textureHandle.getTexturePlayer();
+		this.texture = textureHandle.getTexturePlayer(1, "down");
 		this.setSize(32, 32);
 		this.setPosition(30, 30);
 	}
@@ -82,13 +82,13 @@ public class Player extends Actor {
 
 	// CONSTRUCTOR
 
-	public Player(TextureHandler textures) {
+	public Player(final TextureHandler textures) {
 		this.textures = textures;
 
 		spriteBatch = textures.getSpriteBatch();
 
 		// Setup player's sprite:
-		sprite = new PlayerSprite(textures.getTexturePlayer(),textures);
+		sprite = new PlayerSprite(textures.getTexturePlayer(1,"down"),textures);
 
 		// Define Movement Actions:
 		// =======================
@@ -104,19 +104,17 @@ public class Player extends Actor {
 				case Keys.W:
 					System.out.println("Key 'w' (MOVE_UP) pressed!");
 					currentY = 0;
-
 					if(animationStage == 1)
 					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_bk2.png"));
+						sprite.setTexture(textures.getTexturePlayer(2, "down"));
 					}
 
 					if(animationStage == 2)
 					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_bk1.png"));
+						sprite.setTexture(textures.getTexturePlayer(1, "down"));
 					}
-
 					currentY = playerY;
-					playerY = playerY - speedY;
+					playerY = playerY + speedY;
 					move(playerX,playerY,playerX,currentY);
 					break;
 				case Keys.A:
@@ -128,17 +126,19 @@ public class Player extends Actor {
 				case Keys.S:
 					System.out.println("Key 's' (MOVE_DOWN) pressed!");
 					currentY = 0;
+
 					if(animationStage == 1)
 					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_fr2.png"));
+						sprite.setTexture(textures.getTexturePlayer(2, "up"));
 					}
 
 					if(animationStage == 2)
 					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_fr1.png"));
+						sprite.setTexture(textures.getTexturePlayer(1,"up"));
 					}
+
 					currentY = playerY;
-					playerY = playerY + speedY;
+					playerY = playerY - speedY;
 					move(playerX,playerY,playerX,currentY);
 					break;
 				case Keys.D:
@@ -146,16 +146,12 @@ public class Player extends Actor {
 					currentX = 0;
 					if(animationStage == 1)
 					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt2.png"));
+						sprite.setTexture(textures.getTexturePlayer(2, "right"));
 					}
 
 					if(animationStage == 2)
 					{
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
-						sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_rt1.png"));
+						sprite.setTexture(textures.getTexturePlayer(1, "right"));
 					}
 
 					currentX = playerX;
@@ -241,19 +237,6 @@ public class Player extends Actor {
 		{
 			return false;
 		}
-	}
-
-	public boolean setspriteImage(URL spriteSourceImageURL)
-	{
-		if(spriteSourceImageURL != null)
-		{
-			sprite.setSprite(spriteSourceImageURL);
-			return true;
-		} 
-		else 
-		{
-			return false; // Couldn't update sprite. Probably invalid sprite given.
-		}		
 	}
 
 	public boolean setSpeedY(int speedY)
@@ -398,12 +381,12 @@ public class Player extends Actor {
 
 		if(animationStage == 1)
 		{
-			sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf2.png"));
+			sprite.setTexture(textures.getTexturePlayer(2, "left"));
 		}
 
 		if(animationStage == 2)
 		{
-			sprite.setSprite(getClass().getClassLoader().getResource("sprites/sprite_lf1.png"));
+			sprite.setTexture(textures.getTexturePlayer(1, "left"));
 		}
 
 		currentX = playerX;
