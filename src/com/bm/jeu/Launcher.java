@@ -58,6 +58,8 @@ public class Launcher extends JFrame {
 			cfg.useGL20 = true;
 			cfg.width = 900;
 			cfg.height = 500;
+			cfg.useCPUSynch = false;
+			cfg.vSyncEnabled = false;
 			new LwjglApplication(new JeuClient(), cfg);
 		}
 		else
@@ -69,6 +71,8 @@ public class Launcher extends JFrame {
 			cfg.useGL20 = true;
 			cfg.width = 900;
 			cfg.height = 500;
+			cfg.useCPUSynch = false;
+			cfg.vSyncEnabled = false;
 			new LwjglApplication(new JeuClient(), cfg);
 		}
 	} 
