@@ -11,6 +11,7 @@ public class EntityEventHandler {
     }
 
     public static void fireEntityAdded(Entity entity) {
+    	System.out.println("ENTITY HANDLER: " + entity);
         for(EntityListener listener : listeners) {
             listener.EntityAddedEvent(entity);
         }

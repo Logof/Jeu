@@ -42,10 +42,12 @@ public class Component {
 	//the following part is Concurrency related
 	
 	public void lock(){
+		System.out.println("LOCK");
 		this.lock.lock();
 	}
 	
 	public void unlock(){
+		System.out.println("UNLOCK");
 		this.lock.unlock();
 	}
 }

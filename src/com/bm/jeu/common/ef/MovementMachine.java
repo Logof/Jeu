@@ -23,7 +23,7 @@ public class MovementMachine extends Machine {
 			pc.setPosX(pc.getPosX()-1);
 			break;
 		}
-//		System.out.println(pc + " -- " + mc);
+		System.out.println(pc + " -- " + mc);
 		mc.unlock();
 		pc.unlock();
 		

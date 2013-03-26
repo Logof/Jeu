@@ -38,7 +38,7 @@ public class Entity {
 		// this means there is only 1 of the same component type at the same
 		// type allowed (per entity) this is a designchoice and doesn't limit us
 		// that much but results in much cleaner design
-		System.out.println("ADDED: " + component);
+		System.out.println("COMPONENT ADDED: " + component);
 		component.setENTITYID(id);
 		this.components_.put(component.getClass().getName(), component);
 		ComponentEventHandler.fireComponentAdded(component);
