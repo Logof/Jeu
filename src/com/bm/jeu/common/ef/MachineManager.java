@@ -28,7 +28,7 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 	private MachineManager() {
 		super();
 		em_ = EntityManager.getinstance();
-		pool_ = Executors.newCachedThreadPool();
+		pool_ = Executors.newFixedThreadPool(5);
 		machines_ = new ConcurrentHashMap<UUID, Machine>();
 		ComponentEventHandler.registerDataChangeListener(this);
 		EntityEventHandler.registerDataChangeListener(this);
@@ -105,7 +105,7 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 
 	@Override
 	public void componentAddedEvent(Component component) {
-		System.out.println("COMPONENT: " + component);
+//		System.out.println("COMPONENT: " + component);
 		Entity buffer = em_.get(component.getENTITYID());
 		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
 			entry.getValue().addEntity(buffer);
@@ -123,7 +123,7 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 
 	@Override
 	public void EntityAddedEvent(Entity entity) {
-		System.out.println("ENTITY: " + entity);
+//		System.out.println("ENTITY: " + entity);
 		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
 			entry.getValue().addEntity(entity);
 		}

@@ -9,9 +9,12 @@ public class MovementMachine extends Machine {
 
 	@Override
 	public void processEntities(Entity entity) {
+//		System.out.println(entity);
 		MovementComponent mc = (MovementComponent) entity.getComponent(MovementComponent.class);
-		mc.lock();
+
 		PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class);
+		mc.lock();
+		
 		pc.lock();
 //		System.out.println(mc + " - " + Thread.currentThread().getId());
 		
@@ -23,7 +26,7 @@ public class MovementMachine extends Machine {
 			pc.setPosX(pc.getPosX()-1);
 			break;
 		}
-		System.out.println(pc + " -- " + mc);
+//		System.out.println(pc + ";" + mc);
 		mc.unlock();
 		pc.unlock();
 		
