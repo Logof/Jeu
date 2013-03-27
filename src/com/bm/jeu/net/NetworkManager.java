@@ -3,33 +3,39 @@ package com.bm.jeu.net;
 import com.bm.jeu.common.ef.Component;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.EntityManager;
+import com.bm.jeu.common.net.ComponentRecievedHandler;
 import com.bm.jeu.common.net.ComponentRecievedListener;
+import com.bm.jeu.common.net.DefaultNetworkingClientServices;
+import com.bm.jeu.common.net.DefaultNetworkingServerServices;
+import com.bm.jeu.net.NettyServer;
 
 //This is implemented as a threadsafe Singleton
 
 public class NetworkManager implements ComponentRecievedListener {
-	
-	private static EntityManager em_;
-	
-	//this part i'm not entirely sure how to generalize better (same thing for server/client)
-	private DefaultNetworkingClientServices connection_;
 
+	private static EntityManager em_;
+
+	// this part i'm not entirely sure how to generalize better (same thing for
+	// server/client)
+	private DefaultNetworkingClientServices clienConnection_;
+	private DefaultNetworkingServerServices serverConnection_;
 	/* Here is the instance of the Singleton */
 	private static NetworkManager instance_;
 
 	/* Need the following object to synchronize */
 	/* a block */
 	private static Object syncObject_ = new Object();
-	
+
 	private static boolean setup;
 
 	// Prevent direct access to the constructor
 	private NetworkManager() {
 		super();
-		setup=false;
+		setup = false;
 		syncObject_ = new Object();
 		em_ = EntityManager.getinstance();
-		connection_=null;
+		clienConnection_ = null;
+		serverConnection_ = null;
 		ComponentRecievedHandler.registerDataChangeListener(this);
 	}
 
@@ -52,45 +58,52 @@ public class NetworkManager implements ComponentRecievedListener {
 		}
 		return instance_;
 	}
-	
-	//this part is specific for the client
-	
-	public void connect(String host, int port){
-		connection_ = new NettyClient(host, port);
-		setup=true;
+
+	// this part is specific for the client
+
+	public void connect(String host, int port) {
+		clienConnection_ = new NettyClient(host, port);
+		clienConnection_.connect(host, port);
+		setup = true;
 	}
-	
-	public boolean isConnected(){
+
+	public boolean isSetup() {
 		return setup;
 	}
-	
-	//this part is specific for server services
-	
-	public void listen(int port){
-		
+
+	// this part is specific for server services
+
+	public void listen(int port) {
+		serverConnection_ = new NettyServer(port);
+		serverConnection_.listen();
+		setup = true;
 	}
-	
-	public boolean isListening(){
-		return false;
+
+	public boolean isListening() {
+		return serverConnection_.isListening();
 	}
-	
+
 	// this part concerns bothe server & client
-	
-	public void send(Object message){
-		connection_.send(message);
+
+	public void send(Object message) {
+		if (clienConnection_ != null) {
+			clienConnection_.send(message);
+		}
+		if (serverConnection_ != null) {
+			serverConnection_.send(message);
+		}
 	}
 
 	@Override
 	public void componentRecievedEvent(Component event) {
 		Entity buffer = em_.get(event.getENTITYID());
-		if(buffer != null){
+		if (buffer != null) {
 			buffer.addComponent(event);
-		}
-		else {
+		} else {
 			buffer = new Entity(event.getENTITYID());
 			buffer.addComponent(event);
 			em_.add(buffer);
-		}	
+		}
 	}
 
 }

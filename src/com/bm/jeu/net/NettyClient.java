@@ -8,7 +8,10 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 
-public class NettyClient implements DefaultNetworkingClientServices {
+import com.bm.jeu.common.net.DefaultNetworkingClientServices;
+import com.bm.jeu.common.net.DefaultNetworkingServices;
+
+public class NettyClient implements DefaultNetworkingServices, DefaultNetworkingClientServices {
 
 	private String HOST;
 	private int PORT;
@@ -21,8 +24,8 @@ public class NettyClient implements DefaultNetworkingClientServices {
 		this.PORT = port;
 		setup();
 	}
-	
-	public NettyClient(){
+
+	public NettyClient() {
 		setup();
 	}
 
@@ -56,6 +59,7 @@ public class NettyClient implements DefaultNetworkingClientServices {
 		ChannelFuture future = bootstrap.connect(new InetSocketAddress(HOST, PORT));
 		clientConnection = future.awaitUninterruptibly().getChannel();
 		if (!future.isSuccess()) {
+			System.out.println("no connection");
 			future.getCause().printStackTrace();
 			bootstrap.releaseExternalResources();
 		}
@@ -71,7 +75,6 @@ public class NettyClient implements DefaultNetworkingClientServices {
 	@Override
 	public void send(Object message) {
 		lastWriteFuture = clientConnection.write(message);
-
 	}
 
 	@Override
@@ -92,8 +95,16 @@ public class NettyClient implements DefaultNetworkingClientServices {
 	}
 
 	@Override
-	public boolean isConnected(){
-		return clientConnection.isConnected();
+	public boolean isConnected() {
+		if (clientConnection != null) {
+			return clientConnection.isConnected();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isRunning() {
+		return isConnected();
 	}
 
 }

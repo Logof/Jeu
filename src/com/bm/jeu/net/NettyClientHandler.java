@@ -11,6 +11,7 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 
 import com.bm.jeu.common.ef.Component;
+import com.bm.jeu.common.net.ComponentRecievedHandler;
 
 public class NettyClientHandler extends SimpleChannelHandler {
 
@@ -39,9 +40,9 @@ public class NettyClientHandler extends SimpleChannelHandler {
 	// Acts when a message was received
 	@Override
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-//		System.out.println(e.getMessage());
+		System.out.println(e.getMessage());
 		if (e.getMessage() instanceof Component) {
-//			logger.info("Recieved:: " + (Component) e);
+//			logger.info("Recieved:: " + (Component) e.getMessage());
 			ComponentRecievedHandler.fireDataChange((Component) e.getMessage());
 		}
 		super.messageReceived(ctx, e);

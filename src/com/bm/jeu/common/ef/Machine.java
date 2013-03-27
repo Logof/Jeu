@@ -52,7 +52,8 @@ public abstract class Machine implements Runnable {
 
 	public final boolean checkInterests(Entity entity) {
 		if (entity.getComponentTypes() != null) {
-			return interests_.containsAll(entity.getComponentTypes());
+			return entity.getComponentTypes().containsAll(interests_);
+//			return interests_.containsAll(entity.getComponentTypes());
 		}
 		return false;
 	}
@@ -133,7 +134,7 @@ public abstract class Machine implements Runnable {
 				lockInterests(buffer);
 				try {
 					processEntities(buffer);
-					if (net_.isConnected()) {
+					if (net_.isSetup()) {
 						sendNetworkedComponents(buffer);
 					}
 				} finally {

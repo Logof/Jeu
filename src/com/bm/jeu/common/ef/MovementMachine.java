@@ -12,27 +12,21 @@ public class MovementMachine extends Machine {
 
 	@Override
 	public void processEntities(Entity entity) {
-		// System.out.println(entity);
 		MovementComponent mc = (MovementComponent) entity.getComponent(MovementComponent.class);
-
 		PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class);
-		// System.out.println(mc + " - " + Thread.currentThread().getId());
-		if (mc != null) {
+		if (mc != null && pc!=null) {
+			mc.setNetworkFlag(false);
+			pc.setNetworkFlag(true);
 			switch (mc.getDirection()) {
 			case 1:
 				pc.setPosX(pc.getPosX() + 1);
-				pc.getCounter().incrementAndGet();
 				break;
 			case -1:
 				pc.setPosX(pc.getPosX() - 1);
-				pc.getCounter().incrementAndGet();
 				break;
-			default:
-				pc.getCounter().incrementAndGet();
-
 			}
 		}
-		 System.out.println(pc + ";" + mc);
+//		 System.out.println(pc + ";" + mc);
 
 	}
 
