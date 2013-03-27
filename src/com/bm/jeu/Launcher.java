@@ -15,6 +15,7 @@ import javax.swing.Timer;
 
 import org.lwjgl.opengl.Display;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -45,21 +46,24 @@ public class Launcher extends JFrame {
 	}
 
 	static class TimerTask implements ActionListener {
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			launcher.dispose(); // Get rid of the launcher window.
 			launcherDisplaySequence.stop(); // Stop the timer, stops an OpenAL exception which occurred when the client opened, because the timer tried to open the client window twice!
 			LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-			cfg.title = "Jeu LibGDX Port";
+			cfg.title = "Jeu";
 			cfg.useGL20 = true;
 			cfg.width = 900;
 			cfg.height = 500;
-			// These two flags stop framerate capping on newer systems.
-			cfg.useCPUSynch = false;
 			cfg.vSyncEnabled = false;
+			cfg.useCPUSynch = false;
 			// Stops the user resizing the window, since the graphics won't scale.
 			cfg.resizable = false;
-			new LwjglApplication(new JeuClient(), cfg);
+			LwjglApplication app = new LwjglApplication(new JeuGameInstance(), cfg);
+			
+			JeuGameInstance jeu = new JeuGameInstance();
+			jeu.create();
 		}
 
 	}
@@ -70,7 +74,7 @@ public class Launcher extends JFrame {
 
 		launcher.setVisible(true);
 		TimerTask launchSequence = new TimerTask();
-		launcherDisplaySequence = new Timer(3000,launchSequence);
+		launcherDisplaySequence = new Timer(1000,launchSequence);
 		launcherDisplaySequence.start();
 	}
 } 

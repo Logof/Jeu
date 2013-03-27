@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /***
  * The JeuSpriteBatch class extends LibGDX's own SpriteBatch class, hence it has all of the same methods. However,
@@ -18,11 +19,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class JeuSpriteBatch extends SpriteBatch {
 	private ArrayList<Player> playerQueue;
-	private ArrayList<Texture> textureQueue;
+	private ArrayList<TextureRegion> textureRegionQueue;
 
 	public JeuSpriteBatch() {
 		playerQueue = new ArrayList<Player>();
-		textureQueue = new ArrayList<Texture>();
+		textureRegionQueue = new ArrayList<TextureRegion>();
 	}
 	
 	/***
@@ -56,10 +57,10 @@ public class JeuSpriteBatch extends SpriteBatch {
 		 * Handle the drawing of other textures 
 		 */
 		
-		if(textureQueue != null) {
+		if(textureRegionQueue != null) {
 			int count = 0;
-			while(count < textureQueue.size()) {
-				this.draw(textureQueue.get(count), 100, 100);
+			while(count < textureRegionQueue.size()) {
+				this.draw(textureRegionQueue.get(count), 400, 35, 450, 450);
 				count++;
 			}
 		}
@@ -73,7 +74,12 @@ public class JeuSpriteBatch extends SpriteBatch {
 	 */
 	public void addToPlayerRenderQueue(Player player) {
 		playerQueue.add(player);
-		System.out.println("Jeu Sprite Batch: Added player to render queue.");
+		//System.out.println("Jeu Sprite Batch: Added player to render queue.");
+	}
+	
+	public void addToTextureRegionRenderQueue(TextureRegion textureRegion) {
+		textureRegionQueue.add(textureRegion);
+		//System.out.println("Jeu Sprite Batch: Added texture region to render queue.");
 	}
 	
 	/***
@@ -85,6 +91,11 @@ public class JeuSpriteBatch extends SpriteBatch {
 	
 	public void removeFromPlayerRenderQueue(Player player) {
 		playerQueue.remove(player);
-		System.out.println("Jeu Sprite Batch: Removed player from render queue.");
+		//System.out.println("Jeu Sprite Batch: Removed player from render queue.");
+	}
+	
+	public void removeFromTextureRegionRenderQueue(TextureRegion textureRegion) {
+		textureRegionQueue.remove(textureRegion);
+		//System.out.println("Jeu Sprite Batch: Removed texture region from render queue.");
 	}
 }

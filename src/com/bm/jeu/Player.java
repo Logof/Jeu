@@ -1,5 +1,9 @@
 package com.bm.jeu;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,8 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import com.badlogic.gdx.utils.Timer;
 
 /***
  * 
@@ -69,17 +72,22 @@ public class Player extends Actor {
 	private boolean MOVING_UP;
 	private boolean MOVING_DOWN;
 
+	private MovementTask taskMoveLeft;
+	private MovementTask taskMoveRight;
+	private MovementTask taskMoveUp;
+	private MovementTask taskMoveDown;
+
+	private ScheduledExecutorService movementTimer;
+	private long movementInterval;
+
 	private TextureHandler textures;
 	private JeuSpriteBatch spriteBatch;
 
 	// The stage in the movement animation. 
 	// Controls changing between version one and two of a sprite.
 	private int animationStage;
-	private int animationInterval = 200;
+	private float animationInterval = 0.2f;
 	private Timer animationTimer;
-	
-	private Player self;
-
 
 	// CONSTRUCTOR
 
@@ -90,39 +98,57 @@ public class Player extends Actor {
 
 		// Setup player's sprite:
 		sprite = new PlayerSprite(textures.getTexturePlayer(1,"down"),textures);
-		
-		self = this;
 
 		// Define Movement Actions:
 		// =======================
 		// =======================
 
-		this.addListener(new InputListener() {
-			int currentX = 0;
-			int currentY = 0;
+		/*
+		 * Define the movement timer, as well as the individual movement tasks.
+		 * Each movement task moves the player in a different direction, as indicated
+		 * by its argument.
+		 * 
+		 * When the key listener detects a keyDown event, it will schedule the task
+		 * for the appropriate movement to run every *movementInterval* (eg: if the user presses 'w', 
+		 * the timer will be scheduled to run taskMoveUp() every *movementInterval*). 
+		 * 
+		 * When the player releases the key, the timer is cancelled, and the player
+		 * stops moving.
+		 * 
+		 * movementInterval can be changed the change how often the player moves.
+		 */
 
+		movementTimer = Executors.newScheduledThreadPool(1);
+		movementInterval = 150;
+
+		taskMoveLeft = new MovementTask("left");
+		taskMoveRight = new MovementTask("right");
+		taskMoveUp = new MovementTask("up");
+		taskMoveDown = new MovementTask("down");
+
+		this.addListener(new InputListener() {
 			@Override
 			public boolean keyDown(InputEvent event, int keycode) {
 				switch(keycode) {
 				case Keys.W:
 					System.out.println("Key 'w' (MOVE_UP) pressed!");
+					scheduleMovement("up");
 					MOVING_UP = true;
-					moveUp();
 					break;
 				case Keys.A:
 					System.out.println("Key 'a' (MOVE_LEFT) pressed!");
+					scheduleMovement("left");
 					MOVING_LEFT = true;
-					moveLeft();
 					break;
 				case Keys.S:
 					System.out.println("Key 's' (MOVE_DOWN) pressed!");
+					scheduleMovement("down");
 					MOVING_DOWN = true;
-					moveDown();
 					break;
 				case Keys.D:
 					System.out.println("Key 'd' (MOVE_RIGHT) pressed!");
+					scheduleMovement("right");
 					MOVING_RIGHT = true;
-					moveRight();					
 					break;
 				}
 
@@ -132,20 +158,22 @@ public class Player extends Actor {
 			// Key up
 			@Override
 			public boolean keyUp(InputEvent event, int keycode) {
-				switch(keycode) {
-				case Keys.W:
-					MOVING_UP = true;
-					break;
-				case Keys.A:
-					MOVING_LEFT = true;
-					break;
-				case Keys.S:
-					MOVING_DOWN = true;
-					break;
-				case Keys.D:
-					MOVING_RIGHT = true;
-					break;
+				if(MOVING_RIGHT == true) {
+					MOVING_RIGHT = false;
 				}
+
+				if(MOVING_LEFT == true) {
+					MOVING_LEFT = false;
+				}
+
+				if(MOVING_UP == true) {
+					MOVING_UP = false;
+				}
+
+				if(MOVING_DOWN == true) {
+					MOVING_DOWN = false;
+				}
+
 				return true;
 			}
 		});
@@ -370,10 +398,10 @@ public class Player extends Actor {
 		move(playerX, playerY, currentX, playerY);
 		System.out.println("Moved left!");
 	}
-	
+
 	public void moveRight() {
 		float currentX = 0;
-		
+
 		if(animationStage == 1)
 		{
 			sprite.setTexture(textures.getTexturePlayer(2, "right"));
@@ -388,10 +416,10 @@ public class Player extends Actor {
 		playerX = playerX + (speedX * Gdx.graphics.getDeltaTime());
 		move(playerX,playerY,currentX,playerY);
 	}
-	
+
 	public void moveUp() {
 		float currentY = 0;
-		
+
 		if(animationStage == 1)
 		{
 			System.out.println("Animation Stage 1!");
@@ -407,24 +435,42 @@ public class Player extends Actor {
 		playerY = playerY + (speedY * Gdx.graphics.getDeltaTime());
 		move(playerX,playerY,playerX,currentY);
 	}
-	
+
 	public void moveDown() {
 		float currentY = 0;
 
-		while(MOVING_DOWN == true) {
-			if(animationStage == 1)
-			{
-				sprite.setTexture(textures.getTexturePlayer(2, "down"));
+		if(animationStage == 1)
+		{
+			sprite.setTexture(textures.getTexturePlayer(2, "down"));
+		}
+
+		if(animationStage == 2)
+		{
+			sprite.setTexture(textures.getTexturePlayer(1,"down"));
+		}
+
+		currentY = playerY;
+		playerY = playerY - (speedY * Gdx.graphics.getDeltaTime());
+		move(playerX,playerY,playerX,currentY);	
+	}
+
+	private void scheduleMovement(String direction) {
+		if(direction.equals("up")) {
+			if(MOVING_UP == false) {
+				movementTimer.scheduleAtFixedRate(taskMoveUp, 0, movementInterval,TimeUnit.MILLISECONDS);
 			}
 
-			if(animationStage == 2)
-			{
-				sprite.setTexture(textures.getTexturePlayer(1,"down"));
+			if(MOVING_DOWN == false) {
+				movementTimer.scheduleAtFixedRate(taskMoveDown, 0, movementInterval,TimeUnit.MILLISECONDS);
 			}
 
-			currentY = playerY;
-			playerY = playerY - (speedY * Gdx.graphics.getDeltaTime());
-			move(playerX,playerY,playerX,currentY);	
+			if(MOVING_LEFT == false) {
+				movementTimer.scheduleAtFixedRate(taskMoveLeft, 0, movementInterval,TimeUnit.MILLISECONDS);
+			}
+
+			if(MOVING_RIGHT == false) {
+				movementTimer.scheduleAtFixedRate(taskMoveRight, 0, movementInterval,TimeUnit.MILLISECONDS);
+			}
 		}
 	}
 
@@ -453,6 +499,7 @@ public class Player extends Actor {
 
 		spriteBatch.addToPlayerRenderQueue(this);
 
+
 		/*
 		 * The animation timer runs every *animationInterval* milliseconds, and switches
 		 * the player's sprite image between two states, simulating a walking effect.
@@ -460,7 +507,8 @@ public class Player extends Actor {
 
 		animationTimer = new Timer();
 		AnimationTask animationTask = new AnimationTask();
-		animationTimer.scheduleAtFixedRate(animationTask, 0,animationInterval);
+		animationTimer.scheduleTask(animationTask, 0, animationInterval);
+		animationTimer.start();
 
 		// Set player's stats.
 		setHp(hp);
@@ -477,10 +525,11 @@ public class Player extends Actor {
 	 *
 	 */
 
-	class AnimationTask extends TimerTask
+	class AnimationTask extends Timer.Task
 	{
 		@Override
 		public void run() {
+			System.out.println("Swapping animation stage!");
 			if(animationStage == 1)
 			{
 				//System.out.println("Animation stage updated to 2!");
@@ -493,12 +542,39 @@ public class Player extends Actor {
 		}
 
 	}
-	
-	class MovementTask extends TimerTask
+
+	/***
+	 * This class is ued by a timer to move the player in the given direction every 100ms
+	 * while they hold the appropriate key down. When the key is released, the timer stops,
+	 * and the player stops moving.
+	 * 
+	 * @author BnMcG
+	 *
+	 */
+
+	class MovementTask implements Runnable
 	{
+		private String direction;
+		public MovementTask(String direction) {
+			this.direction = direction;
+		}
+
 		@Override
 		public void run() {
-			
+			switch(direction) {
+			case "left":
+				moveLeft();
+				break;
+			case "right":
+				moveRight();
+				break;
+			case "up":
+				moveUp();
+				break;
+			case "down":
+				moveDown();
+				break;
+			}
 		}
 	}
 }
