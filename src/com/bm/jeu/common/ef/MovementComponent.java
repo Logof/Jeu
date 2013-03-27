@@ -7,6 +7,7 @@ public class MovementComponent extends Component {
 	public MovementComponent(int direction) {
 		super();
 		this.setDirection(direction);
+		setNetworkFlag(true);
 	}
 
 	public int getDirection() {

@@ -33,7 +33,6 @@ public class NettyClientHandler extends SimpleChannelHandler {
 		if (e instanceof MessageEvent) {
 			// logger.info("Writing:: " + e);
 		}
-
 		super.handleDownstream(ctx, e);
 	}
 

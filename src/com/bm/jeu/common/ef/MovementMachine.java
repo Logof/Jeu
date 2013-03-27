@@ -32,7 +32,7 @@ public class MovementMachine extends Machine {
 
 			}
 		}
-		// System.out.println(pc + ";" + mc);
+		 System.out.println(pc + ";" + mc);
 
 	}
 

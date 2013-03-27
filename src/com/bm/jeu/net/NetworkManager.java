@@ -20,10 +20,13 @@ public class NetworkManager implements ComponentRecievedListener {
 	/* Need the following object to synchronize */
 	/* a block */
 	private static Object syncObject_ = new Object();
+	
+	private static boolean setup;
 
 	// Prevent direct access to the constructor
 	private NetworkManager() {
 		super();
+		setup=false;
 		syncObject_ = new Object();
 		em_ = EntityManager.getinstance();
 		connection_=null;
@@ -54,10 +57,11 @@ public class NetworkManager implements ComponentRecievedListener {
 	
 	public void connect(String host, int port){
 		connection_ = new NettyClient(host, port);
+		setup=true;
 	}
 	
 	public boolean isConnected(){
-		return connection_.isConnected();
+		return setup;
 	}
 	
 	//this part is specific for server services

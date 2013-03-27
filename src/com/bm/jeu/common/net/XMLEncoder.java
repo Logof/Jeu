@@ -12,6 +12,8 @@ public class XMLEncoder extends OneToOneEncoder {
 
 	public static EncodedString encodeMessage(Component message) throws IllegalArgumentException {
 		XStream xstream = new XStream(new StaxDriver());
+		xstream.omitField(Component.class, "networkFlag");
+		xstream.omitField(Component.class, "lock");
 		EncodedString output = new EncodedString(xstream.toXML(message));
 		return output;
 	}

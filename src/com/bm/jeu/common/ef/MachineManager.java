@@ -23,10 +23,14 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 	// here should be some sort of Threadpool that runs the Machines
 
 	private static ExecutorService pool_;
+	
+	
+	private static AtomicFloat timeDelta;
 
 	// Prevent direct access to the constructor
 	private MachineManager() {
 		super();
+		timeDelta = new AtomicFloat();
 		em_ = EntityManager.getinstance();
 		pool_ = Executors.newFixedThreadPool(10);
 //		pool_ = Executors.newCachedThreadPool();
@@ -57,9 +61,18 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 	
 	//TODO: getting components that are already present when machine is added!!
 
+	public static float getTimeDelta() {
+		return timeDelta.floatValue();
+	}
+
+	public static void setTimeDelta(float delta) {
+		MachineManager.timeDelta.set(delta);
+	}
+
 	@Override
 	public void add(Machine element) {
 		machines_.put(element.getId(), element);
+		em_.machineAdded(element);
 
 	}
 
@@ -90,7 +103,8 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 	}
 
 	@Override
-	public void update(int delta) {
+	public void update(float delta) {
+		timeDelta.set(delta);
 		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
 			pool_.execute(entry.getValue());
 		}

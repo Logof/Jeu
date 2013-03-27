@@ -1,6 +1,7 @@
 package com.bm.jeu.common.ef;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -76,9 +77,16 @@ public class EntityManager implements ManagerInterface<Entity> {
 	public Entity get(UUID id) {
 		return entities_.get(id);
 	}
+	
+	public void machineAdded(Machine machine){
+		for(Entry<UUID, Entity> entity : entities_.entrySet()){
+			machine.addEntity(entity.getValue());
+		}
+	}
 
+	//this will be used if we ever need to do things compared to the last render
 	@Override
-	public void update(int delta) {
+	public void update(float delta) {
 		// TODO Auto-generated method stub
 
 	}

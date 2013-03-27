@@ -10,7 +10,7 @@ public interface ManagerInterface <T> {
     public int getCount();
     public T get(T element);
     public T get(UUID id);
-    public void update(int delta);
+    public void update(float delta);
     public void shutdown();
 
 }

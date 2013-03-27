@@ -58,4 +58,12 @@ public class Component {
 	public boolean checkLock(){
 		return this.lock.isLocked();
 	}
+	
+	//this part is needed for the omitted fields in xstream
+	
+	private Object readResolve() {
+		this.networkFlag = false;
+		this.lock = new ReentrantLock(true);
+		return this;
+	}
 }

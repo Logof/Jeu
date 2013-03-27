@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
+import com.bm.jeu.net.NetworkManager;
 
 public abstract class Machine implements Runnable {
 
@@ -13,20 +13,13 @@ public abstract class Machine implements Runnable {
 	// i'm not entirely sure about the implementation of the "interests" system
 	private HashSet<String> interests_;
 	private Map<UUID, Entity> entities_;
-	private AtomicBoolean runWhenEmpty;
+	private NetworkManager net_;
 
 	public Machine() {
+		net_ = NetworkManager.getinstance();
 		setId(UUID.randomUUID());
 		setInterests(new HashSet<String>());
 		entities_ = new ConcurrentHashMap<UUID, Entity>();
-		this.runWhenEmpty = new AtomicBoolean(true);
-	}
-
-	public Machine(boolean runWhenEmpty) {
-		setId(UUID.randomUUID());
-		setInterests(new HashSet<String>());
-		entities_ = new ConcurrentHashMap<UUID, Entity>();
-		this.runWhenEmpty = new AtomicBoolean(runWhenEmpty);
 	}
 
 	public final UUID getId() {
@@ -35,14 +28,6 @@ public abstract class Machine implements Runnable {
 
 	public final void setId(UUID id) {
 		this.id = id;
-	}
-
-	public boolean getRunWhenEmpty() {
-		return runWhenEmpty.get();
-	}
-
-	public void setRunWhenEmpty(boolean runWhenEmpty) {
-		this.runWhenEmpty.set(runWhenEmpty);
 	}
 
 	public final HashSet<String> getInterests() {
@@ -125,6 +110,15 @@ public abstract class Machine implements Runnable {
 		}
 	}
 
+	private final void sendNetworkedComponents(Entity entity) {
+		for (String interest : getInterests()) {
+			Component buff = entity.getComponent(interest);
+			if (buff != null && buff.getNetworkFlag()) {
+				net_.send(buff);
+			}
+		}
+	}
+
 	// This method will be used to change components according to the machines
 	// purpose. I.e. changing X or Y position components etc.
 	public abstract void processEntities(Entity entity);
@@ -139,6 +133,9 @@ public abstract class Machine implements Runnable {
 				lockInterests(buffer);
 				try {
 					processEntities(buffer);
+					if (net_.isConnected()) {
+						sendNetworkedComponents(buffer);
+					}
 				} finally {
 					unlockInterests(buffer);
 				}
