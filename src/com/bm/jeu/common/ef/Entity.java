@@ -69,10 +69,9 @@ public class Entity {
 	public void removeComponent(String type) {
 		if (this.components_.containsKey(type)) {
 			Component buffer = this.components_.get(type);
+			ComponentEventHandler.fireComponentRemoved(buffer);
 			buffer.lock();
-			
 			try {
-				ComponentEventHandler.fireComponentRemoved(buffer);
 				this.components_.remove(type);
 			} finally {
 				buffer.unlock();
@@ -82,7 +81,7 @@ public class Entity {
 	}
 
 	// WARNING: this is the slowest one. should not be used until absolutely
-	// necessarely!
+	// Necessarily!
 	public void removeComponent(UUID id) {
 		for (Entry<String, Component> entry : this.components_.entrySet()) {
 			if (entry.getValue().getId().compareTo(id) == 0) {

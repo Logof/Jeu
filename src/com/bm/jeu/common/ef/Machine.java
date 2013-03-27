@@ -110,14 +110,18 @@ public abstract class Machine implements Runnable {
 	public final void lockInterests(Entity entity) {
 		for (String interest : getInterests()) {
 			Component buff = entity.getComponent(interest);
-			buff.lock();
+			if (buff != null) {
+				buff.lock();
+			}
 		}
 	}
 
 	public final void unlockInterests(Entity entity) {
 		for (String interest : getInterests()) {
 			Component buff = entity.getComponent(interest);
-			buff.unlock();
+			if (buff != null) {
+				buff.unlock();
+			}
 		}
 	}
 

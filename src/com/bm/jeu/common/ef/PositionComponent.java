@@ -1,15 +1,19 @@
 package com.bm.jeu.common.ef;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class PositionComponent extends Component {
 
 	private double posX;
 	private double posY;
+	private AtomicLong counter;
 	
 	
 	public PositionComponent(double posX, double posY) {
 		super();
 		this.posX = posX;
 		this.posY = posY;
+		this.setCounter(new AtomicLong(0));
 	}
 	
 	public double getPosX() {
@@ -23,6 +27,14 @@ public class PositionComponent extends Component {
 	}
 	public void setPosY(double posY) {
 		this.posY = posY;
+	}
+
+	public AtomicLong getCounter() {
+		return counter;
+	}
+
+	public void setCounter(AtomicLong counter) {
+		this.counter = counter;
 	}
 
 	@Override

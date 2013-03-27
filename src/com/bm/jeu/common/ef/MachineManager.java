@@ -28,7 +28,8 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 	private MachineManager() {
 		super();
 		em_ = EntityManager.getinstance();
-		pool_ = Executors.newFixedThreadPool(5);
+		pool_ = Executors.newFixedThreadPool(10);
+//		pool_ = Executors.newCachedThreadPool();
 		machines_ = new ConcurrentHashMap<UUID, Machine>();
 		ComponentEventHandler.registerDataChangeListener(this);
 		EntityEventHandler.registerDataChangeListener(this);
