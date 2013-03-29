@@ -12,6 +12,7 @@ import org.jboss.netty.channel.SimpleChannelHandler;
 
 import com.bm.jeu.common.ef.Component;
 import com.bm.jeu.common.net.ComponentRecievedHandler;
+import com.bm.jeu.common.net.Logout;
 
 public class NettyClientHandler extends SimpleChannelHandler {
 
@@ -40,10 +41,14 @@ public class NettyClientHandler extends SimpleChannelHandler {
 	// Acts when a message was received
 	@Override
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-		System.out.println(e.getMessage());
 		if (e.getMessage() instanceof Component) {
 //			logger.info("Recieved:: " + (Component) e.getMessage());
 			ComponentRecievedHandler.fireDataChange((Component) e.getMessage());
+		}
+		else if(e.getMessage() instanceof Logout){
+//			logger.info("Client Logged out");
+			Logout logout = (Logout) e.getMessage();
+			NettyClient.clientLogout(ctx.getChannel(), logout);
 		}
 		super.messageReceived(ctx, e);
 	}

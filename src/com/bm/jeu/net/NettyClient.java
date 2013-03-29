@@ -1,6 +1,7 @@
 package com.bm.jeu.net;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
@@ -8,8 +9,10 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 
+import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.net.DefaultNetworkingClientServices;
 import com.bm.jeu.common.net.DefaultNetworkingServices;
+import com.bm.jeu.common.net.Logout;
 
 public class NettyClient implements DefaultNetworkingServices, DefaultNetworkingClientServices {
 
@@ -105,6 +108,13 @@ public class NettyClient implements DefaultNetworkingServices, DefaultNetworking
 	@Override
 	public boolean isRunning() {
 		return isConnected();
+	}
+
+	public static void clientLogout(Channel channel, Logout logout) {
+		for(UUID id : logout.getToRemove()){
+			EntityManager.getinstance().remove(id);
+		}
+		
 	}
 
 }

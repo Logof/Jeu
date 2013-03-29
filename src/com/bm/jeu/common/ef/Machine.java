@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
 import com.bm.jeu.net.NetworkManager;
 
 public abstract class Machine implements Runnable {
