@@ -21,6 +21,7 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.net.DefaultNetworkingServerServices;
 import com.bm.jeu.common.net.DefaultNetworkingServices;
+import com.bm.jeu.common.net.Login;
 import com.bm.jeu.common.net.Logout;
 
 public class NettyServer implements DefaultNetworkingServices, DefaultNetworkingServerServices{
@@ -134,6 +135,14 @@ public class NettyServer implements DefaultNetworkingServices, DefaultNetworking
 	public static void clientLogout(Channel chan, Logout logout){
 		channels_.write(logout);
 		removeChannel(chan);
+	}
+	
+	public static void clientLogin(Channel chan, Login login){
+		for(Entry<Integer,List<UUID>> entry : channelMapper.entrySet()){
+			for(UUID id : entry.getValue()){
+				
+			}
+		}
 	}
 
 	@Override

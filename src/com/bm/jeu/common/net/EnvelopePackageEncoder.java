@@ -15,6 +15,9 @@ public class EnvelopePackageEncoder extends OneToOneEncoder {
 		else if(message.getClassName().equals(Logout.class)){
 			return new NetworkEnvelope(new Version(Version.TESTING), new Type(Type.LOGOUT), message.getEncodedMessage());
 		}
+		else if(message.getClassName().equals(Login.class)){
+			return new NetworkEnvelope(new Version(Version.TESTING), new Type(Type.LOGIN), message.getEncodedMessage());
+		}
 		return null;
 		
 	}

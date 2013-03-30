@@ -24,6 +24,10 @@ public class XMLDecoder extends OneToOneDecoder {
 					Logout message = (Logout) xstream.fromXML(encodedObj.getEncodedMessage());
 					return message;
 				}
+				else if(encodedObj.getClassName().equals(Login.class)){
+					Login message = (Login) xstream.fromXML(encodedObj.getEncodedMessage());
+					return message;
+				}
 				
 		}
 		return msg;

@@ -20,6 +20,8 @@ public class EnvelopePackageDecoder extends OneToOneDecoder {
 				return new EncodedString(Component.class, envelope.getPayloadAsString()); // change to a format that the encoder understands
 			case Type.LOGOUT:
 				return new EncodedString(Logout.class, envelope.getPayloadAsString());
+			case Type.LOGIN:
+				return new EncodedString(Login.class, envelope.getPayloadAsString());
 			case Type.HEARTBEAT:
 				return envelope; // not decided yet what to do with this one
 			}

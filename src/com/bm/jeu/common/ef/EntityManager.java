@@ -35,9 +35,7 @@ public class EntityManager implements ManagerInterface<Entity> {
 				if (instance_ == null) {
 					instance_ = new EntityManager();
 				}
-
 			}
-
 		}
 		return instance_;
 	}

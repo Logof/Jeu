@@ -23,6 +23,8 @@ public class XMLEncoder extends OneToOneEncoder {
 		}
 		return output;
 	}
+	
+	//TODO: this stuff HAS to be done better!!
 
 	@Override
 	protected Object encode(ChannelHandlerContext ctx, Channel channel, Object msg) throws Exception {
@@ -33,6 +35,11 @@ public class XMLEncoder extends OneToOneEncoder {
         }
 		else if (msg instanceof Logout){
 			Logout buff = (Logout) msg;
+			EncodedString str = encodeMessage(buff);
+            return str;
+		}
+		else if (msg instanceof Login){
+			Login buff = (Login) msg;
 			EncodedString str = encodeMessage(buff);
             return str;
 		}

@@ -11,6 +11,7 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 import com.bm.jeu.common.ef.Component;
 import com.bm.jeu.common.net.ComponentRecievedHandler;
+import com.bm.jeu.common.net.Login;
 import com.bm.jeu.common.net.Logout;
 
 
@@ -63,7 +64,11 @@ public class PlayerServerHandler extends SimpleChannelHandler {
 			logger.info("Client Logged out");
 			Logout logout = (Logout) e.getMessage();
 			NettyServer.clientLogout(ctx.getChannel(), logout);
-			NettyServer.removeChannel(ctx.getChannel());
+		}
+		else if(e.getMessage() instanceof Login){
+			logger.info("Client Logged in");
+			Login login = (Login) e.getMessage();
+			NettyServer.clientLogin(ctx.getChannel(), login);
 		}
 		super.messageReceived(ctx, e);
 	}

@@ -1,5 +1,7 @@
 package com.bm.jeu.common.ef;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -56,6 +58,14 @@ public class Entity {
 
 	public Component getComponent(Component component) {
 		return getComponent(component.getClass());
+	}
+	
+	public List<Component> getAllComponents(){
+		List<Component> buffer = new ArrayList<Component>();
+		for(Entry<String, Component> entry : components_.entrySet()){
+			buffer.add(entry.getValue());
+		}
+		return buffer;
 	}
 
 	public void removeComponent(Component component) {

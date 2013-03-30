@@ -8,6 +8,7 @@ public class Type {
 	public static final byte HEARTBEAT = (byte) 0;
 	public static final byte GAME = (byte) 1;
 	public static final byte LOGOUT = (byte) 10;
+	public static final byte LOGIN = (byte) 11;
 
 	private byte TYPE = UNKNOWN;
 
