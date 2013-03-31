@@ -18,6 +18,8 @@ import org.jboss.netty.channel.group.ChannelGroupFuture;
 import org.jboss.netty.channel.group.DefaultChannelGroup;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 
+import com.bm.jeu.common.ef.Component;
+import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.net.DefaultNetworkingServerServices;
 import com.bm.jeu.common.net.DefaultNetworkingServices;
@@ -140,7 +142,14 @@ public class NettyServer implements DefaultNetworkingServices, DefaultNetworking
 	public static void clientLogin(Channel chan, Login login){
 		for(Entry<Integer,List<UUID>> entry : channelMapper.entrySet()){
 			for(UUID id : entry.getValue()){
-				
+				Entity entity = EntityManager.getinstance().get(id);
+				if(entity!=null){
+					for(Component comp : entity.getAllComponents()){
+						if(comp!=null && comp.getNetworkFlag()){
+							chan.write(comp);
+						}
+					}
+				}
 			}
 		}
 	}

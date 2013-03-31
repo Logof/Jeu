@@ -10,5 +10,10 @@
 	<classpathentry exported="true" kind="lib" path="libs/xstream-1.4.4/lib/xstream-1.4.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/libgdx-0.9.8/gdx.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/libgdx-0.9.8/gdx-backend-lwjgl.jar"/>
+	<classpathentry kind="lib" path="libs/commons-codec-1.7/commons-codec-1.7.jar" sourcepath="libs/commons-codec-1.7/commons-codec-1.7-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Jeu/libs/commons-codec-1.7/commons-codec-1.7-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

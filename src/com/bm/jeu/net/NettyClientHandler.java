@@ -42,7 +42,6 @@ public class NettyClientHandler extends SimpleChannelHandler {
 	@Override
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
 		if (e.getMessage() instanceof Component) {
-//			logger.info("Recieved:: " + (Component) e.getMessage());
 			ComponentRecievedHandler.fireDataChange((Component) e.getMessage());
 		}
 		else if(e.getMessage() instanceof Logout){

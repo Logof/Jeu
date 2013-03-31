@@ -68,6 +68,7 @@ public class PlayerServerHandler extends SimpleChannelHandler {
 		else if(e.getMessage() instanceof Login){
 			logger.info("Client Logged in");
 			Login login = (Login) e.getMessage();
+			logger.info("Username: " + login.getUsername() + " Password: " + login.getPassword());
 			NettyServer.clientLogin(ctx.getChannel(), login);
 		}
 		super.messageReceived(ctx, e);
