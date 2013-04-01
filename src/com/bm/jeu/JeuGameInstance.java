@@ -13,11 +13,16 @@ import com.badlogic.gdx.Game;
  */
 
 public class JeuGameInstance extends Game implements ApplicationListener {
+	
+	public JeuGameInstance() {
+		
+	}
+	
 	/***
 	 * When called, creates a new instance of the game, by default starting on the menu screen. 
 	 */
 	@Override
 	public void create() {
-		setScreen(new Menu(this));
+		setScreen(new Splash(this));
 	}
 }

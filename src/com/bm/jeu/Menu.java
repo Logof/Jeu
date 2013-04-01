@@ -32,7 +32,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window.WindowStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Timer;
-import com.bm.jeu.Launcher.TimerTask;
+import com.bm.jeu.Splash.TimerTask;
 
 public class Menu implements Screen {
 	private TextButton btnLaunchGame;
@@ -167,17 +167,17 @@ public class Menu implements Screen {
 	}
 	
 	private void loadSprites() {
-		spriteRt1 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_rt1.png")));
-		spriteRt2 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_rt2.png")));
+		spriteRt1 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_rt1.png")));
+		spriteRt2 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_rt2.png")));
 
-		spriteLf1 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_lf1.png")));
-		spriteLf2 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_lf2.png")));
+		spriteLf1 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_lf1.png")));
+		spriteLf2 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_lf2.png")));
 
-		spriteFr1 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_fr1.png")));
-		spriteFr2 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_fr2.png")));
+		spriteFr1 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_fr1.png")));
+		spriteFr2 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_fr2.png")));
 
-		spriteBk1 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_bk1.png")));
-		spriteBk2 = new TextureRegion(new Texture(Gdx.files.internal("res/sprites/sprite_bk2.png")));
+		spriteBk1 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_bk1.png")));
+		spriteBk2 = new TextureRegion(new Texture(Gdx.files.internal("sprites/sprite_bk2.png")));
 	}
 
 	@Override
@@ -188,6 +188,8 @@ public class Menu implements Screen {
 		sb.begin();
 		sb.drawQueues();
 		sb.end();
+		
+		Display.setTitle("Jeu - FPS: " + Gdx.graphics.getFramesPerSecond());
 	}
 
 	@Override
@@ -204,7 +206,7 @@ public class Menu implements Screen {
 		stage = new Stage(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),false);
 		Gdx.input.setInputProcessor(stage);
 		skin = new Skin();
-		font = new BitmapFont(Gdx.files.internal("res/font/dragonfly.fnt"), false);
+		font = new BitmapFont(Gdx.files.internal("font/dragonfly.fnt"), false);
 
 		loadSprites(); // Load all the sprite images we use to manage our walking player.
 
@@ -220,7 +222,7 @@ public class Menu implements Screen {
 		hero = spriteFr1; // Position of hero is currently set in JeuSpriteBatch (LAZY!)
 		sb.addToTextureRegionRenderQueue(hero);
 
-		background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("res/terrain/grass.png"))));
+		background = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("terrain/grass.png"))));
 
 		rand = new Random();
 		heroPos = rand.nextInt(4);

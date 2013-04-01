@@ -1,9 +1,5 @@
 package com.bm.jeu;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Toolkit;
-
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 
@@ -82,7 +78,6 @@ public class JeuClient extends Game implements Screen {
 
 	@Override
 	public void render(float arg0) {
-		System.out.println(arg0);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT); // Apparently this clears the screen!
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();

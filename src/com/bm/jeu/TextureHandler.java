@@ -65,7 +65,7 @@ public class TextureHandler {
 	public Texture getTextureGrass() {
 		if(textureGrass == null) { // If the texture hasn't already been loaded once, then load now:
 			try {
-				textureGrass = new Texture(Gdx.files.internal("res/terrain/grass.png")); // Try and load the texture file for grass from the jar's resources.
+				textureGrass = new Texture(Gdx.files.internal("terrain/grass.png")); // Try and load the texture file for grass from the jar's resources.
 				return textureGrass;
 			} catch(NullPointerException nullPointerException) { // A NullPointerException occurred - this usually happens if the texture file can't be found, or if the method was called on a thread that wasn't OpenGL-initialised.
 				System.out.println("Couldn't load texture: GRASS ! The following error occured: " + nullPointerException.getMessage());
@@ -96,37 +96,35 @@ public class TextureHandler {
 
 	public Texture getTexturePlayer(int animationStage,String direction) {
 		if(animationStage == 1 && direction == "up") {
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_bk1.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_bk1.png"));
 		}
 
 		if(animationStage == 2 && direction == "up") {
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_bk2.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_bk2.png"));
 		}
 
 		if(animationStage == 1 && direction == "down") {
-			System.out.println("Conditions met for animation stage 1, direction down!");
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_fr1.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_fr1.png"));
 		}
 
 		if(animationStage == 2 && direction == "down") {
-			System.out.println("Conditions met for animation stage 2, direction down!");
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_fr2.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_fr2.png"));
 		}
 
 		if(animationStage == 1 && direction.equals("left")) {
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_lf1.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_lf1.png"));
 		}
 
 		if(animationStage == 2 && direction.equals("left")) {
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_lf2.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_lf2.png"));
 		}
 
 		if(animationStage == 1 && direction.equals("right")) {
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_rt1.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_rt1.png"));
 		}
 
 		if(animationStage == 2 && direction.equals("right")) {
-			texturePlayer = new Texture(Gdx.files.internal("res/sprites/sprite_rt2.png"));
+			texturePlayer = new Texture(Gdx.files.internal("sprites/sprite_rt2.png"));
 		}
 
 		return texturePlayer;
