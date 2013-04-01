@@ -146,9 +146,9 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 	}
 
 	@Override
-	public void EntityRemovedEvent(Entity entity) {
+	public void EntityRemovedEvent(UUID id) {
 		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
-			entry.getValue().removeEntity(entity);
+			entry.getValue().removeEntity(id);
 		}
 
 	}

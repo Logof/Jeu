@@ -1,6 +1,12 @@
 package com.bm.jeu.net;
 
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 
 import org.jboss.netty.bootstrap.ServerBootstrap;
@@ -12,8 +18,13 @@ import org.jboss.netty.channel.group.ChannelGroupFuture;
 import org.jboss.netty.channel.group.DefaultChannelGroup;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 
+import com.bm.jeu.common.ef.Component;
+import com.bm.jeu.common.ef.Entity;
+import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.net.DefaultNetworkingServerServices;
-import com.bm.jeu.common.net.DefaultNetworkingServices;;
+import com.bm.jeu.common.net.DefaultNetworkingServices;
+import com.bm.jeu.common.net.Login;
+import com.bm.jeu.common.net.Logout;
 
 public class NettyServer implements DefaultNetworkingServices, DefaultNetworkingServerServices{
 	
@@ -25,11 +36,14 @@ public class NettyServer implements DefaultNetworkingServices, DefaultNetworking
 
 	private ServerBootstrap bootstrap;
 	private ChannelGroupFuture lastWriteFuture = null;
+	
+	private static Map<Integer, List<UUID>> channelMapper;
 
 	public NettyServer(int port) {
 		NettyServer.PORT = port;
 		listening = false;
 		channels_ = new DefaultChannelGroup();
+		channelMapper = new ConcurrentHashMap<Integer, List<UUID>>();
 	}
 	
 	//TODO: handling only components that are allowed!! (a list of allowed components?)
@@ -103,10 +117,41 @@ public class NettyServer implements DefaultNetworkingServices, DefaultNetworking
 	
 	public static void addChannel(Channel chan){
 		channels_.add(chan);
+		channelMapper.put(chan.getId(), new ArrayList<UUID>());
+	}
+	
+	public static void addEntityToChannel(Channel chan, UUID entityId){
+		channelMapper.get(chan.getId()).add(entityId);
 	}
 	
 	public static void removeChannel(Channel chan){
+		for(Entry<Integer,List<UUID>> entry : channelMapper.entrySet()){
+			for(UUID id : entry.getValue()){
+				EntityManager.getinstance().remove(id);
+			}
+		}
+		channelMapper.remove(chan.getId());
 		channels_.remove(chan);
+	}
+	
+	public static void clientLogout(Channel chan, Logout logout){
+		channels_.write(logout);
+		removeChannel(chan);
+	}
+	
+	public static void clientLogin(Channel chan, Login login){
+		for(Entry<Integer,List<UUID>> entry : channelMapper.entrySet()){
+			for(UUID id : entry.getValue()){
+				Entity entity = EntityManager.getinstance().get(id);
+				if(entity!=null){
+					for(Component comp : entity.getAllComponents()){
+						if(comp!=null && comp.getNetworkFlag()){
+							chan.write(comp);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import javax.swing.SwingWorker;
 import javax.swing.Timer;
 
 import com.bm.jeu.canvases.PlayerCanvas;
-import com.bm.jeu.net.RemoteHandler;
 
 public class PlayerHandler {
 	private PlayerCanvas playerCanvas;

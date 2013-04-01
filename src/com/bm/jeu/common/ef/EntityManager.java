@@ -35,9 +35,7 @@ public class EntityManager implements ManagerInterface<Entity> {
 				if (instance_ == null) {
 					instance_ = new EntityManager();
 				}
-
 			}
-
 		}
 		return instance_;
 	}
@@ -53,7 +51,7 @@ public class EntityManager implements ManagerInterface<Entity> {
 
 	@Override
 	public void remove(UUID id) {
-		EntityEventHandler.fireEntityRemoved(entities_.get(id));
+		EntityEventHandler.fireEntityRemoved(id);
 		entities_.remove(id);
 	}
 

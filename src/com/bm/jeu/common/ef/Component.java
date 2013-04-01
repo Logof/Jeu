@@ -40,6 +40,7 @@ public class Component {
 	
 	//the following part is Concurrency related
 	
+
 	public void lock(){
 //		System.out.println("LOCK");
 		if(!this.lock.hasQueuedThread(Thread.currentThread())){

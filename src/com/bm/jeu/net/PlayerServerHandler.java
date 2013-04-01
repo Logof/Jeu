@@ -11,6 +11,8 @@ import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
 import com.bm.jeu.common.ef.Component;
 import com.bm.jeu.common.net.ComponentRecievedHandler;
+import com.bm.jeu.common.net.Login;
+import com.bm.jeu.common.net.Logout;
 
 
 public class PlayerServerHandler extends SimpleChannelHandler {
@@ -55,7 +57,19 @@ public class PlayerServerHandler extends SimpleChannelHandler {
 		if (e.getMessage() instanceof Component) {
 			logger.info("Recieved:: " + (Component) e.getMessage());
 			Component buff = (Component) e.getMessage();
+			NettyServer.addEntityToChannel(ctx.getChannel(), buff.getENTITYID());
 			ComponentRecievedHandler.fireDataChange(buff);
+		}
+		else if(e.getMessage() instanceof Logout){
+			logger.info("Client Logged out");
+			Logout logout = (Logout) e.getMessage();
+			NettyServer.clientLogout(ctx.getChannel(), logout);
+		}
+		else if(e.getMessage() instanceof Login){
+			logger.info("Client Logged in");
+			Login login = (Login) e.getMessage();
+			logger.info("Username: " + login.getUsername() + " Password: " + login.getPassword());
+			NettyServer.clientLogin(ctx.getChannel(), login);
 		}
 		super.messageReceived(ctx, e);
 	}

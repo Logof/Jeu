@@ -2,6 +2,7 @@ package com.bm.jeu.common.ef;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class EntityEventHandler {
 	private static List<EntityListener> listeners = new ArrayList<EntityListener>();
@@ -17,9 +18,9 @@ public class EntityEventHandler {
         }
     }
     
-    public static void fireEntityRemoved(Entity entity) {
+    public static void fireEntityRemoved(UUID id) {
         for(EntityListener listener : listeners) {
-            listener.EntityRemovedEvent(entity);
+            listener.EntityRemovedEvent(id);
         }
     }
 

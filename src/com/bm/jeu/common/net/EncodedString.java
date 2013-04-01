@@ -2,10 +2,14 @@ package com.bm.jeu.common.net;
 
 public class EncodedString {
 	
-	String EncodedMessage;
+	@SuppressWarnings("rawtypes")
+	private Class className;
+	private String EncodedMessage;
 
-	public EncodedString(String encodedMessage) {
+	@SuppressWarnings("rawtypes")
+	public EncodedString(Class clazz, String encodedMessage) {
 		EncodedMessage = encodedMessage;
+		className = clazz;
 	}
 
 	public String getEncodedMessage() {
@@ -14,6 +18,16 @@ public class EncodedString {
 
 	public void setEncodedMessage(String encodedMessage) {
 		EncodedMessage = encodedMessage;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public Class getClassName() {
+		return className;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public void setClassName(Class className) {
+		this.className = className;
 	}
 
 	@Override

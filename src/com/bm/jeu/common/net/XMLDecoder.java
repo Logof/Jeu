@@ -15,9 +15,20 @@ public class XMLDecoder extends OneToOneDecoder {
 		if (msg instanceof EncodedString) {
 			EncodedString encodedObj = (EncodedString) msg;
 				XStream xstream = new XStream(new StaxDriver());
-				Component message = (Component) xstream.fromXML(encodedObj.getEncodedMessage());
-				message.setNetworkFlag(false);
-				return message;
+				if(encodedObj.getClassName().equals(Component.class)){
+					Component message = (Component) xstream.fromXML(encodedObj.getEncodedMessage());
+					message.setNetworkFlag(false);
+					return message;
+				}
+				else if(encodedObj.getClassName().equals(Logout.class)){
+					Logout message = (Logout) xstream.fromXML(encodedObj.getEncodedMessage());
+					return message;
+				}
+				else if(encodedObj.getClassName().equals(Login.class)){
+					Login message = (Login) xstream.fromXML(encodedObj.getEncodedMessage());
+					return message;
+				}
+				
 		}
 		return msg;
 	}

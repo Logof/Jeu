@@ -10,13 +10,21 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 public class XMLEncoder extends OneToOneEncoder {
 
-	public static EncodedString encodeMessage(Component message) throws IllegalArgumentException {
+	public static EncodedString encodeMessage(Object message) throws IllegalArgumentException {
 		XStream xstream = new XStream(new StaxDriver());
 		xstream.omitField(Component.class, "networkFlag");
 		xstream.omitField(Component.class, "lock");
-		EncodedString output = new EncodedString(xstream.toXML(message));
+		EncodedString output;
+		if(message instanceof Component){
+			output = new EncodedString(Component.class,xstream.toXML(message));
+		}
+		else {
+			output = new EncodedString(message.getClass(),xstream.toXML(message));
+		}
 		return output;
 	}
+	
+	//TODO: this stuff HAS to be done better!!
 
 	@Override
 	protected Object encode(ChannelHandlerContext ctx, Channel channel, Object msg) throws Exception {
@@ -24,7 +32,18 @@ public class XMLEncoder extends OneToOneEncoder {
 			Component buff = (Component) msg;
 			EncodedString str = encodeMessage(buff);
             return str;
-        } else {
+        }
+		else if (msg instanceof Logout){
+			Logout buff = (Logout) msg;
+			EncodedString str = encodeMessage(buff);
+            return str;
+		}
+		else if (msg instanceof Login){
+			Login buff = (Login) msg;
+			EncodedString str = encodeMessage(buff);
+            return str;
+		}
+		else {
             return msg;
         }
 	}
