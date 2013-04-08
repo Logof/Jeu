@@ -7,6 +7,7 @@ public class Component {
 	private UUID id;
 	private UUID ENTITYID;	//this will be the id of the parent entity. this is needed to set it after sending it over the net
 	private boolean networkFlag = false;
+	private boolean saveable;
 	private ReentrantLock lock;
 	
 	public Component(){
@@ -40,6 +41,14 @@ public class Component {
 	
 	//the following part is Concurrency related
 	
+
+	public boolean isSaveable() {
+		return saveable;
+	}
+
+	public void setSaveable(boolean saveable) {
+		this.saveable = saveable;
+	}
 
 	public void lock(){
 //		System.out.println("LOCK");
