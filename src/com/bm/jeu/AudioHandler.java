@@ -7,7 +7,7 @@ public class AudioHandler {
 	private Music music;
 	
 	public AudioHandler() {
-		music = Gdx.audio.newMusic(Gdx.files.internal("res/sound/pirate.mp3"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("sound/pirate.mp3"));
 		music.setLooping(true);
 	}
 	

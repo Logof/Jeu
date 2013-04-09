@@ -393,7 +393,6 @@ public class Player extends Actor {
 		}
 
 		currentX = playerX;
-		System.out.println(Gdx.graphics.getDeltaTime());
 		playerX = playerX - (speedX * Gdx.graphics.getDeltaTime());
 		move(playerX, playerY, currentX, playerY);
 		System.out.println("Moved left!");
@@ -422,13 +421,11 @@ public class Player extends Actor {
 
 		if(animationStage == 1)
 		{
-			System.out.println("Animation Stage 1!");
 			sprite.setTexture(textures.getTexturePlayer(2, "up"));
 		}
 
 		if(animationStage == 2)
 		{
-			System.out.println("Animation Stage 2!");
 			sprite.setTexture(textures.getTexturePlayer(1, "up"));
 		}
 		currentY = playerY;
@@ -529,14 +526,11 @@ public class Player extends Actor {
 	{
 		@Override
 		public void run() {
-			System.out.println("Swapping animation stage!");
 			if(animationStage == 1)
 			{
-				//System.out.println("Animation stage updated to 2!");
 				animationStage = 2;
 			} else
 			{
-				//System.out.println("Animation stage updated to 1!");
 				animationStage = 1;
 			}
 		}

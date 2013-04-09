@@ -1,39 +1,30 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="res"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry exported="true" kind="lib" path="libs/gdx-backend-lwjgl.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/gdx.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/gson-2.2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/netty-3.6.3.Final.jar" sourcepath="libs/netty-3.6.3.Final-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/xstream-1.4.4.jar"/>
-	<classpathentry kind="lib" path="libs/gdx-backend-lwjgl-natives.jar"/>
-	<classpathentry kind="lib" path="libs/gdx-natives.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>
+<<<<<<< HEAD
+	<classpathentry exported="true" kind="lib" path="libs/gdx/gdx.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gdx/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gdx/gdx-backend-lwjgl.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gdx/gdx-natives.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gdx/gdx-openal.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/gson/gson-2.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/netty/netty-3.6.3.Final.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/xstream/xstream-1.4.4.jar"/>
 =======
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="res"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="libs/google-gson-2.2.2/gson-2.2.2.jar" sourcepath="libs/google-gson-2.2.2/gson-2.2.2-sources.jar">
+	<classpathentry exported="true" kind="lib" path="libs/libgdx-0.9.8/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/libgdx-0.9.8/gdx-natives.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/google-gson-2.2.2/gson-2.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/netty-3.6.3.Final/jar/netty-3.6.3.Final.jar" sourcepath="libs/netty-3.6.3.Final/jar/netty-3.6.3.Final-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/xstream-1.4.4/lib/xstream-1.4.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/libgdx-0.9.8/gdx.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/libgdx-0.9.8/gdx-backend-lwjgl.jar"/>
+	<classpathentry kind="lib" path="libs/commons-codec-1.7/commons-codec-1.7.jar" sourcepath="libs/commons-codec-1.7/commons-codec-1.7-sources.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/Jeu/libs/google-gson-2.2.2/gson-2.2.2-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Jeu/libs/commons-codec-1.7/commons-codec-1.7-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/libgdx-0.9.8/gdx-backend-lwjgl-natives.jar"/>
-	<classpathentry kind="lib" path="libs/libgdx-0.9.8/gdx-backend-lwjgl.jar" sourcepath="libs/libgdx-0.9.8/sources/gdx-backend-lwjgl-sources.jar"/>
-	<classpathentry kind="lib" path="libs/libgdx-0.9.8/gdx-natives.jar"/>
-	<classpathentry kind="lib" path="libs/libgdx-0.9.8/gdx.jar" sourcepath="libs/libgdx-0.9.8/sources/gdx-sources.jar"/>
-	<classpathentry kind="lib" path="libs/netty-3.6.3.Final/jar/netty-3.6.3.Final.jar" sourcepath="libs/netty-3.6.3.Final/jar/netty-3.6.3.Final-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/C:/Users/imrofli/workspace/Jeu/libs/netty-3.6.3.Final/doc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/xstream-1.4.4/lib/xstream-1.4.4.jar"/>
+>>>>>>> ffca339b0f35409d9d89d15ccb877691fb1541fe
 	<classpathentry kind="output" path="bin"/>
 </classpath>
->>>>>>> fd2b727fc47b20d7346e4a549f1b323898e0c158
