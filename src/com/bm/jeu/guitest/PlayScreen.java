@@ -1,5 +1,9 @@
 package com.bm.jeu.guitest;
 
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.UUID;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
 
@@ -8,8 +12,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.bm.jeu.common.ef.Component;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.EntityManager;
+import com.bm.jeu.common.ef.Machine;
 import com.bm.jeu.common.ef.MachineManager;
 import com.bm.jeu.common.ef.MovementComponent;
 import com.bm.jeu.common.ef.MovementMachine;
@@ -17,15 +23,18 @@ import com.bm.jeu.common.ef.PositionComponent;
 
 public class PlayScreen extends GameScreen<Tester> {
 	
-	private Label testlabel;
-	private Entity ent;
 	private FPSLogger fps;
 	private EntityManager em_;
+	private Machine relay;
 
 	public PlayScreen(Tester game) {
 		super(game);
 		fps = new FPSLogger();
 		em_=EntityManager.getinstance();
+		InputMachine input = new InputMachine();
+		relay = new RelayMachine();
+		MachineManager.getinstance().add(input);
+		Gdx.input.setInputProcessor(input);
 	}
 
 	@Override
@@ -51,31 +60,21 @@ public class PlayScreen extends GameScreen<Tester> {
 	@Override
 	public void render(float arg0) {
 		clear();
-		if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-			ent.addComponent(new MovementComponent(2));
-		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-			ent.addComponent(new MovementComponent(-2));
-		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-			ent.addComponent(new MovementComponent(1));
-		}
-		else if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-			ent.addComponent(new MovementComponent(-1));
-		}
-		else {
-			ent.addComponent(new MovementComponent(0));
-		}
 		MachineManager.getinstance().update(arg0);
 		spritebatch.begin();
-		while(!draw_.isEmpty()){
-			Entity buff = em_.get(draw_.poll());
+		for(Entity buff : relay.getEntities()){
 			PositionComponent pos = (PositionComponent) buff.getComponent(PositionComponent.class);
 			SpriteComponent spr = (SpriteComponent) buff.getComponent(SpriteComponent.class);
 			spritebatch.draw(spr.getSprite(arg0), pos.getPosX(), pos.getPosY());
 		}
+//		while(!draw_.isEmpty()){
+//			Entity buff = em_.get(draw_.poll());
+//			PositionComponent pos = (PositionComponent) buff.getComponent(PositionComponent.class);
+//			SpriteComponent spr = (SpriteComponent) buff.getComponent(SpriteComponent.class);
+//			spritebatch.draw(spr.getSprite(arg0), pos.getPosX(), pos.getPosY());
+//		}
 		spritebatch.end();
-//		fps.log();
+		fps.log();
 	}
 
 	@Override
@@ -91,17 +90,20 @@ public class PlayScreen extends GameScreen<Tester> {
 
 	@Override
 	public void show() {
-		ent = new Entity();
 		MachineManager.getinstance().add(new MovementMachine());
-		MachineManager.getinstance().add(new DrawingMachine(this));
-
-		ent.addComponent(new MovementComponent(0));
-		ent.addComponent(new PositionComponent(0, 0));
-		ent.addComponent(new SpriteComponent());
-		BitmapFont testfont = new BitmapFont(Gdx.files.internal("res/font/dragonfly.fnt"), false);
-		testlabel = new Label("Play", new Label.LabelStyle(testfont, Color.RED));
-		testlabel.setPosition(100, 200);		
+		MachineManager.getinstance().add(relay);
 		
+		for(int i=0; i<50;i++){
+			addOne();
+		}
+	}
+	
+	public void addOne(){
+		Random rand = new Random();
+		Entity creator = new Entity();
+		creator.addComponent(new MovementComponent(0));
+		creator.addComponent(new SpriteComponent());
+		creator.addComponent(new PositionComponent(rand.nextFloat() * 750, rand.nextFloat() * 400));
 	}
 
 }

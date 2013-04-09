@@ -1,10 +1,13 @@
 package com.bm.jeu.common.ef;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.bm.jeu.net.NetworkManager;
 
@@ -15,12 +18,16 @@ public abstract class Machine implements Runnable {
 	private HashSet<String> interests_;
 	private Map<UUID, Entity> entities_;
 	private NetworkManager net_;
+	private AtomicFloat timeDelta;
+	private AtomicInteger entitiyAmountLastRun;
 
 	public Machine() {
 		net_ = NetworkManager.getinstance();
 		setId(UUID.randomUUID());
 		setInterests(new HashSet<String>());
 		entities_ = new ConcurrentHashMap<UUID, Entity>();
+		timeDelta = new AtomicFloat(0f);
+		entitiyAmountLastRun = new AtomicInteger(0);
 	}
 
 	public final UUID getId() {
@@ -33,6 +40,14 @@ public abstract class Machine implements Runnable {
 
 	public final HashSet<String> getInterests() {
 		return interests_;
+	}
+
+	public final float getTimeDelta() {
+		return timeDelta.floatValue();
+	}
+
+	public final void setTimeDelta(float timeDelta) {
+		this.timeDelta.set(timeDelta);
 	}
 
 	public final void setInterests(HashSet<String> hashSet) {
@@ -93,6 +108,22 @@ public abstract class Machine implements Runnable {
 	public final void removeEntity(UUID id) {
 		entities_.remove(id);
 	}
+	
+	public final int getEntityAmount(){
+		return entities_.size();
+	}
+	
+	public final int getEntityAmountLastRun(){
+		return entitiyAmountLastRun.get();
+	}
+	
+	public final boolean entityAmountHasChanged(){
+		return getEntityAmountLastRun() != getEntityAmount();
+	}
+	
+	public final List<Entity> getEntities(){
+		return new ArrayList<Entity>(entities_.values());
+	}
 
 	public final void lockInterests(Entity entity) {
 		for (String interest : getInterests()) {
@@ -124,11 +155,17 @@ public abstract class Machine implements Runnable {
 	// This method will be used to change components according to the machines
 	// purpose. I.e. changing X or Y position components etc.
 	public abstract void processEntities(Entity entity);
+	
+	
+	//this will be done once per machine-Run at the start of the run
+	public void doOnce() {
+	}
 
 	// this part may seem "clever" but i've got no idea if this will be useful
 	// later (concerning the automatic iteration over the entities)
 	@Override
 	public final void run() {
+		doOnce();
 		for (Entry<UUID, Entity> entry : entities_.entrySet()) {
 			Entity buffer = entry.getValue();
 			if (buffer != null && checkInterests(buffer)) {
@@ -146,6 +183,11 @@ public abstract class Machine implements Runnable {
 			}
 
 		}
+		entitiyAmountLastRun.set(getEntityAmount());
 
 	}
+	
+	
+	
+	
 }

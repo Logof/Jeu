@@ -58,7 +58,6 @@ public class EntityManager implements ManagerInterface<Entity> {
 	@Override
 	public void remove(Entity element) {
 		remove(element.getId());
-
 	}
 
 	@Override

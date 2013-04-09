@@ -32,7 +32,7 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 		super();
 		timeDelta = new AtomicFloat();
 		em_ = EntityManager.getinstance();
-		pool_ = Executors.newFixedThreadPool(10);
+		pool_ = Executors.newFixedThreadPool(5);
 //		pool_ = Executors.newCachedThreadPool();
 		machines_ = new ConcurrentHashMap<UUID, Machine>();
 		ComponentEventHandler.registerDataChangeListener(this);
@@ -106,6 +106,7 @@ public class MachineManager implements ComponentListener, EntityListener, Manage
 	public void update(float delta) {
 		timeDelta.set(delta);
 		for (Entry<UUID, Machine> entry : machines_.entrySet()) {
+			entry.getValue().setTimeDelta(delta);
 			pool_.execute(entry.getValue());
 		}
 	}
