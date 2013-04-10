@@ -2,6 +2,8 @@ package com.bm.jeu.common.ef;
 
 public class ResourceManager {
 	
+	private static ResourceLoader loader_;
+	
 	/* Here is the instance of the Singleton */
 	private static ResourceManager instance_;
 
@@ -13,6 +15,7 @@ public class ResourceManager {
 	// Prevent direct access to the constructor
 	private ResourceManager() {
 		super();
+		loader_ = null;
 	}
 
 	public static ResourceManager getinstance() {
@@ -39,6 +42,10 @@ public class ResourceManager {
 	
 	public static void save(Entity entity){
 		
+	}
+	
+	public static void initialize(ResourceLoader loader){
+		loader_ = loader;
 	}
 	
 	//TODO: how the hell am i supposed to design this?

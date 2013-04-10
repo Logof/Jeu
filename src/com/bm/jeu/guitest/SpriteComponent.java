@@ -6,11 +6,12 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.bm.jeu.common.ef.Component;
 
 public class SpriteComponent extends Component {
-	private static final int FRAME_COLS = 6;
+	private static final int FRAME_COLS = 9;
 	private static final int FRAME_ROWS = 4;
 	private static final float ANIMATION_DURATION = 0.25f;
 	TextureRegion sprite[][];
@@ -46,6 +47,12 @@ public class SpriteComponent extends Component {
 			actAni.set(spr);
 		}
 		
+	}
+	
+	public void draw(SpriteBatch sb, float posX, float posY, float delta){
+//		sb.begin();
+		sb.draw(getSprite(delta), posX, posY);
+//		sb.end();
 	}
 
 }

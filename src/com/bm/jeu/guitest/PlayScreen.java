@@ -1,20 +1,15 @@
 package com.bm.jeu.guitest;
 
-import java.util.Map.Entry;
 import java.util.Random;
-import java.util.UUID;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.bm.jeu.common.ef.Component;
 import com.bm.jeu.common.ef.Entity;
-import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.ef.Machine;
 import com.bm.jeu.common.ef.MachineManager;
 import com.bm.jeu.common.ef.MovementComponent;
@@ -24,13 +19,11 @@ import com.bm.jeu.common.ef.PositionComponent;
 public class PlayScreen extends GameScreen<Tester> {
 	
 	private FPSLogger fps;
-	private EntityManager em_;
 	private Machine relay;
 
 	public PlayScreen(Tester game) {
 		super(game);
 		fps = new FPSLogger();
-		em_=EntityManager.getinstance();
 		InputMachine input = new InputMachine();
 		relay = new RelayMachine();
 		MachineManager.getinstance().add(input);
@@ -65,14 +58,10 @@ public class PlayScreen extends GameScreen<Tester> {
 		for(Entity buff : relay.getEntities()){
 			PositionComponent pos = (PositionComponent) buff.getComponent(PositionComponent.class);
 			SpriteComponent spr = (SpriteComponent) buff.getComponent(SpriteComponent.class);
-			spritebatch.draw(spr.getSprite(arg0), pos.getPosX(), pos.getPosY());
+//			TextureRegion reg = spr.getSprite(arg0);
+//			spritebatch.draw(reg, pos.getPosX(), pos.getPosY());
+			spr.draw(spritebatch, pos.getPosX(), pos.getPosY(), arg0);
 		}
-//		while(!draw_.isEmpty()){
-//			Entity buff = em_.get(draw_.poll());
-//			PositionComponent pos = (PositionComponent) buff.getComponent(PositionComponent.class);
-//			SpriteComponent spr = (SpriteComponent) buff.getComponent(SpriteComponent.class);
-//			spritebatch.draw(spr.getSprite(arg0), pos.getPosX(), pos.getPosY());
-//		}
 		spritebatch.end();
 		fps.log();
 	}

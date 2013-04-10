@@ -30,11 +30,11 @@ public class MovementMachine extends Machine {
 				break;
 			case 2:
 				pc.setPosY(pc.getPosY() + 1);
-				sprc.setSprite(2);
+				sprc.setSprite(0);
 				break;
 			case -2:
 				pc.setPosY(pc.getPosY() - 1);
-				sprc.setSprite(0);
+				sprc.setSprite(2);
 				break;
 			}
 		}
