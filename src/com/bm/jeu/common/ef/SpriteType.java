@@ -14,15 +14,16 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 public class SpriteType implements TypeLoader<SpriteComponent> {
 	
 	private Map<String, Texture> mapper;
+	private XStream xstream;
 
 	public SpriteType() {
 		mapper = new HashMap<String, Texture>();
+		xstream = new XStream(new StaxDriver());
 	}
 
 	@Override
-	public SpriteComponent getType(UUID id) {
-		XStream xstream = new XStream(new StaxDriver());
-		String test = "res/ent/" +id.toString() + ".txt";
+	public SpriteComponent getComponent(String path, UUID id) {
+		String test = path + "/" +id.toString() + ".txt";
 		SpriteComponent spc = (SpriteComponent) xstream.fromXML(new File(test));
 		if(mapper.containsKey(spc.getFilepath())){
 			spc.setTexture(mapper.get(spc.getFilepath()));
@@ -34,6 +35,19 @@ public class SpriteType implements TypeLoader<SpriteComponent> {
 		}
 		return spc;
 	}
+	
+	@Override
+	public SpriteComponent getComponent(UUID id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		return SpriteComponent.class.getName();
+	}
+
+
 
 
 }

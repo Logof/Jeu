@@ -87,9 +87,9 @@ public class PlayScreen extends GameScreen<Tester> {
 		MachineManager.getinstance().add(new MovementMachine());
 		MachineManager.getinstance().add(relay);
 		
-		for(int i=0; i<1;i++){
-			addOne();
-		}
+//		for(int i=0; i<1;i++){
+//			addOne();
+//		}
 	}
 	
 	public void addOne(){

@@ -10,16 +10,30 @@ public class GenericType implements TypeLoader<Component> {
 	
 	//here could a mapper be placed which has already loaded textures etc
 
+	private XStream xstream;
+
 	public GenericType() {
-		// TODO Auto-generated constructor stub
+		xstream = new XStream(new StaxDriver());
 	}
 
 	@Override
-	public Component getType(UUID id) {
-		XStream xstream = new XStream(new StaxDriver());
-		String test = "res/ent/" +id.toString() + ".txt";
+	public Component getComponent(String path, UUID id) {
+		String test = path + "/" +id.toString() + ".txt";
 		Component mvc = (Component) xstream.fromXML(new File(test));
 		return mvc;
 	}
+	
+	@Override
+	public Component getComponent(UUID id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		return Component.class.getName();
+	}
+
+	
 
 }

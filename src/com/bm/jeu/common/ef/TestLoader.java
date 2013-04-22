@@ -1,47 +1,56 @@
 package com.bm.jeu.common.ef;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Map.Entry;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 
 //has the context of the resources. knows where the data is (sql/file etc)
 public class TestLoader implements ResourceLoader {
-	public Texture tex;
 	
-	//this is just static code for the test, later it'll delegate to the type loaders!
-	public Map<String, UUID> mapper = new HashMap<String, UUID>();
+	@SuppressWarnings("rawtypes")
+	private Map<String, TypeLoader> loaders;
+	private XStream xstream;
+	
+	private String entityFolder;
+	private String fileType;
 
+	@SuppressWarnings("rawtypes")
 	public TestLoader() {
-		// TODO Auto-generated constructor stub
+		xstream = new XStream(new StaxDriver());
+		loaders = new HashMap<String, TypeLoader>();
+		entityFolder = "res/ent/";
+		fileType = ".txt";
+		addType(new SpriteType());
+		addType(new GenericType());
 	}
 
 	@Override
 	public void addType(TypeLoader<?> type) {
-		
-
+		loaders.put(type.getType(), type);
 	}
 
 	@Override
 	public void removeType(TypeLoader<?> type) {
-		// TODO Auto-generated method stub
+		loaders.remove(type.getType());
 
 	}
 
 	@Override
 	public int getTypeSize(String type) {
-		// TODO Auto-generated method stub
-		return 0;
+		return loaders.size();
 	}
 
 	//Loads the needed entites to run, like the "world" or "map" or "player" depending on what's needed to start
 	@Override
 	public void loadWorkingEnvironment() {
-		tex =new Texture(new FileHandle("res/sprites/char.png"));
-
+		Entity starter = new Entity(UUID.fromString("678b218c-09c7-4bc9-a1f9-e53fc5f37c8c"));
+		loadEntity(starter);
 	}
 
 	@Override
@@ -52,18 +61,17 @@ public class TestLoader implements ResourceLoader {
 
 	@Override
 	public void loadEntity(Entity entity) {
-		//get components out of entity file or so
-		mapper.put("com.bm.jeu.common.ef.MovementComponent", UUID.fromString("411fedd1-6096-4854-8532-92f468272a63"));
-		mapper.put("com.bm.jeu.common.ef.PositionComponent", UUID.fromString("747364a9-04cc-4e57-b3f8-7526d7d9aef7"));
-		mapper.put("com.bm.jeu.common.ef.SpriteComponent", UUID.fromString("a697a8db-14d3-4b9c-be8d-2797cca18177"));
 		
-		GenericType tt = new GenericType();
-		SpriteType st = new SpriteType();
-//		System.out.println(tt.getType(mapper.get("com.bm.jeu.common.ef.MovementComponent")));
-//		System.out.println(tt.getType(mapper.get("com.bm.jeu.common.ef.PositionComponent")));
-		entity.addComponent(tt.getType(mapper.get("com.bm.jeu.common.ef.MovementComponent")));
-		entity.addComponent(st.getType(mapper.get("com.bm.jeu.common.ef.SpriteComponent")));
-		entity.addComponent(tt.getType(mapper.get("com.bm.jeu.common.ef.PositionComponent")));
+		EntityLoad load = (EntityLoad) xstream.fromXML(new File(entityFolder+entity.getId().toString()+fileType));
+		
+		for(Entry<String, UUID> entry : load.components.entrySet()){
+			if(loaders.containsKey(entry.getKey())){
+				entity.addComponent((Component) loaders.get(entry.getKey()).getComponent(entityFolder+entity.getId().toString(),entry.getValue()));
+			}
+			else {
+				entity.addComponent((Component) loaders.get(Component.class.getName()).getComponent(entityFolder+entity.getId().toString(),entry.getValue()));
+			}
+		}
 
 	}
 
