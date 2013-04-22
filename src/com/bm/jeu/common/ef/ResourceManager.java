@@ -36,16 +36,18 @@ public class ResourceManager {
 		return instance_;
 	}
 	
-	public static void load(Entity entity){
+	public void load(Entity entity){
+		
+		loader_.loadEntity(entity);
+	}
+	
+	public void save(Entity entity){
 		
 	}
 	
-	public static void save(Entity entity){
-		
-	}
-	
-	public static void initialize(ResourceLoader loader){
+	public void initialize(ResourceLoader loader){
 		loader_ = loader;
+		loader_.loadWorkingEnvironment();
 	}
 	
 	//TODO: how the hell am i supposed to design this?

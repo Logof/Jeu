@@ -15,6 +15,10 @@ import com.bm.jeu.common.ef.MachineManager;
 import com.bm.jeu.common.ef.MovementComponent;
 import com.bm.jeu.common.ef.MovementMachine;
 import com.bm.jeu.common.ef.PositionComponent;
+import com.bm.jeu.common.ef.ResourceManager;
+import com.bm.jeu.common.ef.TestLoader;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 public class PlayScreen extends GameScreen<Tester> {
 	
@@ -27,6 +31,7 @@ public class PlayScreen extends GameScreen<Tester> {
 		InputMachine input = new InputMachine();
 		relay = new RelayMachine();
 		MachineManager.getinstance().add(input);
+		ResourceManager.getinstance().initialize(new TestLoader());
 		Gdx.input.setInputProcessor(input);
 	}
 
@@ -82,17 +87,16 @@ public class PlayScreen extends GameScreen<Tester> {
 		MachineManager.getinstance().add(new MovementMachine());
 		MachineManager.getinstance().add(relay);
 		
-		for(int i=0; i<50;i++){
+		for(int i=0; i<1;i++){
 			addOne();
 		}
 	}
 	
 	public void addOne(){
-		Random rand = new Random();
+		
 		Entity creator = new Entity();
-		creator.addComponent(new MovementComponent(0));
-		creator.addComponent(new SpriteComponent());
-		creator.addComponent(new PositionComponent(rand.nextFloat() * 750, rand.nextFloat() * 400));
+		ResourceManager.getinstance().load(creator);
+		
 	}
 
 }

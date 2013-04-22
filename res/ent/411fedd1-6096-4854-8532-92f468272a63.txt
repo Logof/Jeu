@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<com.bm.jeu.common.ef.MovementComponent>
+        <id>411fedd1-6096-4854-8532-92f468272a63</id>
+        <direction>1</direction>
+</com.bm.jeu.common.ef.MovementComponent>
