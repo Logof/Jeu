@@ -1,12 +1,14 @@
 package com.bm.jeu.common.ef;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationWrapper {
 
 	private int startX;
 	private int startY;
-	private int length;
+	private int heigth;
 	private int width;
 	private int rows;
 	private int cols;
@@ -25,16 +27,113 @@ public class AnimationWrapper {
 	public static final int LOOP_RANDOM = 5;
 
 	public AnimationWrapper() {
-		startX = 1;
-		startY =2;
-		length = 3;
-		width = 4;
-		rows = 5;
-		cols = 6;
-		duration = 0.25f;
-		loopType = LOOP_PINGPONG;
-		paddingHorizontal = 33;
-		paddingVertical = 44;
+		
+	}
+
+	public Animation getAnimation() {
+		return animation;
+	}
+
+	public void setAnimation(Texture spritesheet) {
+		TextureRegion buff[] = new TextureRegion[rows*cols];
+		int i = 0;
+		int spritewidth = (width/cols)-paddingHorizontal;
+		int spriteheigth = (heigth/rows)-paddingVertical;
+		int elementwidth = width/cols;
+		int elementheigth = width/cols;
+		
+		for(int y=0;y<rows;y++){
+			for(int x=0;x<cols;x++){
+				buff[i] = new TextureRegion(spritesheet, startX+(x*elementwidth)+paddingHorizontal, startY+(y*elementheigth)+paddingVertical, spritewidth, spriteheigth);
+				i++;
+			}
+		}
+		animation = new Animation(duration, buff);
+		animation.setPlayMode(LOOP);
+	}
+	
+	public TextureRegion getKeyFrame(float statetime){
+		return animation.getKeyFrame(statetime);
+	}
+
+	public int getStartX() {
+		return startX;
+	}
+
+	public void setStartX(int startX) {
+		this.startX = startX;
+	}
+
+	public int getStartY() {
+		return startY;
+	}
+
+	public void setStartY(int startY) {
+		this.startY = startY;
+	}
+
+	public int getLength() {
+		return heigth;
+	}
+
+	public void setLength(int length) {
+		this.heigth = length;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public int getCols() {
+		return cols;
+	}
+
+	public void setCols(int cols) {
+		this.cols = cols;
+	}
+
+	public float getDuration() {
+		return duration;
+	}
+
+	public void setDuration(float duration) {
+		this.duration = duration;
+	}
+
+	public int getLoopType() {
+		return loopType;
+	}
+
+	public void setLoopType(int loopType) {
+		this.loopType = loopType;
+	}
+
+	public int getPaddingHorizontal() {
+		return paddingHorizontal;
+	}
+
+	public void setPaddingHorizontal(int paddingHorizontal) {
+		this.paddingHorizontal = paddingHorizontal;
+	}
+
+	public int getPaddingVertical() {
+		return paddingVertical;
+	}
+
+	public void setPaddingVertical(int paddingVertical) {
+		this.paddingVertical = paddingVertical;
 	}
 
 }

@@ -14,7 +14,6 @@ public class MainMenuScreen extends GameScreen<Tester> {
 
 	public MainMenuScreen(Tester game) {
 		super(game);
-		
 	}
 
 	@Override

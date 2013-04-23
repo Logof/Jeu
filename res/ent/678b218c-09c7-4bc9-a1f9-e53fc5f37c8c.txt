@@ -11,8 +11,8 @@
       <uuid>411fedd1-6096-4854-8532-92f468272a63</uuid>
     </entry>
     <entry>
-      <string>com.bm.jeu.guitest.SpriteComponent</string>
-      <uuid>a697a8db-14d3-4b9c-be8d-2797cca18177</uuid>
+      <string>com.bm.jeu.common.ef.AnimationComponent</string>
+      <uuid>a7f8e66a-68e5-4a56-b4b7-93f98f14eda3</uuid>
     </entry>
   </components>
 </com.bm.jeu.common.ef.EntityLoad>

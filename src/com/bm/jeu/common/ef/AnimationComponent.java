@@ -2,9 +2,12 @@ package com.bm.jeu.common.ef;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationComponent extends Component {
 	
@@ -12,18 +15,13 @@ public class AnimationComponent extends Component {
 	private AtomicInteger activeAnimation;
 	private Texture spriteSheet;
 	private Map<Integer,AnimationWrapper> animations;
-	private float statetime;
+	private float statetime = 0.0f;
 
 	public AnimationComponent() {
-		activeAnimation = new AtomicInteger(10);
+		setActiveAnimation(1);
 		animations = new HashMap<Integer, AnimationWrapper>();
 		statetime = 0.0f;
-		setFilepath( "res/sprites/char.png");
-		animations.put(1, new AnimationWrapper());
-		animations.put(3, new AnimationWrapper());
 	}
-	
-	
 
 	public String getFilepath() {
 		return filepath;
@@ -31,6 +29,37 @@ public class AnimationComponent extends Component {
 
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
+	}
+
+
+	public void setActiveAnimation(int activeAnimation) {
+		if(this.activeAnimation.get()!=activeAnimation){
+			statetime=0.0f;
+			this.activeAnimation.set(activeAnimation);
+		}
+	}
+
+	public Texture getSpriteSheet() {
+		return spriteSheet;
+	}
+
+	public void setSpriteSheet(Texture spriteSheet) {
+		this.spriteSheet = spriteSheet;
+		statetime = 0.0f;
+		for(Entry<Integer, AnimationWrapper> entry : animations.entrySet()){
+			entry.getValue().setAnimation(spriteSheet);
+		}
+	}
+	
+	public TextureRegion getSprite(float delta) {
+		statetime +=delta;
+//		System.out.println(activeAnimation.get() + " -- " +animations.get(activeAnimation.get()).getKeyFrame(statetime));
+		return animations.get(activeAnimation.get()).getKeyFrame(statetime);
+		
+	}
+	
+	public void draw(SpriteBatch sb, float posX, float posY, float delta){
+		sb.draw(getSprite(delta), posX, posY);
 	}
 
 }

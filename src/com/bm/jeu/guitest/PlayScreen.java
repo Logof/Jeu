@@ -2,6 +2,7 @@ package com.bm.jeu.guitest;
 
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.Gdx;
+import com.bm.jeu.common.ef.AnimationComponent;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.Machine;
 import com.bm.jeu.common.ef.MachineManager;
@@ -52,8 +53,8 @@ public class PlayScreen extends GameScreen<Tester> {
 		spritebatch.begin();
 		for(Entity buff : relay.getEntities()){
 			PositionComponent pos = (PositionComponent) buff.getComponent(PositionComponent.class);
-			SpriteComponent spr = (SpriteComponent) buff.getComponent(SpriteComponent.class);
-			spr.draw(spritebatch, pos.getPosX(), pos.getPosY(), arg0);
+			AnimationComponent anic = (AnimationComponent) buff.getComponent(AnimationComponent.class);
+			anic.draw(spritebatch, pos.getPosX(), pos.getPosY(), arg0);
 		}
 		spritebatch.end();
 		fps.log();
