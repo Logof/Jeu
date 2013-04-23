@@ -37,7 +37,6 @@ public class ResourceManager {
 	}
 	
 	public void load(Entity entity){
-		
 		loader_.loadEntity(entity);
 	}
 	
@@ -50,6 +49,5 @@ public class ResourceManager {
 		loader_.loadWorkingEnvironment();
 	}
 	
-	//TODO: how the hell am i supposed to design this?
 
 }

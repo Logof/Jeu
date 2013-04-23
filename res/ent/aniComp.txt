@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<com.bm.jeu.common.ef.AnimationComponent>
+  <id>a7f8e66a-68e5-4a56-b4b7-93f98f14eda3</id>
+  <filepath>res/sprites/char.png</filepath>
+  <activeAnimation>
+    <value>10</value>
+  </activeAnimation>
+  <animations>
+    <entry>
+      <int>1</int>
+      <com.bm.jeu.common.ef.AnimationWrapper>
+        <startX>1</startX>
+        <startY>2</startY>
+        <length>3</length>
+        <width>4</width>
+        <rows>5</rows>
+        <cols>6</cols>
+        <duration>0.25</duration>
+        <loopType>4</loopType>
+        <paddingHorizontal>33</paddingHorizontal>
+        <paddingVertical>44</paddingVertical>
+      </com.bm.jeu.common.ef.AnimationWrapper>
+    </entry>
+    <entry>
+      <int>3</int>
+      <com.bm.jeu.common.ef.AnimationWrapper>
+        <startX>1</startX>
+        <startY>2</startY>
+        <length>3</length>
+        <width>4</width>
+        <rows>5</rows>
+        <cols>6</cols>
+        <duration>0.25</duration>
+        <loopType>4</loopType>
+        <paddingHorizontal>33</paddingHorizontal>
+        <paddingVertical>44</paddingVertical>
+      </com.bm.jeu.common.ef.AnimationWrapper>
+    </entry>
+  </animations>
+  <statetime>0.0</statetime>
+</com.bm.jeu.common.ef.AnimationComponent>
+

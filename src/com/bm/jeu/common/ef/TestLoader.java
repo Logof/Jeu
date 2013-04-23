@@ -51,6 +51,8 @@ public class TestLoader implements ResourceLoader {
 	public void loadWorkingEnvironment() {
 		Entity starter = new Entity(UUID.fromString("678b218c-09c7-4bc9-a1f9-e53fc5f37c8c"));
 		loadEntity(starter);
+		AnimationComponent buff = new AnimationComponent();
+		System.out.println(xstream.toXML(buff));
 	}
 
 	@Override

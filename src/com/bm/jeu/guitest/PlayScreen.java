@@ -1,24 +1,14 @@
 package com.bm.jeu.guitest;
 
-import java.util.Random;
-
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-
 import com.badlogic.gdx.Gdx;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.Machine;
 import com.bm.jeu.common.ef.MachineManager;
-import com.bm.jeu.common.ef.MovementComponent;
 import com.bm.jeu.common.ef.MovementMachine;
 import com.bm.jeu.common.ef.PositionComponent;
 import com.bm.jeu.common.ef.ResourceManager;
 import com.bm.jeu.common.ef.TestLoader;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
 
 public class PlayScreen extends GameScreen<Tester> {
 	
@@ -63,8 +53,6 @@ public class PlayScreen extends GameScreen<Tester> {
 		for(Entity buff : relay.getEntities()){
 			PositionComponent pos = (PositionComponent) buff.getComponent(PositionComponent.class);
 			SpriteComponent spr = (SpriteComponent) buff.getComponent(SpriteComponent.class);
-//			TextureRegion reg = spr.getSprite(arg0);
-//			spritebatch.draw(reg, pos.getPosX(), pos.getPosY());
 			spr.draw(spritebatch, pos.getPosX(), pos.getPosY(), arg0);
 		}
 		spritebatch.end();

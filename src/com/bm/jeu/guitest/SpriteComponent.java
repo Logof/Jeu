@@ -2,7 +2,6 @@ package com.bm.jeu.guitest;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,9 +10,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.bm.jeu.common.ef.Component;
 
 public class SpriteComponent extends Component {
-	private int FRAME_COLS = 9;
-	private int FRAME_ROWS = 4;
-	private float ANIMATION_DURATION = 0.25f;
+	private int FRAME_COLS;
+	private int FRAME_ROWS;
+	private float ANIMATION_DURATION;
 	private String filepath = "res/sprites/char.png";
 	private TextureRegion sprite[][];
 	private Animation[] animations;
@@ -24,24 +23,6 @@ public class SpriteComponent extends Component {
 	public SpriteComponent() {
 		super();
 		statetime = 0;
-		actAni = new AtomicInteger(0);
-		sprite = new Sprite[FRAME_ROWS][FRAME_COLS];
-		animations = new Animation[FRAME_ROWS];
-
-	}
-	
-	public SpriteComponent(Texture ss){
-		super();
-		statetime = 0;
-		actAni = new AtomicInteger(0);
-		sprite = new Sprite[FRAME_ROWS][FRAME_COLS];
-		animations = new Animation[FRAME_ROWS];
-		spriteSheet = ss;
-		sprite = TextureRegion.split(spriteSheet, spriteSheet.getWidth() / FRAME_COLS, spriteSheet.getHeight() / FRAME_ROWS);
-		for (int i = 0; i < FRAME_ROWS; i++) {
-            animations[i] = new Animation(ANIMATION_DURATION, sprite[i]);
-            animations[i].setPlayMode(Animation.LOOP);
-		}
 	}
 
 	public TextureRegion getSprite(float delta) {
@@ -70,9 +51,7 @@ public class SpriteComponent extends Component {
 	}
 	
 	public void draw(SpriteBatch sb, float posX, float posY, float delta){
-//		sb.begin();
 		sb.draw(getSprite(delta), posX, posY);
-//		sb.end();
 	}
 
 	public String getFilepath() {
