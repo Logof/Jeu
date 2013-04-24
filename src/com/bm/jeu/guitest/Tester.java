@@ -6,9 +6,11 @@ import com.badlogic.gdx.Gdx;
 public class Tester extends Game {
 	// constant useful for logging
 	public static final String LOG = Tester.class.getSimpleName();
+	
+	//if we always come back to some screen we can set it here
+	
 	public PlayScreen play;
 
-	// a libgdx helper class that logs the current FPS each second
 
 	@Override
 	public void create() {

@@ -53,7 +53,6 @@ public class AnimationComponent extends Component {
 	
 	public TextureRegion getSprite(float delta) {
 		statetime +=delta;
-//		System.out.println(activeAnimation.get() + " -- " +animations.get(activeAnimation.get()).getKeyFrame(statetime));
 		return animations.get(activeAnimation.get()).getKeyFrame(statetime);
 		
 	}

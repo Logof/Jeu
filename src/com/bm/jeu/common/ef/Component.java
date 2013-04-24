@@ -3,11 +3,16 @@ package com.bm.jeu.common.ef;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class Component {
 	private UUID id;
 	private UUID ENTITYID;	//this will be the id of the parent entity. this is needed to set it after sending it over the net
+	@XStreamOmitField
 	private boolean networkFlag = false;
+	@XStreamOmitField
 	private boolean saveable;
+	@XStreamOmitField
 	private ReentrantLock lock;
 	
 	public Component(){

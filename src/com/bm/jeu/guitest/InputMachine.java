@@ -1,15 +1,14 @@
 package com.bm.jeu.guitest;
 
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.ef.Machine;
 import com.bm.jeu.common.ef.MovementComponent;
+import com.bm.jeu.common.ef.PlayerComponent;
 import com.bm.jeu.common.ef.PositionComponent;
 
 public class InputMachine extends Machine implements InputProcessor {
@@ -22,6 +21,7 @@ public class InputMachine extends Machine implements InputProcessor {
 	public InputMachine() {
 		addInterest(PositionComponent.class);
 		addInterest(MovementComponent.class);
+		addInterest(PlayerComponent.class);
 		keydown = new AtomicInteger(0);
 	}
 
