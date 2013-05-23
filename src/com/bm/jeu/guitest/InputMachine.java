@@ -4,12 +4,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.bm.jeu.common.ef.ActionComponent;
+import com.bm.jeu.common.ef.Actions;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.ef.Machine;
-import com.bm.jeu.common.ef.MovementComponent;
 import com.bm.jeu.common.ef.PlayerComponent;
-import com.bm.jeu.common.ef.PositionComponent;
 
 public class InputMachine extends Machine implements InputProcessor {
 
@@ -19,36 +19,35 @@ public class InputMachine extends Machine implements InputProcessor {
 	// with a "local" flag
 
 	public InputMachine() {
-		addInterest(PositionComponent.class);
-		addInterest(MovementComponent.class);
+		addInterest(ActionComponent.class);
 		addInterest(PlayerComponent.class);
 		keydown = new AtomicInteger(0);
 	}
 
 	@Override
 	public void processEntities(Entity entity) {
-		MovementComponent mov = (MovementComponent) entity.getComponent(MovementComponent.class);
+		ActionComponent action = (ActionComponent) entity.getComponent(ActionComponent.class);
 
-		if (mov != null) {
+		if (action != null) {
 			switch (keydown.get()) {
 			case Input.Keys.UP:
-				mov.setDirection(2);
+				action.setActionID(Actions.WALKING_UP);
 				break;
 			case Input.Keys.DOWN:
-				mov.setDirection(-2);
+				action.setActionID(Actions.WALKING_DOWN);
 				break;
 			case Input.Keys.LEFT:
-				mov.setDirection(-1);
+				action.setActionID(Actions.WALKING_LEFT);
 				break;
 			case Input.Keys.RIGHT:
-				mov.setDirection(1);
+				action.setActionID(Actions.WALKING_RIGHT);
 				break;
 			case 112:	//My goddamn delete key has another value then Key.Del
 				EntityManager.getinstance().remove(entity);
 				keydown.set(0);
 				break;
 			default:
-				mov.setDirection(0);
+				action.setActionID(Actions.IDLE);
 			}
 
 		}

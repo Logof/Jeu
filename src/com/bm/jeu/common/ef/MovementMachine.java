@@ -4,36 +4,31 @@ public class MovementMachine extends Machine {
 
 
 	public MovementMachine() {
-		addInterest(MovementComponent.class);
+		addInterest(ActionComponent.class);
 		addInterest(PositionComponent.class);
-		addInterest(AnimationComponent.class);
 	}
 
 	@Override
 	public void processEntities(Entity entity) {
-		MovementComponent mc = (MovementComponent) entity.getComponent(MovementComponent.class);
+		ActionComponent actc = (ActionComponent) entity.getComponent(ActionComponent.class);
 		PositionComponent pc = (PositionComponent) entity.getComponent(PositionComponent.class);
-		AnimationComponent anic = (AnimationComponent) entity.getComponent(AnimationComponent.class);
-		if (mc != null && pc != null && anic != null) {
-			mc.setNetworkFlag(false);
+		if (actc != null && pc != null) {
+			actc.setNetworkFlag(false);
 			pc.setNetworkFlag(true);
-			switch (mc.getDirection()) {
-			case 1:
+			switch (actc.getActionID()) {
+			case Actions.WALKING_RIGHT:
 				pc.setPosX(pc.getPosX() + 1);
-				anic.setActiveAnimation(4);
 				break;
-			case -1:
+			case Actions.WALKING_LEFT:
 				pc.setPosX(pc.getPosX() - 1);
-				anic.setActiveAnimation(2);
 				break;
-			case 2:
+			case Actions.WALKING_UP:
 				pc.setPosY(pc.getPosY() + 1);
-				anic.setActiveAnimation(1);
 				break;
-			case -2:
+			case Actions.WALKING_DOWN:
 				pc.setPosY(pc.getPosY() - 1);
-				anic.setActiveAnimation(3);
 				break;
+			
 			}
 		}
 		// System.out.println(pc + ";" + mc);

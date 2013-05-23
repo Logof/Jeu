@@ -15,7 +15,8 @@ public class PlayerCameraMachine extends Machine {
 	public void processEntities(Entity entity) {
 		PositionComponent pos = (PositionComponent) entity.getComponent(PositionComponent.class);
 		if(pos!=null){
-			cam.position.set(pos.getPosX(), pos.getPosY(), 0);
+			cam.translate(pos.getPosX()-cam.position.x, pos.getPosY()-cam.position.y);
+//			cam.position.set(pos.getPosX(), pos.getPosY(), 0);
 		}
 
 	}

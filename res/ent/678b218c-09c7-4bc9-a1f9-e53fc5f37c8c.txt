@@ -7,7 +7,7 @@
       <uuid>747364a9-04cc-4e57-b3f8-7526d7d9aef7</uuid>
     </entry>
     <entry>
-      <string>com.bm.jeu.common.ef.MovementComponent</string>
+      <string>com.bm.jeu.common.ef.ActionComponent</string>
       <uuid>411fedd1-6096-4854-8532-92f468272a63</uuid>
     </entry>
     <entry>

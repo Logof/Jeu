@@ -29,7 +29,7 @@ public class AnimatedType implements TypeLoader<AnimationComponent> {
 
 	@Override
 	public AnimationComponent getComponent(String path, UUID id) {
-		String test = path + "/" +id.toString() + ".txt";
+		String test = "res/ent/animations/" +id.toString() + ".txt";
 		AnimationComponent anc = (AnimationComponent) xstream.fromXML(new File(test));
 		if(mapper.containsKey(anc.getFilepath())){
 			anc.setSpriteSheet(mapper.get(anc.getFilepath()));

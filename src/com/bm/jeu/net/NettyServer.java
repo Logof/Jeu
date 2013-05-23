@@ -1,6 +1,7 @@
 package com.bm.jeu.net;
 
 import java.net.InetSocketAddress;
+import java.rmi.server.RMIClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import com.bm.jeu.common.ef.Component;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.EntityManager;
+import com.bm.jeu.common.ef.ResourceManager;
 import com.bm.jeu.common.net.DefaultNetworkingServerServices;
 import com.bm.jeu.common.net.DefaultNetworkingServices;
 import com.bm.jeu.common.net.Login;
@@ -38,12 +40,14 @@ public class NettyServer implements DefaultNetworkingServices, DefaultNetworking
 	private ChannelGroupFuture lastWriteFuture = null;
 	
 	private static Map<Integer, List<UUID>> channelMapper;
+	private static ResourceManager rm;
 
 	public NettyServer(int port) {
 		NettyServer.PORT = port;
 		listening = false;
 		channels_ = new DefaultChannelGroup();
 		channelMapper = new ConcurrentHashMap<Integer, List<UUID>>();
+		rm = ResourceManager.getinstance();
 	}
 	
 	//TODO: handling only components that are allowed!! (a list of allowed components?)
@@ -139,7 +143,12 @@ public class NettyServer implements DefaultNetworkingServices, DefaultNetworking
 		removeChannel(chan);
 	}
 	
+	public static void loadEntities(Login login){
+		rm.load(entity);
+	}
+	
 	public static void clientLogin(Channel chan, Login login){
+		
 		for(Entry<Integer,List<UUID>> entry : channelMapper.entrySet()){
 			for(UUID id : entry.getValue()){
 				Entity entity = EntityManager.getinstance().get(id);

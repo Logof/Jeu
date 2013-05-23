@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <com.bm.jeu.common.ef.PositionComponent>
   <id>747364a9-04cc-4e57-b3f8-7526d7d9aef7</id>
-  <posX>200.3</posX>
+  <posX>20.3</posX>
   <posY>40.5</posY>
 </com.bm.jeu.common.ef.PositionComponent>

@@ -10,4 +10,5 @@ public interface ResourceLoader {
 	public void loadWorkingEnvironment();
 	public void loadEntity(UUID id);
 	public void loadEntity(Entity entity);
+	public void load(Object obj);
 }

@@ -70,6 +70,7 @@ public class PlayerServerHandler extends SimpleChannelHandler {
 			Login login = (Login) e.getMessage();
 			logger.info("Username: " + login.getUsername() + " Password: " + login.getPassword());
 			NettyServer.clientLogin(ctx.getChannel(), login);
+			
 		}
 		super.messageReceived(ctx, e);
 	}

@@ -16,11 +16,13 @@ public class AnimationComponent extends Component {
 	private Texture spriteSheet;
 	private Map<Integer,AnimationWrapper> animations;
 	private float statetime = 0.0f;
+	private boolean running = true;
 
 	public AnimationComponent() {
 		setActiveAnimation(1);
 		animations = new HashMap<Integer, AnimationWrapper>();
 		statetime = 0.0f;
+		running = true;
 	}
 
 	public String getFilepath() {
@@ -33,7 +35,7 @@ public class AnimationComponent extends Component {
 
 
 	public void setActiveAnimation(int activeAnimation) {
-		if(this.activeAnimation.get()!=activeAnimation){
+		if(this.activeAnimation.get()!=activeAnimation && animations.containsKey(activeAnimation)){
 			statetime=0.0f;
 			this.activeAnimation.set(activeAnimation);
 		}
@@ -56,9 +58,25 @@ public class AnimationComponent extends Component {
 		return animations.get(activeAnimation.get()).getKeyFrame(statetime);
 		
 	}
+	public TextureRegion getLastSprite(){
+		return animations.get(activeAnimation.get()).getKeyFrame(statetime);
+	}
 	
 	public void draw(SpriteBatch sb, float posX, float posY, float delta){
+		if(running){
 		sb.draw(getSprite(delta), posX, posY);
+		}
+		else{
+			sb.draw(getLastSprite(), posX, posY);
+		}
+	}
+
+	public void stop(){
+		running = false;
+	}
+	
+	public void start(){
+		running = true;
 	}
 
 }
