@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<com.bm.jeu.common.ef.EntityLoad>
+  <entityId>3a3d2ae5-2c7e-4161-a95e-b55fe1f46f7e</entityId>
+  <components>
+    <entry>
+      <string>com.bm.jeu.common.ef.PositionComponent</string>
+      <uuid>f9f9f802-a507-434d-b7fe-795e99666501</uuid>
+    </entry>
+    <entry>
+      <string>com.bm.jeu.common.ef.ActionComponent</string>
+      <uuid>722146e5-c320-4b3c-8f6d-4e9a2935f6e4</uuid>
+    </entry>
+    <entry>
+      <string>com.bm.jeu.common.ef.AnimationComponent</string>
+      <uuid>a7f8e66a-68e5-4a56-b4b7-93f98f14eda3</uuid>
+    </entry>
+  </components>
+</com.bm.jeu.common.ef.EntityLoad>

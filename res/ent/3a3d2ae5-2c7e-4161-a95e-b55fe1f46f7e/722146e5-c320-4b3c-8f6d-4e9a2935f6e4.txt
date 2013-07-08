@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<com.bm.jeu.common.ef.ActionComponent>
+        <id>722146e5-c320-4b3c-8f6d-4e9a2935f6e4</id>
+	<target>722146e5-c320-4b3c-8f6d-4e9a2935f6e4</target>
+        <actionID>1</actionID>
+</com.bm.jeu.common.ef.ActionComponent>
