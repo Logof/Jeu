@@ -30,11 +30,29 @@ public class AnimationWrapper {
 		
 	}
 
+	public AnimationWrapper(int startX, int startY, int heigth, int width,
+			int rows, int cols, float duration, int loopType,
+			int paddingHorizontal, int paddingVertical, Texture sprite) {
+		super();
+		this.startX = startX;
+		this.startY = startY;
+		this.heigth = heigth;
+		this.width = width;
+		this.rows = rows;
+		this.cols = cols;
+		this.duration = duration;
+		this.loopType = loopType;
+		this.paddingHorizontal = paddingHorizontal;
+		this.paddingVertical = paddingVertical;
+		setAnimation(sprite);
+	}
+
 	public Animation getAnimation() {
 		return animation;
 	}
 
 	public void setAnimation(Texture spritesheet) {
+		System.out.println(spritesheet.getWidth());
 		TextureRegion buff[] = new TextureRegion[rows*cols];
 		int i = 0;
 		int spritewidth = (width/cols)-paddingHorizontal;
@@ -134,6 +152,15 @@ public class AnimationWrapper {
 
 	public void setPaddingVertical(int paddingVertical) {
 		this.paddingVertical = paddingVertical;
+	}
+
+	@Override
+	public String toString() {
+		return "AnimationWrapper [startX=" + startX + ", startY=" + startY
+				+ ", heigth=" + heigth + ", width=" + width + ", rows=" + rows
+				+ ", cols=" + cols + ", duration=" + duration + ", loopType="
+				+ loopType + ", paddingHorizontal=" + paddingHorizontal
+				+ ", paddingVertical=" + paddingVertical + "]";
 	}
 
 }

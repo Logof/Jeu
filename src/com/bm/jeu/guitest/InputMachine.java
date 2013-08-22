@@ -6,10 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.bm.jeu.common.ef.ActionComponent;
 import com.bm.jeu.common.ef.Actions;
+import com.bm.jeu.common.ef.CharacterComponent;
 import com.bm.jeu.common.ef.Entity;
 import com.bm.jeu.common.ef.EntityManager;
 import com.bm.jeu.common.ef.Machine;
-import com.bm.jeu.common.ef.PlayerComponent;
 
 public class InputMachine extends Machine implements InputProcessor {
 
@@ -20,15 +20,15 @@ public class InputMachine extends Machine implements InputProcessor {
 
 	public InputMachine() {
 		addInterest(ActionComponent.class);
-		addInterest(PlayerComponent.class);
+		addInterest(CharacterComponent.class);
 		keydown = new AtomicInteger(0);
 	}
 
 	@Override
 	public void processEntities(Entity entity) {
 		ActionComponent action = (ActionComponent) entity.getComponent(ActionComponent.class);
-
-		if (action != null) {
+		CharacterComponent character = (CharacterComponent) entity.getComponent(CharacterComponent.class);
+		if (action != null && character.getPlayer()) {
 			switch (keydown.get()) {
 			case Input.Keys.UP:
 				action.setActionID(Actions.WALKING_UP);

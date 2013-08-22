@@ -18,5 +18,11 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/Jeu/libs/commons-codec-1.7/commons-codec-1.7-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/sqlite4java-282/sqlite4java.jar" sourcepath="libs/sqlite4java-282/sqlite4java-src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/Jeu/libs/sqlite4java-282/sqlite4java-docs.zip!/"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Jeu/libs/sqlite4java-282"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

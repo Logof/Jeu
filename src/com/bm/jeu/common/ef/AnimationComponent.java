@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationComponent extends Component {
 	
-	private String filepath;
+	
 	private AtomicInteger activeAnimation;
 	private Texture spriteSheet;
 	private Map<Integer,AnimationWrapper> animations;
@@ -25,14 +25,14 @@ public class AnimationComponent extends Component {
 		running = true;
 	}
 
-	public String getFilepath() {
-		return filepath;
+	public AnimationComponent(int activeanmiation, Map<Integer, AnimationWrapper> animations,
+			boolean running) {
+		super();
+		
+		this.animations = animations;
+		this.activeAnimation = new AtomicInteger(activeanmiation);
+		this.running = running;
 	}
-
-	public void setFilepath(String filepath) {
-		this.filepath = filepath;
-	}
-
 
 	public void setActiveAnimation(int activeAnimation) {
 		if(this.activeAnimation.get()!=activeAnimation && animations.containsKey(activeAnimation)){
@@ -77,6 +77,13 @@ public class AnimationComponent extends Component {
 	
 	public void start(){
 		running = true;
+	}
+
+	@Override
+	public String toString() {
+		return "AnimationComponent [activeAnimation=" + activeAnimation
+				+ ", animations=" + animations.toString() + ", statetime=" + statetime
+				+ ", running=" + running + "]";
 	}
 
 }
