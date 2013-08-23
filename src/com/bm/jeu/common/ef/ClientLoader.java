@@ -20,7 +20,7 @@ public class ClientLoader implements ResourceLoader {
 
 	@SuppressWarnings("rawtypes")
 	public ClientLoader() {
-		dbFile = new File("res\\db\\database.sqlite");
+		dbFile = new File("res/db/database.sqlite");
 		entityDB = new SQLiteConnection(dbFile);
 		try {
 			entityDB.openReadonly();
