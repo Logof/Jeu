@@ -71,7 +71,6 @@ public class AnimatedType implements TypeLoader<AnimationComponent> {
 		
 		
 		AnimationComponent anicomp = new AnimationComponent(1, anibuff, true);
-		System.out.println(anicomp);
 
 		return anicomp;
 	}

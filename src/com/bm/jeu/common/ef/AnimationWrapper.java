@@ -52,7 +52,6 @@ public class AnimationWrapper {
 	}
 
 	public void setAnimation(Texture spritesheet) {
-		System.out.println(spritesheet.getWidth());
 		TextureRegion buff[] = new TextureRegion[rows*cols];
 		int i = 0;
 		int spritewidth = (width/cols)-paddingHorizontal;
