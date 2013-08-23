@@ -14,7 +14,7 @@ import com.bm.jeu.common.ef.Machine;
 public class InputMachine extends Machine implements InputProcessor {
 
 	private AtomicInteger keydown;
-
+	
 	// Here could the interest rely on a "LocalComponent" or a Player component
 	// with a "local" flag
 
@@ -42,12 +42,18 @@ public class InputMachine extends Machine implements InputProcessor {
 			case Input.Keys.RIGHT:
 				action.setActionID(Actions.WALKING_RIGHT);
 				break;
-			case 112:	//My goddamn delete key has another value then Key.Del
+			case 112:	// Delete key
 				EntityManager.getinstance().remove(entity);
 				keydown.set(0);
 				break;
 			default:
 				action.setActionID(Actions.IDLE);
+			}
+			
+			// PROCESS "SPECIAL" KEYS THAT DON'T REQUIRE TO BE CONSTANTLY HELD DOWN
+			if(keydown.get() == Input.Keys.F3) {
+				System.out.println("Launching database debug tool...");
+				keydown.set(0);
 			}
 
 		}
@@ -63,7 +69,6 @@ public class InputMachine extends Machine implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
