@@ -3,13 +3,13 @@ package com.bm.jeu.guitest;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 
-public class TestLauncher
+public class Launcher
 {
     public static void main(
         String[] args )
     {
         // create the listener that will receive the application events
-        ApplicationListener listener = new Tester();
+        ApplicationListener listener = new Encore();
  
         // define the window's title
         String title = "Test";

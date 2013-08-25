@@ -62,7 +62,6 @@ public class ClientLoader implements ResourceLoader {
 			statement = entityDB.prepare(preparedStatement);
 			
 			while(statement.step()){
-				System.out.println(statement.columnString(0));
 				loadEntity(UUID.fromString(statement.columnString(0)));
 			}
 			statement.dispose();

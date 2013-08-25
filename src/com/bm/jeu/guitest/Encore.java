@@ -3,9 +3,9 @@ package com.bm.jeu.guitest;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 
-public class Tester extends Game {
+public class Encore extends Game {
 	// constant useful for logging
-	public static final String LOG = Tester.class.getSimpleName();
+	public static final String LOG = Encore.class.getSimpleName();
 	
 	//if we always come back to some screen we can set it here
 	
@@ -14,7 +14,7 @@ public class Tester extends Game {
 
 	@Override
 	public void create() {
-		Gdx.app.log(Tester.LOG, "Creating game");
+		Gdx.app.debug(Encore.LOG, "Creating game");
 		MainMenuScreen menu = new MainMenuScreen(this);
 		play = new PlayScreen(this);
 		setScreen(menu);

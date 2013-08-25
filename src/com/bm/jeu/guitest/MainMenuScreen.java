@@ -6,11 +6,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-public class MainMenuScreen extends GameScreen<Tester> {
+public class MainMenuScreen extends GameScreen<Encore> {
 
 	private Label testlabel;
 
-	public MainMenuScreen(Tester game) {
+	public MainMenuScreen(Encore game) {
 		super(game);
 	}
 
